@@ -1,0 +1,73 @@
+SCRABBLE:
+
+	Configuración (opciones)
+		Tiempo de juego -> establece el tiempo maximo para la partida
+		Nivel -> 3 dificultades, facil, medio, dificil
+		El puntaje para cada ficha 
+			(lo ideal, sería tener un abecedario en vertical y al lado un seleccionador de puntos del 1 al 10)
+			(Cambios: cada objeto Ficha consta de un valor de letra y un puntaje, el puntaje debe ser puesto una sola vez en la configuracion general del juego y no debe haber posibilidad de cambiarlo)
+		La cantidad total de fichas por letra -> (mismo concepto de arriba)
+	El tablero
+		Como minimo 15x15 -> cuadrado o rectangular
+		Casilleros especiales:
+			Duplicación,triplicación de puntajes por letra o palabra
+			Descuentos de puntaje
+			Dichos casilleros deben tener su color para ser identificados (colores brillantes para suma de puntos, colores deprimidos para resta)
+	Reglas
+		Cuando se inicie el juego (menú con botón de iniciar) se debe mostrar el tablero, basandolo en las configuraciones que tenemos (es importante tener configuraciones PREDETERMINADAS)
+		Existe un botón iniciar que dá pié a que de forma aleatoría empiece el jugador o la computadora
+		El juego tiene una bolsa de fichas -> determinado en la configuración.
+		Se reparten 7 fichas aleatorias a CADA jugador, el jugador puede ver sus fichas en un atril o estante. No olvidarse de no mostrar las fichas de la pc (pero sí asegurarse de que ésta posea las fichas)
+		El jugador debe formar una palabra usando 2 o más letras (fichas), en la primera jugada hay que situar la letra en un cuadro de inicio de juego -> se aplica logica del manejo de tablero(practica4)
+		Las palabras se forman horizontalmente -> de izquierda a derecha, o verticalmente, de arriba a abajo. NO SE PUEDEN CRUZAR LAS PALABRAS ->implica deshabilitar un casillero ocupado.
+		Las palabras pueden quedar pegadas, tanto vertical como horizontal.
+
+		Una vez que se forma una palabra(a partir de ingresadas dos letras), se debe confirmar que dicha palabra exista en el patternES de -> adjetivos,sustantivos,verbos(esto depende de la dificultad).
+			Sí la palabra no corresponde -> devuelvo las fichas al jugador
+			Sí la palabra es correcta -> se le repone la cantidad de fichas que usó (de forma aleatoría, y sin superar las 7)
+		
+		Cuando el turno sea de la PC, ésta debe tratar de armar una palabra, la primer palabra valida que tire es correcta. Sino encuentra, pasa su turno.
+
+		En cualquier momento del juego, el jugador tiene maximo 3 veces una opción de cambiar una o todas las fichas por las que tenga el juego en su bolsa. Siempre se reemplaza x la misma cantidad
+		SIEMPRE visibles los puntajes del jugador y la PC -> se suma puntaje de cada letra, y si alguna letra cae en un casillero especial, se procede de la forma que se establezca.
+		Se puede mostrar la lista de palabras ingresadas en todo el juego junto al puntaje que sacó dicha palabra
+		
+		Se puede ver un TOP 10 de puntajes con formato -> fecha, puntaje, nivel (archivo CSV? y ordenado de mayor a menor). Se puede optar por mostrar un unico listado sin discriminar niveles, o 3 listados, uno por cada nivel (deberia ser uno por cada o agregar como dato en que dificultad se alcanzo cada puntaje)
+		
+	Final de juego
+		Cuando ?
+			.El jugador no puede completar sus fichas -> por que la bolsa se quedó vacía
+			.Se acabó el tiempo -> es necesarío tener un timer
+			.Se toca el botón TERMINAR
+		Cuando acaba el juego
+			Muestro las fichas de cada jugador y recalculo puntaje restando al mismo el valor de dichas fichas-> osea, si me quedan fichas en mi atril/estante, sumo los puntos de las mismas entre sí
+				agarro ese valor, y al puntaje se lo resto.
+			
+		Que haya un botón POSPONER (guarda información del tablero y tiempo restante) -> se guardará en un archivo de guardados y se puede continuar la partida siempre y cuando haya guardados ->SÓLO UN GUARDADO.(?????)
+
+
+MENÚ PRINCIPAL:
+	INICIAR
+	CONTINUAR(podria acceder a un archivo con juegos juardados y que el jugador acceda al juego guardado segun la fecha en la que lo guardo siendo posible el guardar mas de un juego)
+	CONFIGURACIÓN
+	TOP 10
+	SALIR
+	(algo que muestre en que dificultad se va a jugar esa partida de no ser posible la modificacion de 	la misma en el menu inicial)
+
+TABLERO:
+	EMPEZAR PARTIDA
+	COMPROBAR PALABRA? ->podría tocar éste botón, y comprobar que la palabra que ingresó el jugador en efecto, está en PATTERN (Podria llamarce Confirmar o algo por el estilo, siendo que el jugador confirma que la palabra que ingreso es la ''jugada'' que el va a raealizar)
+	POSPONER -> guarda tablero y tiempo actual
+	TERMINAR PARTIDA 
+	
+el boton de empesar partida puede cambiarce al boton terminar partida al momento de comenzar el juego
+a mi parecer habria que agregar una pausa dentro del juego 
+
+	
+
+		
+	
+	
+		
+		
+		
