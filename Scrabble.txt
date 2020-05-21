@@ -58,16 +58,7 @@ TABLERO:
 	EMPEZAR PARTIDA
 	COMPROBAR PALABRA? ->podría tocar éste botón, y comprobar que la palabra que ingresó el jugador en efecto, está en PATTERN (Podria llamarce Confirmar o algo por el estilo, siendo que el jugador confirma que la palabra que ingreso es la ''jugada'' que el va a raealizar)
 	POSPONER -> guarda tablero y tiempo actual
-	TERMINAR PARTIDA 
+	TERMINAR PARTIDA
 	
 el boton de empesar partida puede cambiarce al boton terminar partida al momento de comenzar el juego
-a mi parecer habria que agregar una pausa dentro del juego 
-
-	
-
-		
-	
-	
-		
-		
-		
+a mi parecer habria que agregar una pausa dentro del juego
