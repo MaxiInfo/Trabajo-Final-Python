@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
+import TopString
 
-archivo_top = open('temp\top10.json','r+')
+archivo_top = open('top10.json','r')
 
 #diccionario = archivo_top.read()
 
