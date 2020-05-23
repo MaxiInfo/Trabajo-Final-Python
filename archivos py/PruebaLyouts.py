@@ -53,5 +53,4 @@ while True:
     elif event in ('Configuracion'):
         window.close()
         window = sg.Window('ScrabbleAR',layout_configs,size=(300,300))
-    elif event in ()
 
