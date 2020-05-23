@@ -9,3 +9,6 @@ layout_top = [
     [sg.Text('')],
     [sg.Text(' '*15),sg.Button('atras',size=(15,2))],
     ]
+
+window = sg.Window('ScrabbleAR', layout_top,size=(300,300))
+x = window.read()

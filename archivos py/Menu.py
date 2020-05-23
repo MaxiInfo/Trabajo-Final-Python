@@ -1,4 +1,7 @@
 import PySimpleGUI as sg
+import Configuraciones as config
+import Tablero_2 as board
+import Top10 as top
 layout_main_menu = [
     [sg.Text('ScrabbleAR',size=(100,1),justification='center',background_color='black',font=('Arial',20))],
     [sg.Text('')],
@@ -18,11 +21,10 @@ while True:
         break
     elif event in ('Jugar'):
         window.close()
-        window = sg.Window('ScrabbleAR',layout_tablero,size=(300,300))
+        Tablero_2.
     elif event in ('Continuar'):
         window.close()
         window = sg.Window('ScrabbleAR',layout_tablero,size=(300,300))
     elif event in ('Configuracion'):
         window.close()
         window = sg.Window('ScrabbleAR',layout_configs,size=(300,300))
-    elif event in ()
