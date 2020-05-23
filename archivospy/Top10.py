@@ -1,7 +1,11 @@
 import PySimpleGUI as sg
+import json
 
-archivo_top = open('temp\top10.json','r+')
+archivo_top = 'top10.json'
+with open ('top10.json', 'r') as archi:
+    dic = json.load(archi)
 
+print(dic)
 #diccionario = archivo_top.read()
 
 #print(diccionario)
