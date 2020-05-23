@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+
 layout_configs = [
     [sg.Text('configuraciones',size=(100,1),font=(None,15),justification='center')],
     [sg.Text('nombre del jugador',size=(100,1),justification='center')],
