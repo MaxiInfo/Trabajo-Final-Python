@@ -1,10 +1,13 @@
 import PySimpleGUI as sg
+import TopString
+import json
 
-archivo_top = open('temp\top10.json','r+')
+nombre_archivo = "top10.json"
+archivo_top = open(nombre_archivo,'r')
 
-#diccionario = archivo_top.read()
+diccionario = json.load(archivo_top)
 
-#print(diccionario)
+print(diccionario)
 
 layout_top = [
     [sg.Text('TOP 10',size=(100,1),font=(None,15),justification='center')],
