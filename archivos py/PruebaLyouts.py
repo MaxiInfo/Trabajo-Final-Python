@@ -15,9 +15,9 @@ layout_configs = [
     [sg.Text('nombre del jugador',size=(100,1),justification='center')],
     [sg.Text(' '*16),sg.InputText(size=(15,1))],
     [sg.Text('tiempo de juego',size=(100,1),justification='center')],
-    [sg.Text(' '*11),sg.InputCombo(('1','5','10','20',),size=(20,1),default_value='10')],
+    [sg.Text(' '*23),sg.InputCombo(('1','5','10','20',),size=(5,1),default_value='10')],
     [sg.Text('dificultad',size=(100,1),justification='center')],
-    [sg.Text(' '*23),sg.Radio('facil','Dificultad',default=False,size=(10,1))],
+    [sg.Text(' '*24),sg.Radio('facil','Dificultad',default=False,size=(10,1))],
     [sg.Text(' '*23),sg.Radio('medio','Dificultad',default=True,size=(10,1))],
     [sg.Text(' '*23),sg.Radio('dificil','Dificultad',default=False,size=(10,1))],
     [sg.Text(' '*50),sg.Button('atras')]
@@ -37,5 +37,5 @@ layout_tablro = [
     
     ]
 
-window = sg.Window('ScrabbleAR', layout_main_menu,size=(300,300))
+window = sg.Window('ScrabbleAR', layout_configs,size=(300,300))
 x = window.read()
