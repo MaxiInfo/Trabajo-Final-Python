@@ -33,9 +33,25 @@ layout_top = [
     [sg.Text(' '*15),sg.Button('atras',size=(15,2))],
     ]
 
-layout_tablro = [
+layout_tablero = [
     
     ]
 
-window = sg.Window('ScrabbleAR', layout_configs,size=(300,300))
-x = window.read()
+
+window = sg.Window('ScrabbleAR', layout_main_menu,size=(300,300))
+
+while True:
+    event, values= window.read()
+    if event in (None,'Salir'):
+        break
+    elif event in ('Jugar'):
+        window.close()
+        window = sg.Window('ScrabbleAR',layout_tablero,size=(300,300))
+    elif event in ('Continuar'):
+        window.close()
+        window = sg.Window('ScrabbleAR',layout_tablero,size=(300,300))
+    elif event in ('Configuracion'):
+        window.close()
+        window = sg.Window('ScrabbleAR',layout_configs,size=(300,300))
+    elif event in ()
+
