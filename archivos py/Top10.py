@@ -24,4 +24,5 @@ def main ():
     window = sg.Window('ScrabbleAR', layout_top,size=(600,350))
     event,values= window.read()
     window.close()
+    layout_top.clear()
     return event

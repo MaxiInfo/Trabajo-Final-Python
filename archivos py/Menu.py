@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 import Configuraciones as config
-import Tablero_Definitivo as board
+import Tablero as board
 import Top10 as top
 
 layout_main_menu = [
@@ -27,8 +27,6 @@ while True:
     elif event is 'Jugar':
         window_menu.hide()
         event = board.main(configs)
-        if event is None:
-            break
     elif event is 'Continuar':
         window_menu.close()
         #FAALTAAAAAAAAAAAAAAAAAAAAAAAAaaaa
@@ -39,7 +37,7 @@ while True:
     elif event is 'TOP 10':
         window_menu.hide()
         event = top.main()
-        if event is None:
-            break
+    if event is None:
+        break
     window_menu.un_hide()
     event, values= window_menu.read()

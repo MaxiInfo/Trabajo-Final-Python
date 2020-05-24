@@ -10,9 +10,9 @@ def main(configs):
     while True:
         if event in (None, 'salir'):
             return(None)
-        elif event in ('Empezar'):
+        elif event is 'Empezar':
             game_start(window)
-        elif event in ('Posponer'):
+        elif event is 'Posponer':
             window.FindElement('-MESSAGE-').Update('Debes comenzar el juego para podes posponerlo')
     return event
 

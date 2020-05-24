@@ -5,7 +5,6 @@ class Tablero ():
     import time
     
     def set_layout(configs):
-        #configs = {'name':values[0],'timing':values[1],'dificultad':'facil'if values[2] else 'medio' if values[3]else 'dificil'}
         MAX_ROWS = MAX_COL = 15
         board = [[0 for j in range(MAX_COL)] for i in range(MAX_ROWS)]
         atril = [0 for n in range(7)]
