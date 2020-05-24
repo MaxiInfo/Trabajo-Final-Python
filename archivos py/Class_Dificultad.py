@@ -43,13 +43,14 @@ class dificultad():
             Evalúa la palabra y lo mete en una lista bastante asquerosa de acceder, pero el [0][0][1] es la información de qué es la palabra -> Adjetivo, Verbo, Sustantivo
             El problema con los sustantivos, es que también toman palabras inexistentes, hay que arreglar eso
         '''
+        analisis = parse(palabra).split('/')
         palabra_correcta = False
         if analisis[1] == "JJ" or analisis[1] == "VB":
             palabra_correcta = True
             pass
         elif (analisis[1] == "NN"):
             article=w.search(palabra)
-            print("es un sustantivo" if article!=None else "la palabra no existe")
+            palabra_correcta = True if article != None else palabra_correcta = False
         else: 
             print('la palabra no existe')  
         return palabra_correcta
