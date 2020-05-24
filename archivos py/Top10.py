@@ -16,9 +16,14 @@ layout_top = [
     [sg.Multiline(default_text= TopString.generar_string(diccionario['facil']),size=(22,12)),
     sg.Multiline(default_text= TopString.generar_string(diccionario['medio']),size=(22,12)),
     sg.Multiline(default_text= TopString.generar_string(diccionario['dificil']),size=(22,12))
-     ]
+     ],
+    [sg.Text(' '*125),sg.Button('atras')]
 ]
 
-window = sg.Window('TOP',layout_top,size = (600,300))
-
-x = window.read()
+def main ():
+    window = sg.Window('ScrabbleAR', layout_top,size=(300,300))
+    event = window.read()
+    window.close()
+    if event in None:
+        return event
+    pass
