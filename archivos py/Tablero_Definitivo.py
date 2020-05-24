@@ -3,7 +3,7 @@ import time
 
 MAX_ROWS = MAX_COL = 15
 board = []  #[0 for j in range(MAX_COL)] for i in range(MAX_ROWS)]
-atril = []   #0 for n in range(7)]
+atril = []  #0 for n in range(7)]
 
 col = [[sg.Button('Empezar')],
        [sg.Button('Posponer')],
