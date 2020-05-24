@@ -28,3 +28,4 @@ window = sg.Window('ScrabbleAR', layout_tablero, size=(750,750))
 
 event, values = window.read()
 window.close()
+
