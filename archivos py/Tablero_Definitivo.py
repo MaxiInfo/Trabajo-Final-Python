@@ -1,6 +1,8 @@
 import PySimpleGUI as sg
-
 from Class_tablero import Tablero
+
+def game_start (window):
+    pass
 
 def main(configs):
     window = sg.Window('ScrabbleAR', Tablero.set_layout(configs))
@@ -9,7 +11,9 @@ def main(configs):
         if event in (None, 'salir'):
             return(None)
         elif event in ('Empezar'):
-            Tablero.table_on()
+            game_start(window)
+        elif event in ('Posponer'):
+            window.FindElement('-MESSAGE-').Update('Debes comenzar el juego para podes posponerlo')
     return event
 
 

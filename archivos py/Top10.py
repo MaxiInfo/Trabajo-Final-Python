@@ -21,9 +21,7 @@ layout_top = [
 ]
 
 def main ():
-    window = sg.Window('ScrabbleAR', layout_top,size=(300,300))
-    event = window.read()
+    window = sg.Window('ScrabbleAR', layout_top,size=(600,350))
+    event,values= window.read()
     window.close()
-    if event in None:
-        return event
-    pass
+    return event
