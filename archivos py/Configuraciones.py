@@ -12,14 +12,13 @@ layout_configs = [
     [sg.Text(' '*23),sg.Radio('dificil','Dificultad',default=False,size=(10,1))],
     [sg.Button('guardar'),sg.Text(' '*30),sg.Button('atras')]
     ]
-
 def main ():
-    mods = []
+    conf = []
     window = sg.Window('ScrabbleAR', layout_configs,size=(300,300))
     while True:
         event, values = window.read()
-        if event in (None,'atras'):
-            return None
-        else:
-            mods = {'name':values[0],'timing':values[1],'dificultad':'facil'if values[2] else 'medio' if values[3]else 'dificil'}
-    return mods
+        if event not in (None,'atras'):
+            conf = {'name':values[0],'timing':values[1],'dificultad':'facil'if values[2] else 'medio' if values[3]else 'dificil'}
+            print(conf)
+        window.close()
+        return (event,conf)

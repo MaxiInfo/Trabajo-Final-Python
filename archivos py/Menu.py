@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 import Configuraciones as config
-import Tablero_Definitivo.py as board
+import Tablero_Definitivo as board
 import Top10 as top
 
 layout_main_menu = [
@@ -14,27 +14,32 @@ layout_main_menu = [
     [sg.Button('TOP 10',size=(12,2)),sg.Text(' '*10),sg.Button('Salir',size=(12,2))],
     ]
 
-configs = {'name':'Player','timing':20,'dificultad':'medio'}
+configs = dict({'name':'Player','timing':20,'dificultad':'medio'})
 
-window = sg.Window('ScrabbleAR', layout_main_menu,size=(300,300))
-event, values= window.read()
+win_hide = False
+
+
+window_menu = sg.Window('ScrabbleAR', layout_main_menu,size=(300,300))
+event, values= window_menu.read()
 while True:
     if event in (None,'Salir'):
         break
-    elif event in ('Jugar'):
-        window.close()
+    elif event is 'Jugar':
+        window_menu.hide()
         event = board.main(configs)
-    elif event in ('Continuar'):
-        window.close()
-        #FAALTAAAAAAAAAAAAAAAAAAAAAAAAaaaa
-        board.main()
-    elif event in ('Configuracion'):
-        window.close()
-        configs = config.main()
-    elif event in ('TOP 10'):
-        window.close()
-        event = top.main()
-        if event in (None):
+        if event is None:
             break
-    window = sg.Window('ScrabbleAR', layout_main_menu,size=(300,300))
-    event, values= window.read()
+    elif event is 'Continuar':
+        window_menu.close()
+        #FAALTAAAAAAAAAAAAAAAAAAAAAAAAaaaa
+        board.main(configs)
+    elif event in ('Configuracion'):
+        window_menu.hide()
+        event,configs = config.main()
+    elif event is 'TOP 10':
+        window_menu.hide()
+        event = top.main()
+        if event is None:
+            break
+    window_menu.un_hide()
+    event, values= window_menu.read()
