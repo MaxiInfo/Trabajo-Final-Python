@@ -54,7 +54,7 @@ class Tablero ():
                     window.FindElement((i,j)).Update('TW')
                 elif (i,j) in double_word:
                     window.FindElement((i,j)).Update('DW')
-                elif (i,j) is start_button:
+                elif (i,j) == start_button:
                     window.FindElement((i,j)).Update('ST') #no anda
                 else:
                     window.FindElement((i,j)).Update('')
