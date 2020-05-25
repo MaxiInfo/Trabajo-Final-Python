@@ -47,12 +47,10 @@ class dificultad():
         palabra_correcta = False
         if analisis[1] == "JJ" or analisis[1] == "VB":
             palabra_correcta = True
-            pass
         elif (analisis[1] == "NN"):
             article=w.search(palabra)
-            palabra_correcta = True if article != None else palabra_correcta = False
-        else: 
-            print('la palabra no existe')  
+            if article != None:
+                palabra_correcta = True
         return palabra_correcta
         
     def __es_correcta_medio(self,palabra):

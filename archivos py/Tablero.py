@@ -1,8 +1,10 @@
 import PySimpleGUI as sg
 from Class_tablero import Tablero
-#from Class_Dificultad import dificultad as dif
-def game_start (window):
-    dif.establecer_dificultad(configs['dificultad'])
+from Class_Dificultad import dificultad
+def game_start (window,configs):
+    Tablero.table_on(window)
+    #dificultad.establecer_dificultad(configs['dificultad'])
+    #TERMINAAAR
     pass
 
 def main(configs):
@@ -12,13 +14,11 @@ def main(configs):
         if event in (None, 'salir'):
             return(None)
         elif event is 'Empezar':
-            game_start(window)
-        elif event is 'Posponer':
-            window.FindElement('-MESSAGE-').Update('Debes comenzar el juego para podes posponerlo')
+            game_start(window,configs)
         else:
             window.FindElement('-MESSAGE-').Update('Comienza el juego para poder utilizar la interfaz')
+        print(event)
+        event,values = window.read()
     return event
 
 #configs = dict({'name':'Player','timing':20,'dificultad':'medio'})
-
-#configs = {'name':values[0],'timing':values[1],'dificultad':'facil'if values[2] else 'medio' if values[3]else 'dificil'}
