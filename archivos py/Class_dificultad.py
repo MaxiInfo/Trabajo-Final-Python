@@ -1,6 +1,8 @@
 import csv
 import pattern.es as pa
 import random as r
+from pattern.web import Wiktionary
+w = Wiktionary(language="es")
 
 class dificultad():
     dificultad_actual = 'medio' #puede cambiar pero puse medio como PREDETERMINADO
@@ -38,13 +40,18 @@ class dificultad():
 
     def __es_correcta_facil(self,palabra):
         '''
-            Evalúa la palabra y lo mete en una lista bastante asquerosa de acceder, pero el [0][0][1] es la información de qué es la palabra -> Adjetivo, Verbo, Sustantivo
-            El problema con los sustantivos, es que también toman palabras inexistentes, hay que arreglar eso
+        Evalúa la palabra y lo mete en una lista bastante asquerosa de acceder, pero el [0][0][1] es la información de qué es la palabra -> Adjetivo, Verbo, Sustantivo
+        El problema con los sustantivos, es que también toman palabras inexistentes, hay que arreglar eso
         '''
-        palabra_split = (pa.parse(palabra).split())
-        if palabra_split[0][0][1] == 'NN': #vean los comentarios de los otros métodos, sino me estaría repitiendo tres veces
-            pass
-        return palabra_split[0][0][1] == 'VB' or palabra_split[0][0][1] == 'JJ'
+        analisis = parse(palabra).split('/')
+        palabra_correcta = False
+        if analisis[1] == "JJ" or analisis[1] == "VB":
+            palabra_correcta = True
+        elif (analisis[1] == "NN"):
+            article=w.search(palabra)
+            if article != None:
+                palabra_correcta = True
+        return palabra_correcta
         
     def __es_correcta_medio(self,palabra):
         '''
