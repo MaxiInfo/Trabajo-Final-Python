@@ -40,8 +40,8 @@ class dificultad():
 
     def __es_correcta_facil(self,palabra):
         '''
-            Evalúa la palabra y lo mete en una lista bastante asquerosa de acceder, pero el [0][0][1] es la información de qué es la palabra -> Adjetivo, Verbo, Sustantivo
-            El problema con los sustantivos, es que también toman palabras inexistentes, hay que arreglar eso
+        Evalúa la palabra y lo mete en una lista bastante asquerosa de acceder, pero el [0][0][1] es la información de qué es la palabra -> Adjetivo, Verbo, Sustantivo
+        El problema con los sustantivos, es que también toman palabras inexistentes, hay que arreglar eso
         '''
         analisis = parse(palabra).split('/')
         palabra_correcta = False

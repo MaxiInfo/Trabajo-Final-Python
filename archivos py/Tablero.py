@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from Class_tablero import Tablero
-from Class_Dificultad import dificultad as dif
+#from Class_Dificultad import dificultad as dif
 def game_start (window):
     dif.establecer_dificultad(configs['dificultad'])
     pass
