@@ -77,7 +77,7 @@ class dificultad():
         return palabra_split[0][0][1] == azar #sí la palabra entra en los verbos o los adjetivos -> EXISTE, por lo tanto retorno true, retornará false sino entra.
 
     def es_correcta(self,palabra):
-        dificultad = self.dificultad_actual
+        dificultad = self._dificultad_actual
         if dificultad == 'facil':
             #llamo a modulo es_correcta_facil
             self.__es_correcta_facil(palabra)
@@ -134,7 +134,7 @@ class dificultad():
             #Tomo la cantidad actual de la letra, la guardo en aux restada en 1.
             aux = self._diccionario_cantidad[letra_actual] -1
             #Ver documentación de comprobar
-            if self.comprobar(aux) and len(fichas) < cantidad_fichas:
+            if self.comprobar(aux):
                 fichas.append(letra_actual.lower())
                 self._diccionario_cantidad[letra_actual] -= 1
                 lista.append(letra_actual)
