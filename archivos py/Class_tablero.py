@@ -5,7 +5,7 @@ class Tablero ():
     import time
     
 
-    def set_layout(configs):
+    def set_layout(self,configs):
     
         MAX_ROWS = MAX_COL = 15
         
@@ -32,7 +32,7 @@ class Tablero ():
         ]
         return layout_tablero
 
-    def table_on (window):
+    def table_on (self,window):
     
         triple_letter = ((1,5),(1,9),(5,1),(5,5),(5,9),(5,13),(9,1),(9,5),(9,9),(9,13),(13,5),(13,9))
         double_letter = ((0,3),(0,11),(2,6),(2,8),(3,0),(3,7),(3,14),(6,2),(6,6),(6,8),(6,12),(7,3),(7,11),(8,2),(8,6),(8,8),(8,12),(11,0),(11,7),(11,14),(12,6),(12,9),(14,3),(14,11))
@@ -60,8 +60,8 @@ class Tablero ():
                     window.FindElement((i,j)).Update('')
         pass
 
-    def calc_puntaje():
+    def calc_puntaje(self):
         pass
 
-    def sabe_table():
+    def sabe_table(self):
         pass

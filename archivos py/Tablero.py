@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from Class_tablero import Tablero
-from Class_Dificultad import dificultad
+from Class_dificultad import dificultad
 def game_start (window,configs):
     Tablero.table_on(window)
     #dificultad.establecer_dificultad(configs['dificultad'])
