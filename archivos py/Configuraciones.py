@@ -15,17 +15,16 @@ def set_layout ():
         ]
     return layout_configs
 
-def main ():
-    conf = []
+def main (configs):
     msj=('','Ingrese un nombre','Tiene que ingresar un nombre')
     window = sg.Window('ScrabbleAR', set_layout(),size=(300,300))
     while True:
         event, values = window.read()
         if event == 'guardar':
             if values['nom'] not in (msj):
-                conf = {'name':values['nom'],'timing':values[0],'dificultad':'facil'if values[1] else 'medio' if values[2]else 'dificil'}
+                configs = {'name':values['nom'],'timing':values[0],'dificultad':'facil'if values[1] else 'medio' if values[2]else 'dificil'}
                 window.close()
-                return (event,conf)
+                return (event,configs)
             else:
                 if (values['nom'] == msj[0]):
                     window.FindElement('nom').update(msj[1])
@@ -33,4 +32,4 @@ def main ():
                     window.FindElement('nom').update(msj[2])
         else:
             window.close()
-            return (event,conf)
+            return (event,configs)
