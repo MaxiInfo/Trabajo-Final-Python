@@ -18,26 +18,25 @@ configs = dict({'name':'Player','timing':20,'dificultad':'medio'})
 
 win_hide = False
 
-
 window_menu = sg.Window('ScrabbleAR', layout_main_menu,size=(300,300))
 event, values= window_menu.read()
 while True:
     if event in (None,'Salir'):
         break
-    elif event is 'Jugar':
+    elif event == 'Jugar':
         window_menu.hide()
         event = board.main(configs)
-    elif event is 'Continuar':
+    elif event == 'Continuar':
         window_menu.close()
         #FAALTAAAAAAAAAAAAAAAAAAAAAAAAaaaa
-        board.main(configs)
+        #event = board.main(configs)
     elif event in ('Configuracion'):
         window_menu.hide()
         event,configs = config.main()
-    elif event is 'TOP 10':
+    elif event == 'TOP 10':
         window_menu.hide()
         event = top.main()
-    if event is None:
+    if event == None:
         break
     window_menu.un_hide()
     event, values= window_menu.read()

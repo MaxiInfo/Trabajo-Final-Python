@@ -7,11 +7,9 @@ w = Wiktionary(language="es")
 
 class dificultad():
     
-
-    def __init__(self):
-        self._dificultad_actual = 'medio' #puede cambiar pero puse medio como PREDETERMINADO
-        self._diccionario_cantidad = {}
-        self._diccionario_puntaje = {}
+    def __init__(self, dific = 'medio'):
+        self._dificultad_actual = dific #puede cambiar pero puse medio como PREDETERMINADO
+        self.crear_diccionarios()
 
     def set_dificultad(self, nueva_dificultad):
         '''
@@ -113,7 +111,6 @@ class dificultad():
                 lista -> va almacenando todo lo que se ingresa
                 contador -> contabiliza lo de lista, y en el for, por cada letra que aparezca 2 o más veces, la mete en lista_prohibidas
                 lista_prohibidas -> controla que las letras no ingresen más de dos veces
-
                 Vean los comentarios y ya para entender.
         '''
         fichas = []
@@ -154,7 +151,7 @@ objeto.crear_diccionarios()
 
 #print('PRIMER PRINT DICT')
 #print(objeto._diccionario_cantidad)
-lista = objeto.tomar_fichas(7)
-print(lista)
+#lista = objeto.tomar_fichas(2)
+#print(lista)
 #print('SEGUNDO PRINT DICT')
 #print(objeto._diccionario_cantidad)

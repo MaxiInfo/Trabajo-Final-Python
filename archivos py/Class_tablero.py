@@ -1,17 +1,14 @@
 import PySimpleGUI as sg
 import time
+
 class Tablero ():
-    import PySimpleGUI as sg
-    import time
-    
+    def __init__(self):
+        self._MAX_ROWS = 15
+        self._MAX_COL = 15
+        self.board = [[0 for j in range(self._MAX_COL)] for i in range(self._MAX_ROWS)]
+        self.atril = [0 for n in range(7)]
 
     def set_layout(self,configs):
-    
-        MAX_ROWS = MAX_COL = 15
-        
-        board = [[0 for j in range(MAX_COL)] for i in range(MAX_ROWS)]
-        atril = [0 for n in range(7)]
-
         col = [[sg.Button('Empezar')],
             [sg.Button('Posponer')],
             [sg.Text('Tiempo restante')],
@@ -21,14 +18,14 @@ class Tablero ():
             [sg.Text(' ', size= (8,1), key = ("-TURN-"))]
         ]
 
-        col2= [[sg.Button(' ', size=(4, 2), key=(i,j), pad=(0,0)) for j in range(MAX_COL)] for i in range(MAX_ROWS)]
+        col2= [[sg.Button(' ', size=(4, 2), key=(i,j), pad=(0,0)) for j in range(self._MAX_COL)] for i in range(self._MAX_ROWS)]
 
-        col3= [[sg.Button('', size=(4, 2), key=("-USERB" + str(n) + "-"), pad=(0,0)) for n in range(7)] for m in range(1)]
+        col3= [[sg.Button('', size=(4, 2), key=(str(n)), pad=(0,0)) for n in range(7)] for m in range(1)]
                 
         layout_tablero = [
             [sg.Text('COMPUTADORA'), sg.Text('', size=(30, 1), background_color = 'Brown', relief=sg.RELIEF_RIDGE)],
             [sg.Column(col2), sg.Column(col)],
-            [sg.Text(configs['name'], key = ("-NOMBRE-")), sg.Column(col3), sg.Button('Comprobar'), sg.Button('Pasar'),sg.Text(' '*40),sg.Button('salir')]   
+            [sg.Text(configs['name'], key = ("-NOMBRE-")), sg.Column(col3), sg.Button('Comprobar'), sg.Button('Pasar'),sg.Text(' '*40),sg.Button('Menu principal')]
         ]
         return layout_tablero
 
@@ -42,10 +39,9 @@ class Tablero ():
     
         start_button = (7,7)
 
-        MAX_ROWS = MAX_COL = 15
 
-        for i in range(MAX_ROWS):
-            for j in range(MAX_COL):
+        for i in range(self._MAX_ROWS):
+            for j in range(self._MAX_COL):
                 if (i,j) in triple_letter:
                     window.FindElement((i,j)).Update('TL')
                 elif (i,j) in double_letter:
@@ -55,11 +51,14 @@ class Tablero ():
                 elif (i,j) in double_word:
                     window.FindElement((i,j)).Update('DW')
                 elif (i,j) == start_button:
-                    window.FindElement((i,j)).Update('ST') #no anda
+                    window.FindElement((i,j)).Update('ST')
                 else:
                     window.FindElement((i,j)).Update('')
         pass
-
+    def update_fichas_player (self, window, fichas_player):
+        for i in range(len(fichas_player)):
+            window.FindElement(str(i)).Update(fichas_player[i])
+        pass
     def calc_puntaje(self):
         pass
 
