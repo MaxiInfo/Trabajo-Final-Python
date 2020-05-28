@@ -1,11 +1,11 @@
 import csv
 import pattern.es as pa
+from pattern.text import parse , split, lexicon, spelling
 import random as r
-from pattern.web import Wiktionary
 from collections import Counter
-w = Wiktionary(language="es")
 
-class dificultad():
+
+class AdministradorDeJuego():
     
 
     def __init__(self):
@@ -148,8 +148,7 @@ class dificultad():
         return fichas
 
 
-objeto = dificultad()
-objeto.crear_diccionarios()
+objeto = AdministradorDeJuego()
 
 #print('PRIMER PRINT DICT')
 #print(objeto._diccionario_cantidad)
