@@ -10,8 +10,7 @@ class dificultad():
 
     def __init__(self):
         self._dificultad_actual = 'medio' #puede cambiar pero puse medio como PREDETERMINADO
-        self._diccionario_cantidad = {}
-        self._diccionario_puntaje = {}
+        self.crear_diccionarios()
 
     def set_dificultad(self, nueva_dificultad):
         '''
