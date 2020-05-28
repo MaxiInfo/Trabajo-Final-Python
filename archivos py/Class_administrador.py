@@ -5,6 +5,9 @@ from collections import Counter
 
 
 class AdministradorDeJuego():
+    tupla_adj = ('AO','JJ','AQ','DI','DT')
+    tupla_sus = ('NC','NN','NCS','NCP','NNS','NP','NNP','W')
+    tupla_verb = ('VAG','VBG','VAI','VAN','MD','VAS','VMG','VMI','VB','VMM','VMN','VMP','VBN','VMS','VSG','VSI','VSN','VSP','VSS')
     
 
     def __init__(self,dif = 'medio'):
@@ -40,33 +43,50 @@ class AdministradorDeJuego():
         self._diccionario_cantidad = cantidades
         self._diccionario_puntaje = puntajes
 
+    
+    def existe_en(self,palabra):
+        '''
+            Comprueba en el spelling y en el lexicon
+        '''
+        return palabra in spelling and palabra in lexicon
+
     def __es_correcta_facil(self,palabra):
         '''
         Evalúa la palabra y lo mete en una lista bastante asquerosa de acceder, pero el [0][0][1] es la información de qué es la palabra -> Adjetivo, Verbo, Sustantivo
         El problema con los sustantivos, es que también toman palabras inexistentes, hay que arreglar eso
         '''
-        return palabra in spelling or palabra in lexicon
+        booleano = self.existe_en(palabra)
+        return booleano
              
     def __es_correcta_medio(self,palabra):
         '''
             Ver comentario en naranja de arriba
         '''
         palabra_split = (parse(palabra).split())
-        if palabra_split[0][0][1] == 'NN': #es sustantivo, pero también toma palabras que no existen como NN
-            #acá se debería comprobar si la palabra EXISTE en el diccionario español, y en base a eso retornar true o false.
-            pass
-        return palabra_split[0][0][1] == 'VB'
+        booleano = False
+        if palabra_split[0][0][1] in self.tupla_sus and self.existe_en(palabra):
+            booleano = True
+        elif palabra_split[0][0][1] in self.tupla_verb and self.existe_en(palabra):
+            booleano = True 
+        return booleano
         
     def __es_correcta_dificil(self,palabra):
-        palabra_correcta = False
-        if palabra in lexicon or palabra in spelling:
-            palabra_split = (parse(palabra).split())
-            print(palabra_split[1])
-            lista = ['VB','JJ','NN']
-            azar = lista[r.randint(0,2)]
-            if azar == palabra_split[0][0][1]:
-                palabra_correcta = True   
-        return palabra_correcta
+        lista = ['verb','adj','sus']
+        azar = lista[r.randint(0,2)]
+        palabra_split = (parse(palabra).split())
+        booleano = False
+
+        if azar == 'verb':
+            if palabra_split[0][0][1] in self.tupla_verb and self.existe_en(palabra):
+                booleano = True
+        elif azar == 'adj':
+            if palabra_split[0][0][1] in self.tupla_adj and self.existe_en(palabra):
+                booleano = True
+        else:
+            if palabra_split[0][0][1] in self.tupla_sus and self.existe_en(palabra):
+                booleano = True
+
+        return booleano
         
     def es_correcta(self,palabra):
         dificultad = self._dificultad_actual 
@@ -142,15 +162,6 @@ class AdministradorDeJuego():
         return fichas
 
 
-#objeto = AdministradorDeJuego('dificil')
+#objeto = AdministradorDeJuego('facil')
+#print(objeto.es_correcta('lápiz'))
 
-#print('PRIMER PRINT DICT')
-#print(objeto._diccionario_cantidad)
-#lista = objeto.tomar_fichas(7)
-#print(lista)
-#print('SEGUNDO PRINT DICT')
-#print(objeto._diccionario_cantidad)
-
-#print(objeto.es_correcta('gordo'))
-#p = (parse("hola").split())
-#print(p)
