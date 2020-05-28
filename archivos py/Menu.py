@@ -11,10 +11,10 @@ layout_main_menu = [
     [sg.Text(' '*18),sg.Button('Configuracion',size=(12,2))],
     [sg.Text('')],
     [sg.Text('')],
-    [sg.Button('TOP 10',size=(12,2)),sg.Text(' '*10),sg.Button('Salir',size=(12,2))],
+    [sg.Button('TOP 10',size=(12,2)),sg.Text(' '*10),sg.Button('Salir',size=(12,2))]
     ]
 
-configs = dict({'name':'Player','timing':20,'dificultad':'medio'})
+configs = dict({'name':'Player','timing':20,'dificultad':'facil'})
 
 
 window_menu = sg.Window('ScrabbleAR', layout_main_menu,size=(300,300))
