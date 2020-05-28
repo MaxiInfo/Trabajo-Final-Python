@@ -16,7 +16,6 @@ layout_main_menu = [
 
 configs = dict({'name':'Player','timing':20,'dificultad':'medio'})
 
-win_hide = False
 
 window_menu = sg.Window('ScrabbleAR', layout_main_menu,size=(300,300))
 event, values= window_menu.read()

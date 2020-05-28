@@ -7,7 +7,7 @@ from collections import Counter
 class AdministradorDeJuego():
     
 
-    def __init__(self,dif = 'medio'):
+    def __init__(self,dif = 'facil'):
         self._dificultad_actual = dif #puede cambiar pero puse medio como PREDETERMINADO
         self.crear_diccionarios()
 
@@ -45,7 +45,7 @@ class AdministradorDeJuego():
         Evalúa la palabra y lo mete en una lista bastante asquerosa de acceder, pero el [0][0][1] es la información de qué es la palabra -> Adjetivo, Verbo, Sustantivo
         El problema con los sustantivos, es que también toman palabras inexistentes, hay que arreglar eso
         '''
-        return palabra in spelling or palabra in lexicon
+        return palabra in spelling and palabra in lexicon
              
     def __es_correcta_medio(self,palabra):
         '''
