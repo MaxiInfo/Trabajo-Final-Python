@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from Class_tablero import Tablero
-from Class_Dificultad import AdministradorDeJuego
+from Class_administrador import AdministradorDeJuego
 from Class_Jugador import jugador
 from random import randint as rand
 

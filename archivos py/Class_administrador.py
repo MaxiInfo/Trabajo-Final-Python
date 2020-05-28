@@ -142,7 +142,7 @@ class AdministradorDeJuego():
         return fichas
 
 
-objeto = AdministradorDeJuego('dificil')
+#objeto = AdministradorDeJuego('dificil')
 
 #print('PRIMER PRINT DICT')
 #print(objeto._diccionario_cantidad)
@@ -152,5 +152,5 @@ objeto = AdministradorDeJuego('dificil')
 #print(objeto._diccionario_cantidad)
 
 #print(objeto.es_correcta('gordo'))
-p = (parse("hola").split())
-print(p)
+#p = (parse("hola").split())
+#print(p)
