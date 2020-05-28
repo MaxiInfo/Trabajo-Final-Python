@@ -1,16 +1,16 @@
 import PySimpleGUI as sg
 from Class_tablero import Tablero
-from Class_Dificultad import dificultad
+from Class_Dificultad import AdministradorDeJuego
 from Class_Jugador import jugador
 from random import randint as rand
 
 board = Tablero()
-dif = dificultad()
+admin = AdministradorDeJuego()
 teclas = ('0','1','2','3','4','5','6')
 
 def game_on (window,configs,fichas_jugador):
     window.FindElement('-MESSAGE-').Update('FELISITEISHO HAZ COMENSADEISHON EL JUEGEISHON')
-    dif.set_dificultad(configs['dificultad'])
+    admin.set_dificultad(configs['dificultad'])
     board.table_on(window)
     board.update_fichas_player(window,fichas_jugador)
     pass
@@ -25,7 +25,6 @@ def play_player (player, window):
             window.FindElement(event).Update('')
             while True:
                 event,values = window.Read()
-                print(event)
                 try:
                     event[1] 
                 except IndexError:
@@ -49,8 +48,8 @@ def main(configs):
         if event in (None, 'Menu principal'):
             break
         elif event == 'Empezar':
-            player = jugador(configs['name'],dif.tomar_fichas(7))
-            compu = jugador('CPU',dif.tomar_fichas(7))
+            player = jugador(configs['name'],admin.tomar_fichas(7))
+            compu = jugador('CPU',admin.tomar_fichas(7))
             game_on(window,configs,player.get_fichas())
             game_procces(window,player,compu)
         else:

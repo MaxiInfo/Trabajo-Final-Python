@@ -1,6 +1,5 @@
 import csv
-import pattern.es as pa
-from pattern.text import parse , split, lexicon, spelling
+from pattern.text.es import parse , split, lexicon, spelling
 import random as r
 from collections import Counter
 
@@ -8,8 +7,8 @@ from collections import Counter
 class AdministradorDeJuego():
     
 
-    def __init__(self):
-        self._dificultad_actual = 'medio' #puede cambiar pero puse medio como PREDETERMINADO
+    def __init__(self,dif = 'medio'):
+        self._dificultad_actual = dif #puede cambiar pero puse medio como PREDETERMINADO
         self.crear_diccionarios()
 
     def set_dificultad(self, nueva_dificultad):
@@ -46,46 +45,41 @@ class AdministradorDeJuego():
         Evalúa la palabra y lo mete en una lista bastante asquerosa de acceder, pero el [0][0][1] es la información de qué es la palabra -> Adjetivo, Verbo, Sustantivo
         El problema con los sustantivos, es que también toman palabras inexistentes, hay que arreglar eso
         '''
-        analisis = pa.parse(palabra).split('/')
-        palabra_correcta = False
-        if analisis[1] == "JJ" or analisis[1] == "VB":
-            palabra_correcta = True
-        elif (analisis[1] == "NN"):
-            article=w.search(palabra)
-            if article != None:
-                palabra_correcta = True
-        return palabra_correcta
-        
+        return palabra in spelling or palabra in lexicon
+             
     def __es_correcta_medio(self,palabra):
         '''
             Ver comentario en naranja de arriba
         '''
-        palabra_split = (pa.parse(palabra).split())
+        palabra_split = (parse(palabra).split())
         if palabra_split[0][0][1] == 'NN': #es sustantivo, pero también toma palabras que no existen como NN
             #acá se debería comprobar si la palabra EXISTE en el diccionario español, y en base a eso retornar true o false.
             pass
         return palabra_split[0][0][1] == 'VB'
         
     def __es_correcta_dificil(self,palabra):
-        palabra_split = (pa.parse(palabra).split())
-        lista = ['VB','JJ','NN']
-        azar = lista[r.randint(0,2)]
-        if azar == 'NN': #es sustantivo, pero también puede tomar una palabra que NO EXISTE como si existiera, hay que comprobarla.
-            pass #meto el pass por que todavía no sé como hacer dicha comprobación
-
-        return palabra_split[0][0][1] == azar #sí la palabra entra en los verbos o los adjetivos -> EXISTE, por lo tanto retorno true, retornará false sino entra.
-
+        palabra_correcta = False
+        if palabra in lexicon or palabra in spelling:
+            palabra_split = (parse(palabra).split())
+            print(palabra_split[1])
+            lista = ['VB','JJ','NN']
+            azar = lista[r.randint(0,2)]
+            if azar == palabra_split[0][0][1]:
+                palabra_correcta = True   
+        return palabra_correcta
+        
     def es_correcta(self,palabra):
-        dificultad = self.dificultad_actual
+        dificultad = self._dificultad_actual 
         if dificultad == 'facil':
             #llamo a modulo es_correcta_facil
-            self.__es_correcta_facil(palabra)
+            booleano = self.__es_correcta_facil(palabra)
         elif dificultad == 'medio':
             #llamo a modulo es_correcta_medio
-            self.__es_correcta_medio(palabra)
+            booleano = self.__es_correcta_medio(palabra)
         else:
             #llamo a modulo es_correcta_dificil
-            self.__es_correcta_dificil
+            booleano = self.__es_correcta_dificil
+        return booleano
 
     ###########################################################
     def no_hay_mas(self,auxiliar,letra):
@@ -148,11 +142,15 @@ class AdministradorDeJuego():
         return fichas
 
 
-objeto = AdministradorDeJuego()
+objeto = AdministradorDeJuego('dificil')
 
 #print('PRIMER PRINT DICT')
 #print(objeto._diccionario_cantidad)
-lista = objeto.tomar_fichas(7)
-print(lista)
+#lista = objeto.tomar_fichas(7)
+#print(lista)
 #print('SEGUNDO PRINT DICT')
 #print(objeto._diccionario_cantidad)
+
+#print(objeto.es_correcta('gordo'))
+p = (parse("hola").split())
+print(p)
