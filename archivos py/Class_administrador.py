@@ -10,7 +10,7 @@ class AdministradorDeJuego():
     tupla_verb = ('VAG','VBG','VAI','VAN','MD','VAS','VMG','VMI','VB','VMM','VMN','VMP','VBN','VMS','VSG','VSI','VSN','VSP','VSS')
     
 
-    def __init__(self,dif = 'medio'):
+    def __init__(self,dif = 'facil'):
         self._dificultad_actual = dif #puede cambiar pero puse medio como PREDETERMINADO
         self.crear_diccionarios()
 

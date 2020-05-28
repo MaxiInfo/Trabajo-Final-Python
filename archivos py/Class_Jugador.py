@@ -5,8 +5,8 @@ class jugador ():
         self._puntaje = 0
         pass
     
-    def set_fichas ():
-
+    def set_fichas (self,fichas):
+        self._fichas = fichas
         pass
 
     def mod_puntaje ():
