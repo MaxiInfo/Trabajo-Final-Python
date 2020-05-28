@@ -30,15 +30,21 @@ def play_player (player, window):
             board.update_fichas_player(window,player.get_fichas())
             continue
         if event == 'Comprobar':
+            #print('palabra = ',palabra)
+            #print('cant = ',cant_letras)
             if cant_letras >= 2:
                 if admin.es_correcta(palabra):
+                    #print('aca1')
                     window.FindElement('-MESSAGE-').Update('palabra correcta')
                     break
                 else:
+                    #print('aca2')
                     window.FindElement('-MESSAGE-').Update('palabra incorrecta')
             elif (palabra == ''):
+                #print('aca3')
                 window.FindElement('-MESSAGE-').Update('una palabra por favor')
             else:
+                #print('aca4')
                 window.FindElement('-MESSAGE-').Update('palabra minima 2 caracteres')
             continue
         if event in teclas:
@@ -46,7 +52,6 @@ def play_player (player, window):
             window.FindElement(event).Update('')
             while True:
                 event,values = window.Read()
-                print('palabra = ',palabra)
                 if event in (None, '-mainMenu-'):
                     break
                 if type(event) == tuple:
@@ -56,8 +61,8 @@ def play_player (player, window):
                         window.FindElement(event).Update(letter)
                         next1 = (event[0]+1,event[1])
                         next2 = (event[0],event[1]+1)
-                        window.FindElement(next1).Update(button_color = ('black','#4E61DC'))
-                        window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
+                        window.FindElement(next1).Update(button_color = ('black','yellow'))
+                        window.FindElement(next2).Update(button_color = ('black','yellow'))
                         cant_letras += 1
                     elif cant_letras == 1:
                         palabra += letter
@@ -66,19 +71,17 @@ def play_player (player, window):
                             window.FindElement(event).Update(letter)
                             window.FindElement(event).Update(letter,button_color = ('white','blue'))
                             next_button = (event[0]+1,event[1])
-                            window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                            window.FindElement(next_button).Update(button_color = ('black','yellow'))
                             escritura = 'ArribaAbajo'
                             
                         elif (event == next2):
-                            if event[1] < 15:
-                                window.FindElement(next1).Update(button_color = ('black','blue'))
+                            window.FindElement(next1).Update(button_color = ('black','blue'))
                             window.FindElement(event).Update(letter,button_color = ('white','blue'))
 
                             next_button = (event[0],event[1]+1)
-                            window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                            window.FindElement(next_button).Update(button_color = ('black','yellow'))
                             escritura = 'IzqDer'
-                        else:
-                            continue
+
                         cant_letras += 1
                     elif cant_letras == 2:
                         palabra += letter
@@ -87,10 +90,8 @@ def play_player (player, window):
                                 next_button =  (next_button[0],next_button[1]+1)
                             else:
                                 next_button =  (next_button[0]+1,next_button[1])
-                            window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                            window.FindElement(next_button).Update(button_color = ('black','yellow'))
                             window.FindElement(event).Update(letter,button_color = ('white','blue'))
-                        else:
-                            continue
                     break
     return event
 
@@ -114,17 +115,18 @@ def game_procces (window,player,compu):
 def main(configs):
     board = Tablero()
     window = sg.Window('ScrabbleAR', board.set_layout(configs))
+    event,values = window.read()
     while True:
-        event,values = window.read()
-        if event == 'Empezar':
+        if event in (None, '-mainMenu-'):
+            break
+        elif event == 'Empezar':
             player = jugador(configs['name'],admin.tomar_fichas(7))
             compu = jugador('CPU',admin.tomar_fichas(7))
             game_on(window,configs,player.get_fichas())
             event = game_procces(window,player,compu)
-        if event in (None, '-mainMenu-'):
-            break
         else:
             window.FindElement('-MESSAGE-').Update('Comienza el juego para poder utilizar la interfaz')
+        event,values = window.read()
     window.close()
     return event
 
