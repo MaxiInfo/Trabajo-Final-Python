@@ -2,24 +2,28 @@ import csv
 import pattern.es as pa
 import random as r
 from pattern.web import Wiktionary
+from collections import Counter
 w = Wiktionary(language="es")
 
 class dificultad():
-    dificultad_actual = 'medio' #puede cambiar pero puse medio como PREDETERMINADO
-    diccionario_cantidad = {}
-    diccionario_puntaje = {}
+    
 
-    def establecer_dificultad(self, nueva_dificultad):
+    def __init__(self):
+        self._dificultad_actual = 'medio' #puede cambiar pero puse medio como PREDETERMINADO
+        self._diccionario_cantidad = {}
+        self._diccionario_puntaje = {}
+
+    def set_dificultad(self, nueva_dificultad):
         '''
             sólo establece la dificultad nueva para cambiar la predeterminada
         '''
-        self.dificultad_actual = nueva_dificultad
+        self._dificultad_actual = nueva_dificultad
 
     def crear_diccionarios(self):
         '''
             En base a la dificultad, toma la cantidad y puntaje de cada letra y mete ambas en dos diccionarios
         '''
-        ubicacion = self.dificultad_actual + ".csv" # -> medio.csv, facil.csv, dificil.csv
+        ubicacion = self._dificultad_actual + ".csv" # -> medio.csv, facil.csv, dificil.csv
         archivo_csv = open(ubicacion,'r',encoding= 'utf8')
         csv_reader = csv.reader(archivo_csv, delimiter = ',', quotechar = '"')
         next(archivo_csv) # me salteo la primer linea que sólo contiene la información de las columnas.
@@ -30,20 +34,20 @@ class dificultad():
         #los identificadores de cada columna empiezan desde cero.
         for columna in csv_reader:
             letra_actual = columna[0] #letra
-            cantidad_actual = columna[1] #cantidad
-            puntaje_actual = columna[2] #puntaje
+            cantidad_actual = int(columna[1]) #cantidad
+            puntaje_actual = int(columna[2]) #puntaje
             cantidades[letra_actual] = cantidad_actual
             puntajes[letra_actual] = puntaje_actual
         
-        self.diccionario_cantidad = cantidades
-        self.diccionario_puntaje = puntajes
+        self._diccionario_cantidad = cantidades
+        self._diccionario_puntaje = puntajes
 
     def __es_correcta_facil(self,palabra):
         '''
         Evalúa la palabra y lo mete en una lista bastante asquerosa de acceder, pero el [0][0][1] es la información de qué es la palabra -> Adjetivo, Verbo, Sustantivo
         El problema con los sustantivos, es que también toman palabras inexistentes, hay que arreglar eso
         '''
-        analisis = parse(palabra).split('/')
+        analisis = pa.parse(palabra).split('/')
         palabra_correcta = False
         if analisis[1] == "JJ" or analisis[1] == "VB":
             palabra_correcta = True
@@ -84,20 +88,73 @@ class dificultad():
             #llamo a modulo es_correcta_dificil
             self.__es_correcta_dificil
 
+    ###########################################################
+    def no_hay_mas(self,auxiliar,letra):
+        '''
+            Si auxiliar me queda en cero, entonces es momento de hacer un delete de esa letra del diccionario de cantidades
+        '''
+        if auxiliar <= 0:
+            del self._diccionario_cantidad[letra]
+    
+    
+    def comprobar(self,auxiliar):
+        '''
+            True si auxiliar (cantidad de la letra -1) no es negativo, para tomarlo
+            False si auxiliar es negativo, osea que bueno, no podés tomar nada.
+        '''
+        if auxiliar >= 0:
+            return True
+        else:
+            return False
+    def tomar_fichas(self,cantidad_fichas):
+        '''
+            El primer prototipo de este metodo fue HORRIBLE, explico que hace este método hermoso:
+                fichas -> lo que retorno, es una lista por que si es string, letras como RR o LL se toman obviamente como dos fichas gastadas
+                lista -> va almacenando todo lo que se ingresa
+                contador -> contabiliza lo de lista, y en el for, por cada letra que aparezca 2 o más veces, la mete en lista_prohibidas
+                lista_prohibidas -> controla que las letras no ingresen más de dos veces
 
-'''
-El generar diccionarios funciona, en base a la dificultad, toma alguno u otro archivo csv. me pareció interesante meter la comprobación de palabras acá, ya que podemos
-enlazar la dificultad con la configuración.
-Lo unico que resta, es interconectar dicha clase de alguna forma con el tablero en cada juego que se efectue.
+                Vean los comentarios y ya para entender.
+        '''
+        fichas = []
+        lista = []
+        lista_prohibidas = []
+        while len(fichas) < cantidad_fichas:
+            #Creo una lista con las llaves(letras) disponibles del diccionario
+            letras = list(self._diccionario_cantidad.keys()) 
 
-Cosas que me faltaron:
-    -no me reconoce el import del pattern.es
-    -comprobar que la palabra que cae en categoría NN sea un sustantivo y exista, o comprobar que no exista.
+            #r.choice(lista) -> agarra una letra aleatoria. El while sirve para que la letra que se agarre siempre sea valida
+             # -> osea que no esté en la lista de letras prohibidas.
+            booleano = True
+            while booleano:
+                letra_actual = r.choice(letras) #tomo una letra aleatoria.
+                if letra_actual not in lista_prohibidas:
+                    booleano = False
 
-Cosas que hice:
-    -Creé ésta clase
-    -Moví los CSV por que sigo puteando en querer buscar por directorio, es una mierda.
-    -Definí métodos privados, es_correcta tiene el control de llevar el flujo a donde sea necesario.
+            #Tomo la cantidad actual de la letra, la guardo en aux restada en 1.
+            aux = self._diccionario_cantidad[letra_actual] -1
+            #Ver documentación de comprobar
+            if self.comprobar(aux) and len(fichas) < cantidad_fichas:
+                fichas.append(letra_actual.lower())
+                self._diccionario_cantidad[letra_actual] -= 1
+                lista.append(letra_actual)
 
-Lean los comentarios <3
-'''
+            contador = Counter(lista)
+            for clave,valor in contador.items():
+                if valor >= 2:
+                    lista_prohibidas.append(clave)
+            #Ver documentación de no_hay_mas
+            self.no_hay_mas(aux,letra_actual)
+                
+        return fichas
+
+
+objeto = dificultad()
+objeto.crear_diccionarios()
+
+#print('PRIMER PRINT DICT')
+#print(objeto._diccionario_cantidad)
+lista = objeto.tomar_fichas(7)
+print(lista)
+#print('SEGUNDO PRINT DICT')
+#print(objeto._diccionario_cantidad)
