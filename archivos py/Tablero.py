@@ -15,13 +15,26 @@ def game_on (window,configs,fichas_jugador):
     board.update_fichas_player(window,fichas_jugador)
     pass
 
+def block_word(window,tuple_list):
+    for i in tuple_list:
+        window.FindElement(i).Update(disabled=True,button_color = ('black','#58F76D'))
+    pass
+
+def ingresa_primera():
+    pass
+
+def ingresa_segunda():
+    pass
+
+def ingresa_tercera():
+    pass
 
 def play_player (player, window):
     window.FindElement('-MESSAGE-').Update('Ingrese una palabra')
     cant_letras = 0
-    palabra = ''
     while True:
         event,_ = window.Read()
+
         if event in (None, '-mainMenu-'):
             break
         if event == 'cambiar':
@@ -38,8 +51,9 @@ def play_player (player, window):
                     break
                 if type(event) == tuple:
                     if cant_letras == 0 and event != (14,14):
-                        palabra += letter
+                        palabra = letter
                         cant_letras += 1
+                        tuple_list = [event]
                         window.FindElement(event).Update(letter)
                         next1 = (event[0]+1,event[1])
                         next2 = (event[0],event[1]+1)
@@ -49,6 +63,8 @@ def play_player (player, window):
                             window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
                     elif cant_letras == 1:
                         palabra += letter
+                        cant_letras += 1
+                        tuple_list.append(event)
                         if (event == next1):
                             if event[1] < 14:
                                 window.FindElement(next2).Update(button_color = ('white','blue'))
@@ -68,9 +84,9 @@ def play_player (player, window):
                             escritura = 'IzqDer'
                         else:
                             continue
-                        cant_letras += 1
                     elif cant_letras == 2:
                         palabra += letter
+                        tuple_list.append(event)
                         if event == next_button:
                             if escritura == 'IzqDer':
                                 next_button =  (next_button[0],next_button[1]+1)
@@ -82,6 +98,7 @@ def play_player (player, window):
                         else:
                             continue
                     elif event == (14,14):
+                        window.FindElement('-MESSAGE-').Update('no se puede ingresar la primera letra en el ultimo casillero')
                         continue
                     break
         if event == 'Comprobar':
@@ -89,6 +106,7 @@ def play_player (player, window):
                 if admin.es_correcta(palabra):
                     window.FindElement('-MESSAGE-').Update('palabra correcta')
                     window.FindElement(next_button).Update(button_color = ('white','blue'))
+                    block_word(window,tuple_list)
                     break
                 else:
                     window.FindElement('-MESSAGE-').Update(str(palabra)+' no es una palabra')
