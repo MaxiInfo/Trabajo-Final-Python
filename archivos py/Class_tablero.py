@@ -16,16 +16,27 @@ class Tablero ():
         self.start_button = (7, 7)
         pass
 
-    def get_triple_letter():
+    def get_triple_letter(self):
         return self.triple_letter
-    def get_double_letter():
+    def get_double_letter(self):
         return self.double_letter
-    def get_double_word():
+    def get_double_word(self):
         return self.double_word
-    def get_triple_word():
+    def get_triple_word(self):
         return self.triple_word
-    def get_start_button():
+    def get_start_button(self):
         return self.start_button
+
+    def get_board(self):
+        return self.board
+
+    def mod_board(self, tuplas, palabra):
+        #actualiza la matriz, la lista de tuplas son las posiciones de las letras
+        k = 0
+        for i,j in tuplas:
+            self.board[i][j] = palabra[k]
+            k += 1
+        
 
     def set_layout(self, configs):
         col = [[sg.Button('Empezar')],
