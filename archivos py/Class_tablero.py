@@ -41,9 +41,10 @@ class Tablero ():
     def set_layout(self, configs):
         col = [[sg.Button('Empezar')],
                [sg.Button('Posponer')],
+               [sg.Button('Menu principal',key='-mainMenu-')],
                [sg.Text('Tiempo restante')],
                [sg.Text(' ', size=(8, 1), key=("-CLK"))],
-               [sg.Text('Hello itese me', size=(15, 10), key=("-MESSAGE-"))],
+               [sg.Text('Notas del juego', size=(15, 10), key=("-MESSAGE-"))],
                [sg.Text('Tiempo de jugada')],
                [sg.Text(' ', size=(8, 1), key=("-TURN-"))]]
 
@@ -54,7 +55,7 @@ class Tablero ():
         layout_tablero = [
             [sg.Text('COMPUTADORA'), sg.Text('', size=(30, 1),background_color='Brown', relief=sg.RELIEF_RIDGE)],
             [sg.Column(col2), sg.Column(col)],
-            [sg.Text(configs['name'], key=("-NOMBRE-")), sg.Column(col3), sg.Button('Comprobar'), sg.Button('Pasar'), sg.Button('cambiar'),sg.Text(' '*25), sg.Button('Menu principal',key='-mainMenu-')]
+            [sg.Text(configs['name'], key=("-NOMBRE-")), sg.Column(col3), sg.Button('Comprobar'), sg.Button('Pasar'), sg.Button('cambiar'),sg.Button('Revertir')]
         ]
         return layout_tablero
 
