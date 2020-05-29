@@ -68,7 +68,7 @@ def play_player (player, window):
         if event == 'cambiar':
             player.set_fichas(admin.tomar_fichas(7))
             board.update_fichas_player(window,player.get_fichas())
-            continue
+            continue # ACA VA BREAK
 #==========================================================================================================================#        
         if event in teclas:
             if not letter_selected:
@@ -88,7 +88,7 @@ def play_player (player, window):
                     window.FindElement('-LetterSelected-').Update('')
                     letter_selected = False
                     print(letter,'aca1')
-                else: 
+                else:
                     # si se quiere intercambiar de ficha actual con otra en el atril
                     cant_test += 1
                     window.FindElement(event).Update(letter)

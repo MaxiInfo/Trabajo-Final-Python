@@ -162,6 +162,6 @@ class AdministradorDeJuego():
         return fichas
 
 
-#objeto = AdministradorDeJuego('facil')
-#print(objeto.es_correcta('lápiz'))
+objeto = AdministradorDeJuego('facil')
+print(objeto.es_correcta('lápiz'))
 
