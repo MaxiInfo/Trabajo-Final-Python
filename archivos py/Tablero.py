@@ -3,6 +3,7 @@ from Class_tablero import Tablero
 from Class_administrador import AdministradorDeJuego
 from Class_Jugador import jugador
 from random import randint as rand
+import time
 
 board = Tablero()
 admin = AdministradorDeJuego()
@@ -61,6 +62,11 @@ def play_player (player, window):
 
     while True:
         event,_ = window.Read()
+#==========================================================================================================================#
+        tiempo_juego = int(round(time.time() * 100)) + 720000
+        tiempo_restante = tiempo_juego - int(round(time.time() * 100))
+        tiempo_turno = int(round(time.time() * 100)) + 2000
+        turno_restante = tiempo_turno - int(round(time.time() * 100))       
 #==========================================================================================================================#
         if event in (None, '-mainMenu-'):
             break

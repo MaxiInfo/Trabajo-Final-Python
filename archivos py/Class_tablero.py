@@ -43,10 +43,10 @@ class Tablero ():
                [sg.Button('Posponer')],
                [sg.Button('Menu principal',key='-mainMenu-')],
                [sg.Text('Tiempo restante')],
-               [sg.Text(' ', size=(8, 1), key=("-CLK"))],
+               [sg.Text(' ', size=(8, 1), key=("-CLKTOTAL-"))],
                [sg.Text('Notas del juego', size=(15, 10), key=("-MESSAGE-"))],
                [sg.Text('Tiempo de jugada')],
-               [sg.Text('')],
+               [sg.Text('', size= (8, 1), key= ('-CLKTURN-'))],
                [sg.Text('letra actual')],
                [sg.Text('',size=(5,1),key=('-LetterSelected-'),justification=('center'))],
                [sg.Text(' ', size=(8, 1), key=("-TURN-"))]]
