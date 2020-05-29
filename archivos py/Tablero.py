@@ -18,64 +18,53 @@ def game_on (window,configs,fichas_jugador):
 
 def play_player (player, window):
     window.FindElement('-MESSAGE-').Update('Ingrese una palabra')
-    pos_event = None
     cant_letras = 0
     palabra = ''
     while True:
-        event,values = window.Read()
+        event,_ = window.Read()
         if event in (None, '-mainMenu-'):
             break
         if event == 'cambiar':
             player.set_fichas(admin.tomar_fichas(7))
             board.update_fichas_player(window,player.get_fichas())
             continue
-        if event == 'Comprobar':
-            if cant_letras >= 2:
-                if admin.es_correcta(palabra):
-                    window.FindElement('-MESSAGE-').Update('palabra correcta')
-                    break
-                else:
-                    window.FindElement('-MESSAGE-').Update('palabra incorrecta')
-            elif (palabra == ''):
-                window.FindElement('-MESSAGE-').Update('una palabra por favor')
-            else:
-                window.FindElement('-MESSAGE-').Update('palabra minima 2 caracteres')
-            continue
+        
         if event in teclas:
             letter = player.get_fichas()[int(event)]
             window.FindElement(event).Update('')
             while True:
-                event,values = window.Read()
-                print('palabra = ',palabra)
+                event,_ = window.Read()
                 if event in (None, '-mainMenu-'):
                     break
                 if type(event) == tuple:
-                    if cant_letras == 0:
+                    if cant_letras == 0 and event != (14,14):
                         palabra += letter
-                        pos_event = event
+                        cant_letras += 1
                         window.FindElement(event).Update(letter)
                         next1 = (event[0]+1,event[1])
                         next2 = (event[0],event[1]+1)
-                        window.FindElement(next1).Update(button_color = ('black','#4E61DC'))
-                        window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
-                        cant_letras += 1
+                        if(next1[0] < 15):
+                            window.FindElement(next1).Update(button_color = ('black','#4E61DC'))
+                        if(next2[1]<15):
+                            window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
                     elif cant_letras == 1:
                         palabra += letter
                         if (event == next1):
-                            window.FindElement(next2).Update(button_color = ('black','blue'))
-                            window.FindElement(event).Update(letter)
+                            if event[1] < 14:
+                                window.FindElement(next2).Update(button_color = ('white','blue'))
                             window.FindElement(event).Update(letter,button_color = ('white','blue'))
                             next_button = (event[0]+1,event[1])
-                            window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                            if 15 not in next_button:
+                                window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
                             escritura = 'ArribaAbajo'
                             
                         elif (event == next2):
-                            if event[1] < 15:
-                                window.FindElement(next1).Update(button_color = ('black','blue'))
+                            if event[0] < 14:
+                                window.FindElement(next1).Update(button_color = ('white','blue'))
                             window.FindElement(event).Update(letter,button_color = ('white','blue'))
-
                             next_button = (event[0],event[1]+1)
-                            window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                            if 15 not in next_button:
+                                window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
                             escritura = 'IzqDer'
                         else:
                             continue
@@ -87,11 +76,27 @@ def play_player (player, window):
                                 next_button =  (next_button[0],next_button[1]+1)
                             else:
                                 next_button =  (next_button[0]+1,next_button[1])
-                            window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                            if 15 not in next_button:
+                                window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
                             window.FindElement(event).Update(letter,button_color = ('white','blue'))
                         else:
                             continue
+                    elif event == (14,14):
+                        continue
                     break
+        if event == 'Comprobar':
+            if cant_letras >= 2:
+                if admin.es_correcta(palabra):
+                    window.FindElement('-MESSAGE-').Update('palabra correcta')
+                    window.FindElement(next_button).Update(button_color = ('white','blue'))
+                    break
+                else:
+                    window.FindElement('-MESSAGE-').Update(str(palabra)+' no es una palabra')
+            elif (palabra == ''):
+                window.FindElement('-MESSAGE-').Update('Debe ingresar una palabra')
+            else:
+                window.FindElement('-MESSAGE-').Update('palabra minima 2 caracteres')
+            continue
     return event
 
 
@@ -115,7 +120,7 @@ def main(configs):
     board = Tablero()
     window = sg.Window('ScrabbleAR', board.set_layout(configs))
     while True:
-        event,values = window.read()
+        event,_ = window.read()
         if event == 'Empezar':
             player = jugador(configs['name'],admin.tomar_fichas(7))
             compu = jugador('CPU',admin.tomar_fichas(7))
