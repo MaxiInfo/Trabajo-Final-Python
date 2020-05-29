@@ -15,106 +15,148 @@ def game_on (window,configs,fichas_jugador):
     board.update_fichas_player(window,fichas_jugador)
     pass
 
-def block_word(window,tuple_list):
+def block_word(window,tuple_list,palabra):
+    board.mod_board(tuple_list,palabra)
     for i in tuple_list:
         window.FindElement(i).Update(disabled=True,button_color = ('black','#58F76D'))
     pass
 
-def ingresa_primera():
-    pass
+def ingresa_primera(window,event,letter):
+    window.FindElement(event).Update(letter)
+    next1 = (event[0]+1,event[1])
+    next2 = (event[0],event[1]+1)
+    if(next1[0] < 15):
+        window.FindElement(next1).Update(button_color = ('black','#4E61DC'))
+    if(next2[1]<15):
+        window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
+    return next1,next2
 
 def ingresa_segunda():
+    #no me sale una forma facil de simplificar aca
     pass
 
-def ingresa_tercera():
-    pass
+def ingresa_tercera(window,event,escritura,letter,next_button):
+    if escritura == 'IzqDer':
+        next_button =  (next_button[0],next_button[1]+1)
+    else:
+        next_button =  (next_button[0]+1,next_button[1])
+    if 15 not in next_button:
+        window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+    window.FindElement(event).Update(letter,button_color = ('white','blue'))
+    return next_button
 
 def play_player (player, window):
+    '''
+    el modulo play_player es el encargado del manejo de la colocacion de palabras en el tablero y el manejr de la interfaz 
+    que el usuario va a tener dentro del juego
+    '''
+
+    get_ficha = lambda x: player.get_single_ficha(x)
+    set_ficha = lambda letter,pos: player.set_single_ficha(letter,pos)
     window.FindElement('-MESSAGE-').Update('Ingrese una palabra')
     cant_letras = 0
+    letter_selected = False
+
+    cant_test = 0
+
     while True:
         event,_ = window.Read()
-
+#==========================================================================================================================#
         if event in (None, '-mainMenu-'):
             break
+#==========================================================================================================================#
         if event == 'cambiar':
             player.set_fichas(admin.tomar_fichas(7))
             board.update_fichas_player(window,player.get_fichas())
             continue
-        
+#==========================================================================================================================#        
         if event in teclas:
-            letter = player.get_fichas()[int(event)]
-            window.FindElement(event).Update('')
-            while True:
-                event,_ = window.Read()
-                if event in (None, '-mainMenu-'):
-                    break
-                if type(event) == tuple:
-                    if cant_letras == 0 and event != (14,14):
-                        palabra = letter
-                        cant_letras += 1
-                        tuple_list = [event]
-                        window.FindElement(event).Update(letter)
-                        next1 = (event[0]+1,event[1])
-                        next2 = (event[0],event[1]+1)
-                        if(next1[0] < 15):
-                            window.FindElement(next1).Update(button_color = ('black','#4E61DC'))
-                        if(next2[1]<15):
-                            window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
-                    elif cant_letras == 1:
-                        palabra += letter
-                        cant_letras += 1
-                        tuple_list.append(event)
-                        if (event == next1):
-                            if event[1] < 14:
-                                window.FindElement(next2).Update(button_color = ('white','blue'))
-                            window.FindElement(event).Update(letter,button_color = ('white','blue'))
-                            next_button = (event[0]+1,event[1])
-                            if 15 not in next_button:
-                                window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
-                            escritura = 'ArribaAbajo'
-                            
-                        elif (event == next2):
-                            if event[0] < 14:
-                                window.FindElement(next1).Update(button_color = ('white','blue'))
-                            window.FindElement(event).Update(letter,button_color = ('white','blue'))
-                            next_button = (event[0],event[1]+1)
-                            if 15 not in next_button:
-                                window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
-                            escritura = 'IzqDer'
-                        else:
-                            continue
-                    elif cant_letras == 2:
-                        palabra += letter
-                        tuple_list.append(event)
-                        if event == next_button:
-                            if escritura == 'IzqDer':
-                                next_button =  (next_button[0],next_button[1]+1)
-                            else:
-                                next_button =  (next_button[0]+1,next_button[1])
-                            if 15 not in next_button:
-                                window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
-                            window.FindElement(event).Update(letter,button_color = ('white','blue'))
-                        else:
-                            continue
-                    elif event == (14,14):
-                        window.FindElement('-MESSAGE-').Update('no se puede ingresar la primera letra en el ultimo casillero')
-                        continue
-                    break
+            if not letter_selected:
+                # si no hay fichas seleccionadas tomo una ficha del atril, actualizo fichas del jugador
+                # update de ficha actual seleccionada
+                letter = player.get_single_ficha(int(event))
+                window.FindElement(event).Update('')
+                window.FindElement('-LetterSelected-').Update(letter)
+                last_letter_selected = letter
+                letter_selected = True
+            else:
+                # devoludion de ficha seleccionada
+                if get_ficha(int(event)) == 0:
+                    # si se quiere devolver a la misma posicion donde se tomo
+                    window.FindElement(event).Update(letter)
+                    set_ficha(last_letter_selected,int(event))
+                    window.FindElement('-LetterSelected-').Update('')
+                    letter_selected = False
+                    print(letter,'aca1')
+                else: 
+                    # si se quiere intercambiar de ficha actual con otra en el atril
+                    cant_test += 1
+                    window.FindElement(event).Update(letter)
+                    letter = get_ficha(int(event))
+                    set_ficha(last_letter_selected,int(event))
+                    window.FindElement('-LetterSelected-').Update(letter)
+                    print(letter,'aca2')
+            continue
+#==========================================================================================================================#            
+        if type(event) == tuple and letter_selected:
+            if cant_letras == 0 and event != (14,14):
+                palabra = letter
+                letter_selected = False
+                cant_letras += 1
+                tuple_list = [event]
+                next1,next2 = ingresa_primera(window,event,letter)
+            elif cant_letras == 1:
+                palabra += letter
+                letter_selected = False
+                cant_letras += 1
+                tuple_list.append(event)
+                if (event == next1):
+                    if event[1] < 14:
+                        window.FindElement(next2).Update(button_color = ('white','blue'))
+                    window.FindElement(event).Update(letter,button_color = ('white','blue'))
+                    next_button = (event[0]+1,event[1])
+                    if 15 not in next_button:
+                        window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                    escritura = 'ArribaAbajo'
+                    
+                elif (event == next2):
+                    if event[0] < 14:
+                        window.FindElement(next1).Update(button_color = ('white','blue'))
+                    window.FindElement(event).Update(letter,button_color = ('white','blue'))
+                    next_button = (event[0],event[1]+1)
+                    if 15 not in next_button:
+                        window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                    escritura = 'IzqDer'
+                else:
+                    continue
+            elif cant_letras == 2:
+                palabra += letter
+                letter_selected = False
+                tuple_list.append(event)
+                if event == next_button:
+                    next_button = ingresa_tercera(window,event,escritura,letter,next_button)
+                else:
+                    continue
+            elif event == (14,14):
+                window.FindElement('-MESSAGE-').Update('no se puede ingresar la primera letra en el ultimo casillero')
+                continue
+#==========================================================================================================================#                  
         if event == 'Comprobar':
-            if cant_letras >= 2:
+            if (palabra == ''):
+                window.FindElement('-MESSAGE-').Update('Debe ingresar una palabra')
+            elif cant_letras >= 2:
                 if admin.es_correcta(palabra):
                     window.FindElement('-MESSAGE-').Update('palabra correcta')
                     window.FindElement(next_button).Update(button_color = ('white','blue'))
-                    block_word(window,tuple_list)
+                    block_word(window,tuple_list,palabra)
                     break
                 else:
                     window.FindElement('-MESSAGE-').Update(str(palabra)+' no es una palabra')
-            elif (palabra == ''):
-                window.FindElement('-MESSAGE-').Update('Debe ingresar una palabra')
             else:
                 window.FindElement('-MESSAGE-').Update('palabra minima 2 caracteres')
             continue
+        #if event == 'Revertir':
+
     return event
 
 
@@ -136,7 +178,7 @@ def game_procces (window,player,compu):
 
 def main(configs):
     board = Tablero()
-    window = sg.Window('ScrabbleAR', board.set_layout(configs))
+    window = sg.Window('ScrabbleAR', board.set_layout(configs),background_color=('#1CB7C3'))
     while True:
         event,_ = window.read()
         if event == 'Empezar':

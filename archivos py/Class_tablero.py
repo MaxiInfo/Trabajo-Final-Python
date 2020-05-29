@@ -46,6 +46,9 @@ class Tablero ():
                [sg.Text(' ', size=(8, 1), key=("-CLK"))],
                [sg.Text('Notas del juego', size=(15, 10), key=("-MESSAGE-"))],
                [sg.Text('Tiempo de jugada')],
+               [sg.Text('')],
+               [sg.Text('letra actual')],
+               [sg.Text('',size=(5,1),key=('-LetterSelected-'),justification=('center'))],
                [sg.Text(' ', size=(8, 1), key=("-TURN-"))]]
 
         col2 = [[sg.Button(' ', size=(4, 2), key=(i, j), pad=(0, 0),button_color=('white','blue')) for j in range(self._MAX_COL)] for i in range(self._MAX_ROWS)]
@@ -54,7 +57,7 @@ class Tablero ():
 
         layout_tablero = [
             [sg.Text('COMPUTADORA'), sg.Text('', size=(30, 1),background_color='Brown', relief=sg.RELIEF_RIDGE)],
-            [sg.Column(col2), sg.Column(col)],
+            [sg.Column(col2), sg.Column(col,background_color=('#C70F0F'))],
             [sg.Text(configs['name'], key=("-NOMBRE-")), sg.Column(col3), sg.Button('Comprobar'), sg.Button('Pasar'), sg.Button('cambiar'),sg.Button('Revertir')]
         ]
         return layout_tablero

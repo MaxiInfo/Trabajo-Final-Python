@@ -12,8 +12,18 @@ class jugador ():
     def get_fichas(self):
         return(self._fichas)
 
-    def mod_puntaje ():
+    def mod_puntaje (self):
         pass
     
-    def get_puntaje ():
+    def get_puntaje (self):
+        pass
+
+    def get_single_ficha (self,pos):
+        letter = self._fichas[pos]
+        self._fichas[pos]=0
+        print(self._fichas)
+        return letter
+
+    def set_single_ficha(self, letter, pos):
+        self._fichas[pos]= letter
         pass
