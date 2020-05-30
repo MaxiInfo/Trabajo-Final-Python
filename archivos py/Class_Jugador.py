@@ -21,9 +21,16 @@ class jugador ():
     def get_single_ficha (self,pos):
         letter = self._fichas[pos]
         self._fichas[pos]=0
-        print(self._fichas)
         return letter
 
     def set_single_ficha(self, letter, pos):
         self._fichas[pos]= letter
         pass
+
+    def change_single_ficha(self,letter,pos):
+        aux = self.get_single_ficha(pos)
+        self.set_single_ficha(letter,pos)
+        return aux
+
+    def ficha_pos (self,pos):
+        return self._fichas[pos]
