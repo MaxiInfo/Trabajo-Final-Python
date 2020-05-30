@@ -9,8 +9,8 @@ board = Tablero()
 admin = AdministradorDeJuego()
 teclas = ('0','1','2','3','4','5','6')
 
-tiempo_juego = 0
-tiempo_restante = 0
+#tiempo_juego = 0
+#tiempo_restante = 0
 
 def game_on (window,configs,fichas_jugador):
     window.FindElement('-MESSAGE-').Update('Comenzo la partida')
@@ -69,9 +69,8 @@ def play_player (player, window):
     while True:
         event,_ = window.Read(timeout= 10)
 #==========================================================================================================================#
-        global tiempo_restante
-        global tiempo_juego
-        tiempo_restante = tiempo_juego - int(round(time.time() * 100))
+        #tiempo_restante = tiempo_juego - int(round(time.time() * 100))
+        tiempo_restante = board.get_time_game() - int(round(time.time() * 100))
         window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante // 100) // 60) // 60, ((tiempo_restante // 100) // 60) - 60, (tiempo_restante // 100) % 60))
         if turno_restante > 0:
             turno_restante = tiempo_turno - int(round(time.time() * 100))
@@ -197,15 +196,17 @@ def game_procces (window,player,compu):
     return event
 
 def main(configs):
-    board = Tablero()
+    #board = Tablero()
     window = sg.Window('ScrabbleAR', board.set_layout(configs),background_color=('#1CB7C3'))
     while True:
         event,_ = window.read()
         if event == 'Empezar':
-            global tiempo_juego
-            global tiempo_restante
+            #global tiempo_restante
+            #global tiempo_juego
             tiempo_juego = int(round(time.time() * 100)) + 720000
             tiempo_restante = tiempo_juego - int(round(time.time() * 100))
+            board.set_time_game(tiempo_juego)
+            board.set_time_left(tiempo_restante)
             player = jugador(configs['name'],admin.tomar_fichas(7))
             compu = jugador('CPU',admin.tomar_fichas(7))
             game_on(window,configs,player.get_fichas())
