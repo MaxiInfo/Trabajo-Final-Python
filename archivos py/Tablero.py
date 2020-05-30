@@ -49,6 +49,16 @@ def ingresa_tercera(window,event,escritura,letter,next_button):
     window.FindElement(event).Update(letter,button_color = ('white','blue'))
     return next_button
 
+def fill_letters(player,window):
+    list_fichas = player.get_fichas()
+    for i in range(len(list_fichas)):
+        if list_fichas[i] == 0:
+            ficha = admin.tomar_fichas(1)
+            list_fichas[i] = ficha
+            window.FindElement(str(i)).Update(ficha)
+    player.set_fichas(list_fichas)
+    pass
+
 def play_player (player, window):
     '''
     el modulo play_player es el encargado del manejo de la colocacion de palabras en el tablero y el manejr de la interfaz 
@@ -93,28 +103,24 @@ def play_player (player, window):
             if not letter_selected:
                 # si no hay fichas seleccionadas tomo una ficha del atril, actualizo fichas del jugador
                 # update de ficha actual seleccionada
-                letter = player.get_single_ficha(int(event))
+                letter = get_ficha(int(event))
                 window.FindElement(event).Update('')
                 window.FindElement('-LetterSelected-').Update(letter)
-                last_letter_selected = letter
                 letter_selected = True
             else:
                 # devoludion de ficha seleccionada
-                if get_ficha(int(event)) == 0:
+                if player.ficha_pos(int(event)) == 0:
                     # si se quiere devolver a la misma posicion donde se tomo
                     window.FindElement(event).Update(letter)
-                    set_ficha(last_letter_selected,int(event))
+                    set_ficha(letter,int(event))
                     window.FindElement('-LetterSelected-').Update('')
                     letter_selected = False
-                    print(letter,'aca1')
                 else:
                     # si se quiere intercambiar de ficha actual con otra en el atril
                     cant_test += 1
                     window.FindElement(event).Update(letter)
-                    letter = get_ficha(int(event))
-                    set_ficha(last_letter_selected,int(event))
+                    letter = player.change_single_ficha(letter,int(event))
                     window.FindElement('-LetterSelected-').Update(letter)
-                    print(letter,'aca2')
             continue
 #==========================================================================================================================#            
         if type(event) == tuple and letter_selected:
@@ -146,7 +152,7 @@ def play_player (player, window):
                     if 15 not in next_button:
                         window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
                     escritura = 'IzqDer'
-                else:
+                else: 
                     continue
             elif cant_letras == 2:
                 palabra += letter
@@ -168,6 +174,7 @@ def play_player (player, window):
                     window.FindElement('-MESSAGE-').Update('palabra correcta')
                     window.FindElement(next_button).Update(button_color = ('white','blue'))
                     block_word(window,tuple_list,palabra)
+                    fill_letters(player,window)
                     break
                 else:
                     window.FindElement('-MESSAGE-').Update(str(palabra)+' no es una palabra')
