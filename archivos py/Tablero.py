@@ -9,6 +9,9 @@ board = Tablero()
 admin = AdministradorDeJuego()
 teclas = ('0','1','2','3','4','5','6')
 
+tiempo_juego = 0
+tiempo_restante = 0
+
 def game_on (window,configs,fichas_jugador):
     window.FindElement('-MESSAGE-').Update('Comenzo la partida')
     admin.set_dificultad(configs['dificultad'])
@@ -60,13 +63,24 @@ def play_player (player, window):
 
     cant_test = 0
 
+    tiempo_turno = int(round(time.time() * 100)) + 500
+    turno_restante = tiempo_turno - int(round(time.time() * 100))  
+
     while True:
-        event,_ = window.Read()
+        event,_ = window.Read(timeout= 10)
 #==========================================================================================================================#
-        tiempo_juego = int(round(time.time() * 100)) + 720000
+        global tiempo_restante
+        global tiempo_juego
         tiempo_restante = tiempo_juego - int(round(time.time() * 100))
-        tiempo_turno = int(round(time.time() * 100)) + 2000
-        turno_restante = tiempo_turno - int(round(time.time() * 100))       
+        window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante // 100) // 60) // 60, ((tiempo_restante // 100) // 60) - 60, (tiempo_restante // 100) % 60))
+        if turno_restante > 0:
+            turno_restante = tiempo_turno - int(round(time.time() * 100))
+            window['-CLKTURN-'].update('{:02d}:{:02d}'.format((turno_restante // 100) // 60, (turno_restante // 100) % 60))
+        else:
+            window['-MESSAGE-'].update('Te quedaste sin tiempo papá')
+            #acá iria un break, pero no puedo lograr que imprima el mensaje
+        if tiempo_restante == 0:
+            break
 #==========================================================================================================================#
         if event in (None, '-mainMenu-'):
             break
@@ -188,6 +202,10 @@ def main(configs):
     while True:
         event,_ = window.read()
         if event == 'Empezar':
+            global tiempo_juego
+            global tiempo_restante
+            tiempo_juego = int(round(time.time() * 100)) + 720000
+            tiempo_restante = tiempo_juego - int(round(time.time() * 100))
             player = jugador(configs['name'],admin.tomar_fichas(7))
             compu = jugador('CPU',admin.tomar_fichas(7))
             game_on(window,configs,player.get_fichas())
