@@ -14,6 +14,8 @@ class Tablero ():
         self.double_word = ((1, 1), (2, 2), (3, 3), (4, 4), (1, 13), (2, 12), (3, 11), (4, 10), (13, 1), (12, 2), (11, 3), (10, 4), (10, 10), (11, 11), (12, 12), (13, 13))
         self.triple_word = ((0, 0), (0, 7), (0, 14), (7, 0),(7, 14), (14, 0), (14, 7), (14, 14))
         self.start_button = (7, 7)
+        self.time_left = 0
+        self.time_game = 0
         pass
 
     def get_triple_letter(self):
@@ -26,6 +28,17 @@ class Tablero ():
         return self.triple_word
     def get_start_button(self):
         return self.start_button
+
+    def set_time_left(self, timeleft):
+        self.time_left = timeleft
+    def set_time_game(self, timegame):
+        self.time_game = timegame
+    
+    def get_time_game(self):
+        return self.time_game
+    def get_time_left(self):
+        return self.time_left
+
 
     def get_board(self):
         return self.board
@@ -43,10 +56,10 @@ class Tablero ():
                [sg.Button('Posponer')],
                [sg.Button('Menu principal',key='-mainMenu-')],
                [sg.Text('Tiempo restante')],
-               [sg.Text(' ', size=(8, 1), key=("-CLK"))],
+               [sg.Text(' ', size=(8, 1), key=("-CLKTOTAL-"))],
                [sg.Text('Notas del juego', size=(15, 10), key=("-MESSAGE-"))],
                [sg.Text('Tiempo de jugada')],
-               [sg.Text('')],
+               [sg.Text('', size= (8, 1), key= ('-CLKTURN-'))],
                [sg.Text('letra actual')],
                [sg.Text('',size=(5,1),key=('-LetterSelected-'),justification=('center'))],
                [sg.Text(' ', size=(8, 1), key=("-TURN-"))]]
