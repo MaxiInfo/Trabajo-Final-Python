@@ -1,18 +1,21 @@
 import PySimpleGUI as sg
 import time
+import Class_administrador as administrador
 
 
 class Tablero ():
-    def __init__(self):
+    def __init__(self,lista_tuplas):
         self._MAX_ROWS = 15
         self._MAX_COL = 15
         self.board = [[0 for j in range(self._MAX_COL)]
                       for i in range(self._MAX_ROWS)]
         self.atril = [0 for n in range(7)]
-        self.triple_letter = ((1, 5), (1, 9), (5, 1), (5, 5), (5, 9),(5, 13), (9, 1), (9, 5), (9, 9), (9, 13), (13, 5), (13, 9))
-        self.double_letter = ((0, 3), (0, 11), (2, 6), (2, 8), (3, 0), (3, 7), (3, 14), (6, 2), (6, 6), (6, 8), (6, 12), (7, 3), (7, 11), (8, 2), (8, 6), (8, 8), (8, 12), (11, 0), (11, 7), (11, 14), (12, 6), (12, 8), (14, 3), (14, 11))
-        self.double_word = ((1, 1), (2, 2), (3, 3), (4, 4), (1, 13), (2, 12), (3, 11), (4, 10), (13, 1), (12, 2), (11, 3), (10, 4), (10, 10), (11, 11), (12, 12), (13, 13))
-        self.triple_word = ((0, 0), (0, 7), (0, 14), (7, 0),(7, 14), (14, 0), (14, 7), (14, 14))
+        self.triple_letter = lista_tuplas[3]
+        self.double_letter = lista_tuplas[2]
+        self.double_word = lista_tuplas[0]
+        self.triple_word = lista_tuplas[1]
+        self.R10 = lista_tuplas[4]
+        self.R20 = lista_tuplas[5]
         self.start_button = (7, 7)
         self.time_left = 0
         self.time_game = 0
@@ -88,8 +91,10 @@ class Tablero ():
                     window.FindElement((i, j)).Update('DW')
                 elif (i, j) == self.start_button:
                     window.FindElement((i, j)).Update('ST')
-                else:
-                    window.FindElement((i, j)).Update('')
+                elif (i, j) in self.R10:
+                    window.FindElement((i, j)).Update('R10')
+                elif (i, j) in self.R20:
+                    window.FindElement((i, j)).Update('R20')
         pass
 
     def update_fichas_player(self, window, fichas_player):

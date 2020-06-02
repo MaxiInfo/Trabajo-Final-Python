@@ -18,16 +18,10 @@ class AdministradorDeJuego():
         self._tuplas_TW = []
         self._tuplas_R10 = []
         self._tuplas_R20 = []
-        self.crear_tuplas()
-        self.crear_diccionarios()
+        self.__crear_tuplas()
+        self.__crear_diccionarios()
 
-    def set_dificultad(self, nueva_dificultad):
-        '''
-            sólo establece la dificultad nueva para cambiar la predeterminada
-        '''
-        self._dificultad_actual = nueva_dificultad
-
-    def crear_diccionarios(self):
+    def __crear_diccionarios(self):
         '''
             En base a la dificultad, toma la cantidad y puntaje de cada letra y mete ambas en dos diccionarios
         '''
@@ -108,8 +102,8 @@ class AdministradorDeJuego():
             booleano = self.__es_correcta_dificil
         return booleano
 
-    ###########################################################
-    def no_hay_mas(self,auxiliar,letra):
+    #=======================================================================================================================#
+    def _no_hay_mas(self,auxiliar,letra):
         '''
             Si auxiliar me queda en cero, entonces es momento de hacer un delete de esa letra del diccionario de cantidades
         '''
@@ -117,7 +111,7 @@ class AdministradorDeJuego():
             del self._diccionario_cantidad[letra]
     
     
-    def comprobar(self,auxiliar):
+    def _comprobar(self,auxiliar):
         '''
             True si auxiliar (cantidad de la letra -1) no es negativo, para tomarlo
             False si auxiliar es negativo, osea que bueno, no podés tomar nada.
@@ -126,6 +120,21 @@ class AdministradorDeJuego():
             return True
         else:
             return False
+
+    def _elegir_letra(self,lista_letras, lista_prohibidas, lista_rng):
+        '''
+            r.choice(lista) -> agarra una letra aleatoria. El while sirve para que la letra que se agarre siempre sea valida
+              -> osea que no esté en la lista de letras prohibidas y que la letra generada esté en la lista_rng.
+              -> también está contemplado el caso donde se eliminen letras del diccionario (lista_letras contiene solo las letras disponibles)
+
+        '''
+        booleano = True
+        while booleano:
+            caracter = r.choice(lista_letras)
+            if caracter not in lista_prohibidas and caracter in lista_rng:
+                booleano = False
+        return caracter
+
     def tomar_fichas(self,cantidad_fichas):
         '''
             El primer prototipo de este metodo fue HORRIBLE, explico que hace este método hermoso:
@@ -134,8 +143,123 @@ class AdministradorDeJuego():
                 contador -> contabiliza lo de lista, y en el for, por cada letra que aparezca 2 o más veces, la mete en lista_prohibidas
                 lista_prohibidas -> controla que las letras no ingresen más de dos veces
 
+                agregado: generador de numeros aleatorios y listas que contienen letras en base a su frecuencia en el idioma español.
+                me encantaría creer que ésta modificación, va a dar un margen de letras más usables para generar palabras.
+
                 Vean los comentarios y ya para entender.
         '''
+        fichas = []
+        lista = []
+        lista_prohibidas = []
+        frecuencia_alta = ['E', 'A','O', 'Ó' ,'S' ,'R' ,'N', 'I','Í', 'D' ,'L' ,'C' ,'T' ,'U' ,'M' ,'P']
+        frecuencia_media = ['B', 'G', 'V', 'Y', 'Q', 'H', 'F','Á','RR','LL','Ú']
+        frecuencia_baja = ['Z', 'J', 'Ñ', 'X', 'K', 'W','É']
+        while len(fichas) < cantidad_fichas:
+            #Creo una lista con las llaves(letras) disponibles del diccionario
+            letras = list(self._diccionario_cantidad.keys()) 
+
+            RNG = r.randint(1,100)
+            letra_actual = ''
+            if RNG <= 60: #FRECUENCIA ALTA
+                letra_actual = self._elegir_letra(letras,lista_prohibidas,frecuencia_alta)
+            elif RNG > 60 and RNG <=90: #FRECUENCIA MEDIA
+                letra_actual = self._elegir_letra(letras,lista_prohibidas,frecuencia_media)
+            else: #FRECUENCIA BAJA
+                letra_actual = self._elegir_letra(letras,lista_prohibidas,frecuencia_baja)
+
+            #Tomo la cantidad actual de la letra, la guardo en aux restada en 1.
+            aux = self._diccionario_cantidad[letra_actual] -1
+            #Ver documentación de comprobar
+            if self._comprobar(aux) and len(fichas) < cantidad_fichas:
+                fichas.append(letra_actual.lower())
+                self._diccionario_cantidad[letra_actual] -= 1
+                lista.append(letra_actual)
+
+            contador = Counter(lista)
+            for clave,valor in contador.items():
+                if valor >= 2 or clave in ['Á','É','Í','Ó','Ú']: #Sí ya tomé una vocal con tilde, dicha vocal no va a salirme de nuevo.
+                    lista_prohibidas.append(clave)
+            #Ver documentación de no_hay_mas
+            self._no_hay_mas(aux,letra_actual)
+                
+        return fichas
+    #=======================================================================================================================#
+
+    def __crear_tuplas(self):
+        '''
+            usado en el __init__, en base a la dificultad llena la lista de tuplas correspondiente. PARA EL TABLERO
+        '''
+        ubicacion = 'tuplas_' + self._dificultad_actual + ".csv" # tuplas_dificultad.csv. Sólo para abrir
+        archivo_csv = open(ubicacion,'r',encoding= 'utf8') #abro el archivo
+        csv_reader = csv.reader(archivo_csv, delimiter = ',', quotechar = '"') 
+        next(archivo_csv) # me salteo la primer linea que sólo contiene la información de las columnas.
+
+
+        for columna in csv_reader:
+            fila_actual = int(columna[0])
+            columna_actual = int(columna[1])
+            tupla = (fila_actual,columna_actual)
+            identificador = columna[2] # DL, TL, DW, TW, R10, R20
+
+            if identificador == 'DW':
+                self._tuplas_DW.append(tupla)
+            elif identificador == 'TW':
+                self._tuplas_TW.append(tupla)
+            elif identificador == 'DL':
+                self._tuplas_DL.append(tupla)
+            elif identificador == 'TL':
+                self._tuplas_TL.append(tupla)
+            elif identificador == 'R10':
+                self._tuplas_R10.append(tupla)
+            else:
+                self._tuplas_R20.append(tupla)
+
+    def devolver_tuplas(self):
+        '''
+            devuelve una lista de listas con todas las tuplas
+            [0] -> Double Word
+            [1] -> Triple Word
+            [2] -> Double Letter
+            [3] -> Triple Letter
+            [4] -> Resta 10
+            [5] -> Resta 20
+        '''
+        lista_tuplas = [self._tuplas_DW,self._tuplas_TW,self._tuplas_DL,self._tuplas_TL,self._tuplas_R10,self._tuplas_R20]
+        return lista_tuplas
+
+    def calcular_puntaje(self,palabra,tupla):
+        puntaje = 0
+        multiplicador = 0
+
+        for i in range(len(palabra)): #de 0 hasta len(palabra) -1
+            posicion_actual = tupla[i]
+
+            if posicion_actual in self._tuplas_DW: #Double word
+                multiplicador += 2
+            elif posicion_actual in self._tuplas_TW: #Triple word
+                multiplicador += 3
+            elif posicion_actual in self._tuplas_DL: #Double letter
+                puntaje += self._diccionario_puntaje[palabra[i].upper()] * 2
+            elif posicion_actual in self._tuplas_TL: #Triple letter
+                puntaje += self._diccionario_puntaje[palabra[i].upper()] * 3
+            elif posicion_actual in self._tuplas_R10: #Restar 10
+                puntaje += self._diccionario_puntaje[palabra[i].upper()] -10
+            elif posicion_actual in self._tuplas_R20: #Restar 20
+                puntaje += self._diccionario_puntaje[palabra[i].upper()] -20
+            else: #La letra tocó una casilla no especial
+                puntaje += self._diccionario_puntaje[palabra[i].upper()]
+
+        if multiplicador != 0 and puntaje > 0: #Significa que tocó algun DoubleWord o Triple Word. Eso sí, si el puntaje es negativo, no se aumenta
+            puntaje *= multiplicador
+        return puntaje
+
+
+objeto = AdministradorDeJuego()
+print(objeto.tomar_fichas(10))
+
+
+#Me guardé el tomar_fichas original por las dudas
+'''
         fichas = []
         lista = []
         lista_prohibidas = []
@@ -167,75 +291,6 @@ class AdministradorDeJuego():
             self.no_hay_mas(aux,letra_actual)
                 
         return fichas
-    def crear_tuplas(self):
-        ubicacion = 'tuplas_' + self._dificultad_actual + ".csv" # tuplas_dificultad.csv. Sólo para abrir
-        archivo_csv = open(ubicacion,'r',encoding= 'utf8') #abro el archivo
-        csv_reader = csv.reader(archivo_csv, delimiter = ',', quotechar = '"') 
-        next(archivo_csv) # me salteo la primer linea que sólo contiene la información de las columnas.
-
-
-        for columna in csv_reader:
-            fila_actual = int(columna[0])
-            columna_actual = int(columna[1])
-            tupla = (fila_actual,columna_actual)
-            identificador = columna[2] # DL, TL, DW, TW, R10, R20
-
-            if identificador == 'DW':
-                self._tuplas_DW.append(tupla)
-            elif identificador == 'TW':
-                self._tuplas_TW.append(tupla)
-            elif identificador == 'DL':
-                self._tuplas_DL.append(tupla)
-            elif identificador == 'TL':
-                self._tuplas_TL.append(tupla)
-            elif identificador == 'R10':
-                self._tuplas_R10.append(tupla)
-            else:
-                self._tuplas_R20.append(tupla)
-    def devolver_tuplas(self):
-        '''
-            devuelve una lista de listas con todas las tuplas
-            [0] -> Double Word
-            [1] -> Triple Word
-            [2] -> Double Letter
-            [3] -> Triple Letter
-            [4] -> Resta 10
-            [5] -> Resta 20
-        '''
-        lista_tuplas = [self._tuplas_DW,self._tuplas_TW,self._tuplas_DL,self._tuplas_TL,self._tuplas_R10,self._tuplas_R20]
-        return lista_tuplas
-    def calcular_puntaje(self,palabra,tupla):
-        puntaje = 0
-        multiplicador = 0
-
-        for i in range(len(palabra)): #de 0 hasta len(palabra) -1
-            posicion_actual = tupla[i]
-
-            if posicion_actual in self._tuplas_DW: #Double word
-                multiplicador += 2
-            elif posicion_actual in self._tuplas_TW: #Triple word
-                multiplicador += 3
-            elif posicion_actual in self._tuplas_DL: #Double letter
-                puntaje += self._diccionario_puntaje[palabra[i].upper()] * 2
-            elif posicion_actual in self._tuplas_TL: #Triple letter
-                puntaje += self._diccionario_puntaje[palabra[i].upper()] * 3
-            elif posicion_actual in self._tuplas_R10: #Restar 10
-                puntaje += self._diccionario_puntaje[palabra[i].upper()] -10
-            elif posicion_actual in self._tuplas_R20: #Restar 20
-                puntaje += self._diccionario_puntaje[palabra[i].upper()] -20
-            else: #La letra tocó una casilla no especial
-                puntaje += self._diccionario_puntaje[palabra[i].upper()]
-
-        if multiplicador != 0 and puntaje > 0: #Significa que tocó algun DoubleWord o Triple Word. Eso sí, si el puntaje es negativo, no se aumenta
-            puntaje *= multiplicador
-        return puntaje
-
-
-objeto = AdministradorDeJuego()
-tupla = ((3,0),(1,1),(12,12)) #DL - DW - R10 -> existen en el csv 
-valor = objeto.calcular_puntaje('zed',tupla) # z -> 10, e -> 4, d -> 2
-                            # 20 -8 -> el 4 se saltea por que es Double Word.
-                            #12 * 2 -> 34
-print(valor)
+'''
 
 

@@ -5,8 +5,9 @@ from Class_Jugador import jugador
 from random import randint as rand
 import time
 
-board = Tablero()
 admin = AdministradorDeJuego()
+lista_tuplas = admin.devolver_tuplas()
+board = Tablero(lista_tuplas)
 teclas = ('0','1','2','3','4','5','6')
 
 #tiempo_juego = 0
