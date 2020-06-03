@@ -21,6 +21,9 @@ class AdministradorDeJuego():
         self.__crear_tuplas()
         self.__crear_diccionarios()
 
+    def set_dificultad(self,dificultad_nueva):
+        self._dificultad_actual = dificultad_nueva
+
     def __crear_diccionarios(self):
         '''
             En base a la dificultad, toma la cantidad y puntaje de cada letra y mete ambas en dos diccionarios
