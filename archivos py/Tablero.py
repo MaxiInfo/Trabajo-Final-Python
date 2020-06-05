@@ -26,18 +26,51 @@ def block_word(window,tuple_list,palabra):
         window.FindElement(i).Update(disabled=True,button_color = ('black','#58F76D'))
     pass
 
+def vuelta_atras(window,player,letter,tupla,cant,escritura):
+    board.set_default_button(window,tupla)
+    pos = player.pos_libre()
+    player.set_single_ficha(letter,pos)
+    window.FindElement(str(pos)).Update(letter)
+    if cant == 1:
+        tupla_aux1 = (tupla[0],tupla[1]+1) 
+        tupla_aux2 = (tupla[0]+1,tupla[1]) 
+        window.FindElement(tupla_aux1).Update(button_color = ('white','blue'))
+        window.FindElement(tupla_aux2).Update(button_color = ('white','blue'))
+    elif cant == 2:
+        if escritura == 'IzqDer':
+            tupla_aux1 = (tupla[0],tupla[1]) 
+            tupla_aux2 = (tupla[0]+1,tupla[1]-1) 
+            tupla_aux = (tupla[0],tupla[1]+1) 
+        else:
+            tupla_aux1 = (tupla[0],tupla[1]) 
+            tupla_aux2 = (tupla[0]-1,tupla[1]+1) 
+            tupla_aux = (tupla[0]+1,tupla[1]) 
+        window.FindElement(tupla_aux).Update(button_color = ('white','blue'))
+        window.FindElement(tupla_aux1).Update(button_color = ('black','#4E61DC'))
+        window.FindElement(tupla_aux2).Update(button_color = ('black','#4E61DC'))
+    elif cant > 2:
+        if escritura == 'IzqDer':
+            tupla_aux = (tupla[0],tupla[1]+1) 
+        else:
+            tupla_aux = (tupla[0]+1,tupla[1])
+        window.FindElement(tupla_aux).Update(button_color = ('white','blue'))
+        window.FindElement(tupla).Update(button_color = ('black','#4E61DC'))
+
+    pass
+
 def ingresa_primera(window,event,letter):
     window.FindElement(event).Update(letter)
     next1 = (event[0]+1,event[1])
     next2 = (event[0],event[1]+1)
     if(next1[0] < 15):
-        window.FindElement(next1).Update(button_color = ('black','#4E61DC'))
+        window.FindElement(next1).Update(button_color= ('black','#4E61DC'))
     if(next2[1]<15):
         window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
     return next1,next2
 
 def ingresa_segunda():
     #no me sale una forma facil de simplificar aca
+    #para hacer
     pass
 
 def ingresa_tercera(window,event,escritura,letter,next_button):
@@ -71,8 +104,10 @@ def play_player (player, window):
     window.FindElement('-MESSAGE-').Update('Ingrese una palabra')
     cant_letras = 0
     letter_selected = False
+    escritura = None
+    letra_ant = ''
 
-    cant_test = 0
+    cant_test = 0 #y esto???
 
     tiempo_turno = int(round(time.time() * 100)) + 500
     turno_restante = tiempo_turno - int(round(time.time() * 100))  
@@ -83,12 +118,12 @@ def play_player (player, window):
         #tiempo_restante = tiempo_juego - int(round(time.time() * 100))
         tiempo_restante = board.get_time_game() - int(round(time.time() * 100))
         window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante // 100) // 60) // 60, ((tiempo_restante // 100) // 60) - 60, (tiempo_restante // 100) % 60))
-        if turno_restante > 0:
+        '''if turno_restante > 0:
             turno_restante = tiempo_turno - int(round(time.time() * 100))
             window['-CLKTURN-'].update('{:02d}:{:02d}'.format((turno_restante // 100) // 60, (turno_restante // 100) % 60))
         else:
             window['-MESSAGE-'].update('Te quedaste sin tiempo papá')
-            #acá iria un break, pero no puedo lograr que imprima el mensaje
+            #acá iria un break, pero no puedo lograr que imprima el mensaje'''
         if tiempo_restante == 0:
             break
 #==========================================================================================================================#
@@ -118,25 +153,31 @@ def play_player (player, window):
                     letter_selected = False
                 else:
                     # si se quiere intercambiar de ficha actual con otra en el atril
-                    cant_test += 1
+                    cant_test += 1  #ACA DE NUEVO XD
                     window.FindElement(event).Update(letter)
                     letter = player.change_single_ficha(letter,int(event))
                     window.FindElement('-LetterSelected-').Update(letter)
             continue
 #==========================================================================================================================#            
         if type(event) == tuple and letter_selected:
+            #si no hay letras ingresadas en la jugada actual
             if cant_letras == 0 and event != (14,14):
                 palabra = letter
+                letra_ant = letter
                 letter_selected = False
                 cant_letras += 1
                 tuple_list = [event]
                 next1,next2 = ingresa_primera(window,event,letter)
+                window.FindElement('-LetterSelected-').Update('')
             elif cant_letras == 1:
-                palabra += letter
-                letter_selected = False
-                cant_letras += 1
-                tuple_list.append(event)
+                #si ya esta ingresada la primera letra
                 if (event == next1):
+                    #si se ingreso de arriba a abajo
+                    palabra += letter
+                    letter_selected = False
+                    cant_letras += 1
+                    letra_ant = letter
+                    tuple_list.append(event)
                     if event[1] < 14:
                         window.FindElement(next2).Update(button_color = ('white','blue'))
                     window.FindElement(event).Update(letter,button_color = ('white','blue'))
@@ -144,8 +185,14 @@ def play_player (player, window):
                     if 15 not in next_button:
                         window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
                     escritura = 'ArribaAbajo'
-                    
+                    window.FindElement('-LetterSelected-').Update('')                    
                 elif (event == next2):
+                    #si se ingreso de Izquierda a Derecha
+                    palabra += letter
+                    letter_selected = False
+                    cant_letras += 1
+                    letra_ant = letter
+                    tuple_list.append(event)
                     if event[0] < 14:
                         window.FindElement(next1).Update(button_color = ('white','blue'))
                     window.FindElement(event).Update(letter,button_color = ('white','blue'))
@@ -153,14 +200,18 @@ def play_player (player, window):
                     if 15 not in next_button:
                         window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
                     escritura = 'IzqDer'
+                    window.FindElement('-LetterSelected-').Update('')
                 else: 
                     continue
-            elif cant_letras == 2:
+            elif cant_letras >= 2:
+                #Si ya se ingresaron 2 o mas letras
+                letra_ant = letter
                 palabra += letter
                 letter_selected = False
                 tuple_list.append(event)
                 if event == next_button:
                     next_button = ingresa_tercera(window,event,escritura,letter,next_button)
+                    cant_letras += 1
                 else:
                     continue
             elif event == (14,14):
@@ -182,8 +233,17 @@ def play_player (player, window):
             else:
                 window.FindElement('-MESSAGE-').Update('palabra minima 2 caracteres')
             continue
-        #if event == 'Revertir':
-
+#==========================================================================================================================#                  
+        if event == 'Revertir':
+            if cant_letras == 0:
+                window.FindElement('-MESSAGE-').Update('No Hay Letras Ingresadas En Este Turno')
+            else:
+                vuelta_atras(window,player,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
+                tuple_list.pop()
+                palabra = palabra[0:-1]
+                cant_letras -= 1
+                window.FindElement('-LetterSelected-').Update('')
+            continue
     return event
 
 
@@ -225,5 +285,3 @@ def main(configs):
             window.FindElement('-MESSAGE-').Update('Comienza el juego para poder utilizar la interfaz')
     window.close()
     return event
-
-#configs = dict({'name':'Player','timing':20,'dificultad':'medio'})

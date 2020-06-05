@@ -31,7 +31,10 @@ class Tablero ():
         return self.triple_word
     def get_start_button(self):
         return self.start_button
-
+    def get_r10(self):
+        return self.R10
+    def get_r20(self):
+        return self.R20
     def set_time_left(self, timeleft):
         self.time_left = timeleft
     def set_time_game(self, timegame):
@@ -78,23 +81,29 @@ class Tablero ():
         ]
         return layout_tablero
 
+    def set_default_button(self,window,tupla):
+        i,j=tupla
+        if (i, j) in self.triple_letter:
+            window.FindElement((i, j)).Update('TL')
+        elif (i, j) in self.double_letter:
+            window.FindElement((i, j)).Update('DL')
+        elif (i, j) in self.triple_word:
+            window.FindElement((i, j)).Update('TW')
+        elif (i, j) in self.double_word:
+            window.FindElement((i, j)).Update('DW')
+        elif (i, j) == self.start_button:
+            window.FindElement((i, j)).Update('ST')
+        elif (i, j) in self.R10:
+            window.FindElement((i, j)).Update('R10')
+        elif (i, j) in self.R20:
+            window.FindElement((i, j)).Update('R20')
+        else:
+            window.FindElement((i,j)).Update('')
+            
     def table_on(self, window):
         for i in range(self._MAX_ROWS):
             for j in range(self._MAX_COL):
-                if (i, j) in self.triple_letter:
-                    window.FindElement((i, j)).Update('TL')
-                elif (i, j) in self.double_letter:
-                    window.FindElement((i, j)).Update('DL')
-                elif (i, j) in self.triple_word:
-                    window.FindElement((i, j)).Update('TW')
-                elif (i, j) in self.double_word:
-                    window.FindElement((i, j)).Update('DW')
-                elif (i, j) == self.start_button:
-                    window.FindElement((i, j)).Update('ST')
-                elif (i, j) in self.R10:
-                    window.FindElement((i, j)).Update('R10')
-                elif (i, j) in self.R20:
-                    window.FindElement((i, j)).Update('R20')
+                self.set_default_button(window,(i,j))
         pass
 
     def update_fichas_player(self, window, fichas_player):

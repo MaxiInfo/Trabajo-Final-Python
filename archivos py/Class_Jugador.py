@@ -32,5 +32,9 @@ class jugador ():
         self.set_single_ficha(letter,pos)
         return aux
 
+    def pos_libre(self):
+        pos = self._fichas.index(0)
+        return pos
+
     def ficha_pos (self,pos):
         return self._fichas[pos]

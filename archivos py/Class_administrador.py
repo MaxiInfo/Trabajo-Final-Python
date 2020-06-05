@@ -257,8 +257,8 @@ class AdministradorDeJuego():
         return puntaje
 
 
-objeto = AdministradorDeJuego()
-print(objeto.tomar_fichas(10))
+#objeto = AdministradorDeJuego()
+#print(objeto.tomar_fichas(10))
 
 
 #Me guardé el tomar_fichas original por las dudas
