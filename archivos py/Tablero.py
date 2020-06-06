@@ -55,8 +55,37 @@ def vuelta_atras(window,player,letter,tupla,cant,escritura):
             tupla_aux = (tupla[0]+1,tupla[1])
         window.FindElement(tupla_aux).Update(button_color = ('white','blue'))
         window.FindElement(tupla).Update(button_color = ('black','#4E61DC'))
-
     pass
+
+def cambiar_fichas(window,player):
+    cant = 0
+    tecla_select = []
+    window.FindElement('-MESSAGE-').Update('seleccione hasta 3 letras para cambiar')
+    window.FindElement('-change-').Update('OK')
+    while True:
+        event,_ = window.Read()
+        if event in teclas:
+            if event in tecla_select:
+                cant -= 1
+                tecla_select.remove(event)
+                window.FindElement(event).Update(button_color = ('white','blue'))
+            else:
+                if (cant < 3):
+                    cant += 1
+                    tecla_select.append(event)
+                    window.FindElement(event).Update(button_color = ('black','#73FFD6'))
+                else:
+                    window.FindElement('-MESSAGE-').Update('Ya Seleccionaste 3 Letras')
+        if event == '-change-' and cant > 0:
+            fichas_nue = admin.tomar_fichas(cant)
+            for i in range(cant):
+                window.FindElement(tecla_select[i]).Update(fichas_nue[i],button_color = ('white','blue'))
+                player.set_single_ficha(fichas_nue[i],int(tecla_select[i]))    
+                window.FindElement('-change-').Update('Cambiar')
+            break
+        if event in (None, '-mainMenu-'):
+            break
+    return event
 
 def ingresa_primera(window,event,letter):
     window.FindElement(event).Update(letter)
@@ -107,8 +136,6 @@ def play_player (player, window):
     escritura = None
     letra_ant = ''
 
-    cant_test = 0 #y esto???
-
     tiempo_turno = int(round(time.time() * 100)) + 500
     turno_restante = tiempo_turno - int(round(time.time() * 100))  
 
@@ -130,12 +157,17 @@ def play_player (player, window):
         if event in (None, '-mainMenu-'):
             break
 #==========================================================================================================================#
-        if event == 'cambiar':
+        if event == '-changeAll-':
             player.set_fichas(admin.tomar_fichas(7))
             board.update_fichas_player(window,player.get_fichas())
-            continue # ACA VA BREAK
-#==========================================================================================================================#        
+            continue
+#==========================================================================================================================#  
+        if event == '-change-':
+            event = cambiar_fichas(window,player)
+            break
+#==========================================================================================================================#       
         if event in teclas:
+            window.FindElement('-MESSAGE-').Update('Ingrese la letrra en el tablero')
             if not letter_selected:
                 # si no hay fichas seleccionadas tomo una ficha del atril, actualizo fichas del jugador
                 # update de ficha actual seleccionada
@@ -153,10 +185,10 @@ def play_player (player, window):
                     letter_selected = False
                 else:
                     # si se quiere intercambiar de ficha actual con otra en el atril
-                    cant_test += 1  #ACA DE NUEVO XD
                     window.FindElement(event).Update(letter)
                     letter = player.change_single_ficha(letter,int(event))
                     window.FindElement('-LetterSelected-').Update(letter)
+            window.FindElement('-MESSAGE-').Update('Seleccione otra letra')
             continue
 #==========================================================================================================================#            
         if type(event) == tuple and letter_selected:
@@ -223,6 +255,8 @@ def play_player (player, window):
                 window.FindElement('-MESSAGE-').Update('Debe ingresar una palabra')
             elif cant_letras >= 2:
                 if admin.es_correcta(palabra):
+                    player.mod_puntaje(admin.calcular_puntaje(palabra,tuple_list))
+                    window.FindElement('-SCORE-').Update(player.get_puntaje())
                     window.FindElement('-MESSAGE-').Update('palabra correcta')
                     window.FindElement(next_button).Update(button_color = ('white','blue'))
                     block_word(window,tuple_list,palabra)
@@ -234,7 +268,7 @@ def play_player (player, window):
                 window.FindElement('-MESSAGE-').Update('palabra minima 2 caracteres')
             continue
 #==========================================================================================================================#                  
-        if event == 'Revertir':
+        if event == 'Revertir' and not letter_selected:
             if cant_letras == 0:
                 window.FindElement('-MESSAGE-').Update('No Hay Letras Ingresadas En Este Turno')
             else:
@@ -264,7 +298,6 @@ def game_procces (window,player,compu):
     return event
 
 def main(configs):
-    #board = Tablero()
     window = sg.Window('ScrabbleAR', board.set_layout(configs),background_color=('#1CB7C3'))
     while True:
         event,_ = window.read()

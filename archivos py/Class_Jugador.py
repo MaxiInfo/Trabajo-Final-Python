@@ -12,12 +12,13 @@ class jugador ():
     def get_fichas(self):
         return(self._fichas)
 
-    def mod_puntaje (self):
+    def get_puntaje(self):
+        return self._puntaje
+
+    def mod_puntaje (self, add_score):
+        self._puntaje += add_score
         pass
     
-    def get_puntaje (self):
-        pass
-
     def get_single_ficha (self,pos):
         letter = self._fichas[pos]
         self._fichas[pos]=0
