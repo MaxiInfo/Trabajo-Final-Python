@@ -10,20 +10,71 @@ diccionario = json.load(archivo_top)
 #print(diccionario)
 
 def set_layout():
+    lista_facil = TopString.generar_string(diccionario['facil'])
+    lista_medio = TopString.generar_string(diccionario['medio'])
+    lista_dificil = TopString.generar_string(diccionario['dificil'])
+    # lista[0] -> nombre.   lista[1] -> puntaje.    lista[2] -> fecha
+
+    col_nombre_facil = [
+        [sg.Text('NOMBRES',font= (None,11),text_color='black',background_color='green')],
+        [sg.Multiline(default_text= lista_facil[0],disabled=True,size=(13,13))]
+    ]
+    col_puntaje_facil = [
+        [sg.Text('PUNTAJES',font= (None,11),text_color='black',background_color='green')],
+        [sg.Multiline(default_text= lista_facil[1],disabled=True,size=(13,13))]
+    ]
+    col_fecha_facil = [
+        [sg.Text('FECHAS',font= (None,11),text_color='black',background_color='green')],
+        [sg.Multiline(default_text= lista_facil[1],disabled=True,size=(13,13))]
+    ]
+    columna_facil = [
+        [sg.Text('FACIL',size=(35,1),font=(None,15),justification='center',text_color='black',background_color='green')],
+        [sg.Column(col_nombre_facil),sg.Column(col_puntaje_facil),sg.Column(col_fecha_facil)]
+    ]
+
+    col_nombre_medio = [
+        [sg.Text('NOMBRES',font= (None,11),text_color='black',background_color='yellow')],
+        [sg.Multiline(default_text= lista_medio[0],disabled=True,size=(13,13))]
+    ]
+    col_puntaje_medio = [
+        [sg.Text('PUNTAJES',font= (None,11),text_color='black',background_color='yellow')],
+        [sg.Multiline(default_text= lista_medio[1],disabled=True,size=(13,13))]
+    ]
+    col_fecha_medio = [
+        [sg.Text('FECHAS',font= (None,11),text_color='black',background_color='yellow')],
+        [sg.Multiline(default_text= lista_medio[1],disabled=True,size=(13,13))]
+    ]
+    columna_medio = [
+        [sg.Text('MEDIO',size=(35,1),font=(None,15),justification='center',text_color='black',background_color='yellow')],
+        [sg.Column(col_nombre_medio),sg.Column(col_puntaje_medio),sg.Column(col_fecha_medio)]
+    ]
+
+    col_nombre_dificil = [
+        [sg.Text('NOMBRES',font= (None,11),text_color='black',background_color='red')],
+        [sg.Multiline(default_text= lista_dificil[0],disabled=True,size=(13,13))]
+    ]
+    col_puntaje_dificil = [
+        [sg.Text('PUNTAJES',font= (None,11),text_color='black',background_color='red')],
+        [sg.Multiline(default_text= lista_dificil[1],disabled=True,size=(13,13))]
+    ]
+    col_fecha_dificil = [
+        [sg.Text('FECHAS',font= (None,11),text_color='black',background_color='red')],
+        [sg.Multiline(default_text= lista_dificil[1],disabled=True,size=(13,13))]
+    ]
+    columna_dificil = [
+        [sg.Text('DIFICIL',size=(35,1),font=(None,15),justification='center',text_color='black',background_color='red')],
+        [sg.Column(col_nombre_dificil),sg.Column(col_puntaje_dificil),sg.Column(col_fecha_dificil)]
+    ]
+
     layout_top = [
-    [sg.Text('TOP 10',size=(100,1),font=(None,15),justification='center')],
-    [sg.Text('')],
-    [sg.Text('  FACIL'),sg.Text(' ' * 35),sg.Text('MEDIO'),sg.Text(' ' * 35),sg.Text('DIFICIL')],
-    [sg.Multiline(default_text= TopString.generar_string(diccionario['facil']),size=(22,12)),
-    sg.Multiline(default_text= TopString.generar_string(diccionario['medio']),size=(22,12)),
-    sg.Multiline(default_text= TopString.generar_string(diccionario['dificil']),size=(22,12))
-     ],
-    [sg.Text(' '*125),sg.Button('atras')]
+        [sg.Text('TOP10',size=(75,1),font=(None,20),justification='center',background_color='black')],
+        [sg.Column(columna_facil,background_color='green'),sg.Column(columna_medio,background_color='yellow'),sg.Column(columna_dificil,background_color='red')],
+        [sg.Button('Atrás',size=(15,2))]
     ]
     return layout_top
 
 def main ():
-    window = sg.Window('ScrabbleAR', set_layout(),size=(600,350))
+    window = sg.Window('ScrabbleAR', set_layout(),size=(1230,400))
     event,values= window.read()
     window.close()
     return event

@@ -1,5 +1,10 @@
 def generar_string(diccionario):
-    string = 'Nombre | Puntaje | Fecha\n'
+    nombres = ''
+    puntajes = ''
+    fechas = ''
     for clave,valor in diccionario.items():
-        string +=  clave + "    |    " + str(valor[0]) + "     |     " + valor[1] + "\n"  
-    return string
+        nombres += clave + "\n"
+        puntajes += str(valor[0]) + "\n"
+        fechas += (valor[1]) + "\n"
+    lista = [nombres,puntajes,fechas] 
+    return lista
