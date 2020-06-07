@@ -1,0 +1,85 @@
+import PySimpleGUI as sg
+def set_layout():
+    '''
+        Paso a explicar, tupla contiene los valores que voy a poder seleccionar en mi inputcombo.
+            InputCombo -> tupla -> valor por defecto siempre es 5. La llave permite que mi diccionario values tenga dicha clave.
+            Readonly, sirve para que la casilla del inputcombo NO SEA ESCRITA, por lo tanto, sólo permite que elijas entre 5-15.
+            El método devuelve la Layout ya armada
+    '''
+    tupla = (5,6,7,8,9,10,11,12,13,14,15)
+    col1 = [
+        [sg.Text('A',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='A',readonly=True)],
+        [sg.Text('Á',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Á',readonly=True)],
+        [sg.Text('B',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='B',readonly=True)],
+        [sg.Text('C',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='C',readonly=True)],
+        [sg.Text('D',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='D',readonly=True)],
+        [sg.Text('E',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='E',readonly=True)],
+        [sg.Text('É',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='É',readonly=True)]
+    ]
+    col2 = [
+        [sg.Text('F',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='F',readonly=True)],
+        [sg.Text('G',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='G',readonly=True)],
+        [sg.Text('H',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='H',readonly=True)],
+        [sg.Text('I',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='I',readonly=True)],
+        [sg.Text('Í',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Í',readonly=True)],
+        [sg.Text('J',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='J',readonly=True)],
+        [sg.Text('K',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='K',readonly=True)]
+    ]
+    col3 = [
+        [sg.Text('L',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='L',readonly=True)],
+        [sg.Text('LL',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='LL',readonly=True)],
+        [sg.Text('M',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='M',readonly=True)],
+        [sg.Text('N',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='N',readonly=True)],
+        [sg.Text('Ñ',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Ñ',readonly=True)],
+        [sg.Text('O',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='O',readonly=True)],
+        [sg.Text('Ó',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Ó',readonly=True)]
+    ]
+    col4 = [
+        [sg.Text('P',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='P',readonly=True)],
+        [sg.Text('Q',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Q',readonly=True)],
+        [sg.Text('R',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='R',readonly=True)],
+        [sg.Text('RR',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='RR',readonly=True)],
+        [sg.Text('S',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='S',readonly=True)],
+        [sg.Text('T',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='T',readonly=True)],
+        [sg.Text('U',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='U',readonly=True)]
+    ]
+    col5 = [
+        [sg.Text('Ú',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Ú',readonly=True)],
+        [sg.Text('V',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='V',readonly=True)],
+        [sg.Text('W',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='W',readonly=True)],
+        [sg.Text('X',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='X',readonly=True)],
+        [sg.Text('Y',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Y',readonly=True)],
+        [sg.Text('Z',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Z',readonly=True)]
+    ]
+
+    layout = [
+        [sg.Text('Configuración bolsa de fichas',size=(38,1),font=(None,15),justification='center',background_color='purple')],
+        [sg.Text('')],
+        [sg.Column(col1,background_color='black'),sg.Column(col2,background_color='red'),sg.Column(col3,background_color='green'),sg.Column(col4,background_color='blue'),sg.Column(col5,background_color='white')],
+        [sg.Button('Guardar',size=(25,1)),sg.Button('Atrás',size=(25,1))]
+    ]
+    
+    return layout
+
+def configuracion_bolsa():
+    '''
+        Sí cambio es True, es por que el usuario tocó en guardar, por lo tanto quiere usar la bolsa que modificó -> la devuelvo
+        Sí cambio es False, es por que el usuario tocó Atrás, por lo tanto NO quiere usar la bolsa que modificó -> no la devuelvo
+    '''
+    window = sg.Window('Bolsa de fichas',set_layout())
+    cambio = False
+    while True:
+        event,values = window.read()
+        if event in (None,'Atrás'):
+            break
+        if event in ('Guardar'):
+            cambio = True
+            break
+    window.close()
+    if cambio:
+        return values
+    else:
+        return None 
+
+#bolsa = configuracion_bolsa()
+#print(bolsa)
