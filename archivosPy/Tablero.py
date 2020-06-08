@@ -10,9 +10,8 @@ teclas = ('0','1','2','3','4','5','6')
 #tiempo_juego = 0
 #tiempo_restante = 0
 
-def game_on (window,admin,board,configs,fichas_jugador):
+def game_on (window,board,fichas_jugador):
     window.FindElement('-MESSAGE-').Update('Comenzo la partida')
-    admin.set_dificultad(configs['dificultad'])
     board.table_on(window)
     board.update_fichas_player(window,fichas_jugador)
     pass
@@ -303,7 +302,7 @@ def game_procces (window,admin,board,player,compu):
     return event
 
 def main(configs):
-    admin = AdministradorDeJuego(configs['dificultad'])
+    admin = AdministradorDeJuego(configs['dificultad'],configs['modsBolsa'])
     lista_tuplas = admin.devolver_tuplas()
     board = Tablero(lista_tuplas)           
     window = sg.Window('ScrabbleAR', board.set_layout(configs),background_color=('#1CB7C3'))
@@ -318,7 +317,7 @@ def main(configs):
             board.set_time_left(tiempo_restante)
             player = jugador(configs['name'],admin.tomar_fichas(7))
             compu = jugador('CPU',admin.tomar_fichas(7))
-            game_on(window,admin,board,configs,player.get_fichas())
+            game_on(window,board,player.get_fichas())
             event = game_procces(window,admin,board,player,compu)
         if event in (None, '-mainMenu-'):
             break
