@@ -9,33 +9,29 @@ def set_layout():
     tupla = (5,6,7,8,9,10,11,12,13,14,15)
     col1 = [
         [sg.Text('A',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='A',readonly=True)],
-        [sg.Text('Á',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Á',readonly=True)],
         [sg.Text('B',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='B',readonly=True)],
         [sg.Text('C',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='C',readonly=True)],
         [sg.Text('D',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='D',readonly=True)],
         [sg.Text('E',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='E',readonly=True)],
-        [sg.Text('É',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='É',readonly=True)]
+        [sg.Text('F',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='F',readonly=True)]
     ]
     col2 = [
-        [sg.Text('F',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='F',readonly=True)],
         [sg.Text('G',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='G',readonly=True)],
         [sg.Text('H',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='H',readonly=True)],
         [sg.Text('I',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='I',readonly=True)],
-        [sg.Text('Í',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Í',readonly=True)],
         [sg.Text('J',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='J',readonly=True)],
-        [sg.Text('K',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='K',readonly=True)]
+        [sg.Text('K',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='K',readonly=True)],
+        [sg.Text('L',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='L',readonly=True)]
     ]
     col3 = [
-        [sg.Text('L',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='L',readonly=True)],
         [sg.Text('LL',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='LL',readonly=True)],
         [sg.Text('M',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='M',readonly=True)],
         [sg.Text('N',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='N',readonly=True)],
         [sg.Text('Ñ',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Ñ',readonly=True)],
         [sg.Text('O',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='O',readonly=True)],
-        [sg.Text('Ó',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Ó',readonly=True)]
+        [sg.Text('P',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='P',readonly=True)]
     ]
     col4 = [
-        [sg.Text('P',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='P',readonly=True)],
         [sg.Text('Q',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Q',readonly=True)],
         [sg.Text('R',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='R',readonly=True)],
         [sg.Text('RR',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='RR',readonly=True)],
@@ -44,7 +40,6 @@ def set_layout():
         [sg.Text('U',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='U',readonly=True)]
     ]
     col5 = [
-        [sg.Text('Ú',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='Ú',readonly=True)],
         [sg.Text('V',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='V',readonly=True)],
         [sg.Text('W',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='W',readonly=True)],
         [sg.Text('X',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[0],size=(3,1),key='X',readonly=True)],

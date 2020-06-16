@@ -1,5 +1,5 @@
 import csv
-from pattern.text.es import parse , split, lexicon, spelling
+from pattern.text.es import parse , split, lexicon, spelling , verbs
 import random as r
 from collections import Counter
 
@@ -52,7 +52,7 @@ class AdministradorDeJuego():
         '''
             Comprueba en el spelling y en el lexicon
         '''
-        return palabra in spelling or palabra in lexicon
+        return palabra in verbs or (palabra in spelling and palabra in lexicon)
 
     def __es_correcta_facil(self,palabra):
         '''
@@ -65,29 +65,31 @@ class AdministradorDeJuego():
     def __es_correcta_medio(self,palabra):
         '''
             Ver comentario en naranja de arriba
+
+            MOD: la catedra cambió, en medio sólo acepta adjetivos o verbos.
         '''
         palabra_split = (parse(palabra).split())
         booleano = False
-        if palabra_split[0][0][1] in self.tupla_sus and self.existe_en(palabra):
+        if palabra_split[0][0][1] in self.tupla_adj and self.existe_en(palabra):
             booleano = True
         elif palabra_split[0][0][1] in self.tupla_verb and self.existe_en(palabra):
             booleano = True 
         return booleano
         
     def __es_correcta_dificil(self,palabra):
-        lista = ['verb','adj','sus']
-        azar = lista[r.randint(0,2)]
+        '''
+            MOD: la catedra sólo acepta adjetivos o verbos, en difícil se toma aleatoriamente cualquiera de los dos.
+        '''
+        lista = ['verb','adj']
+        azar = lista[r.randint(0,1)]
         palabra_split = (parse(palabra).split())
         booleano = False
 
         if azar == 'verb':
             if palabra_split[0][0][1] in self.tupla_verb and self.existe_en(palabra):
                 booleano = True
-        elif azar == 'adj':
-            if palabra_split[0][0][1] in self.tupla_adj and self.existe_en(palabra):
-                booleano = True
         else:
-            if palabra_split[0][0][1] in self.tupla_sus and self.existe_en(palabra):
+            if palabra_split[0][0][1] in self.tupla_adj and self.existe_en(palabra):
                 booleano = True
 
         return booleano
@@ -154,9 +156,9 @@ class AdministradorDeJuego():
         fichas = []
         lista = []
         lista_prohibidas = []
-        frecuencia_alta = ['E', 'A','O', 'Ó' ,'S' ,'R' ,'N', 'I','Í', 'D' ,'L' ,'C' ,'T' ,'U' ,'M' ,'P']
-        frecuencia_media = ['B', 'G', 'V', 'Y', 'Q', 'H', 'F','Á','RR','LL','Ú']
-        frecuencia_baja = ['Z', 'J', 'Ñ', 'X', 'K', 'W','É']
+        frecuencia_alta = ['E', 'A','O' ,'S' ,'R' ,'N', 'I', 'D' ,'L' ,'C' ,'T' ,'U' ,'M' ,'P']
+        frecuencia_media = ['B', 'G', 'V', 'Y', 'Q', 'H', 'F','RR','LL']
+        frecuencia_baja = ['Z', 'J', 'Ñ', 'X', 'K', 'W']
         while len(fichas) < cantidad_fichas:
             #Creo una lista con las llaves(letras) disponibles del diccionario
             letras = list(self._diccionario_cantidad.keys()) 
@@ -180,7 +182,7 @@ class AdministradorDeJuego():
 
             contador = Counter(lista)
             for clave,valor in contador.items():
-                if valor >= 2 or clave in ['Á','É','Í','Ó','Ú']: #Sí ya tomé una vocal con tilde, dicha vocal no va a salirme de nuevo.
+                if valor >= 2: 
                     lista_prohibidas.append(clave)
             #Ver documentación de no_hay_mas
             self._no_hay_mas(aux,letra_actual)
