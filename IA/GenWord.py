@@ -26,7 +26,7 @@ def inserta_multiple(x, lst):
        insertar x en todas las posiciones de lst.  
     """
     return [inserta(x, lst, i) for i in range(len(lst) + 1)]
-    
+
 
 def permuta(c):
     """Calcula y devuelve una lista con todas las
@@ -37,43 +37,47 @@ def permuta(c):
         return [[]]
     return sum([inserta_multiple(c[0], s) for s in permuta(c[1:])], [])
 
-def imprime_ordenado(list_final):
-    """Imprime en la salida estándar todos los
-       subconjuntos del conjunto c (una lista de
-       listas) ordenados primero por tamaño y
-       luego lexicográficamente. Cada subconjunto
-       se imprime en su propia línea. Los
-       elementos de los subconjuntos deben ser
-       comparables entre sí, de otra forma puede
-       ocurrir un TypeError.
-    """
+
+def palabras_correctas(list_combinaciones):
+    #me ordena la lista por longitud de palbra de menor a mayor
+    list_combinaciones = sorted(list_combinaciones, key=lambda s: (len(s), s))
     list_ok = []
 
-    for i in sorted(list_final, key=lambda s: (len(s), s)):
+    for i in list_combinaciones:
         palabra = ''
         for j in i:
             palabra += j
         ok = comprobar(palabra)
         if ok and len(palabra) > 1:
             list_ok.append(palabra)
-    
-    print(list_ok)
-    pass
+    return list_ok
 
-def main():
-    list_letters =  ['a','l','i','e','p','ñ','u']
-    list_final = []
-
+def main(list_letters):
     list_conj_potencia = potencia(list_letters)
 
-    #print(list_conj_potencia)
-
+    list_combinaciones = []
     for i in list_conj_potencia:
-        list_final += permuta(i)
+        list_combinaciones += permuta(i)
 
-    #print(list_final)
-    imprime_ordenado(list_final)
+    list_final = palabras_correctas(list_combinaciones)
+
+    print(list_final)
     pass
 
+"""def main():
+    list_letters = ['z','z','z','z','z','z','z']
+    list_conj_potencia = potencia(list_letters)
+    print(list_conj_potencia)
+    list_combinaciones = []
+    for i in list_conj_potencia:
+        list_combinaciones += permuta(i)
+    print(list_combinaciones)
+    print(len(list_combinaciones))
 
-main()
+
+    list_final = palabras_correctas(list_combinaciones)
+
+    print(list_final)
+    pass
+
+main()"""

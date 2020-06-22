@@ -1,19 +1,9 @@
-cant_row = 15
-cant_col = 15
-
-def print_matriz(matriz):
-    for i in matriz:
-        print(i)
-    pass
-
-def mod_matriz(matriz):
-    for i in range(cant_row):
-        for j in range(cant_col):
-            if j == 7:
-                matriz[i][j] = 1
-    pass
-
-def gen_dics():
+def gen_dics(matriz,cant_row,cant_col):
+    '''
+    gen_dics me genera una lista de diccionarios donde guarda la primera posicion donde se puede insertar una palabra en la clave "tupla"
+    tambien guarda una lista de tuplas correspondientes a cada posicion donde se puede ingresar la palabra y la cantidad de aracteres maxima
+    de la palabra a insertar
+    '''
     row = col = 0
     list_dics = []
     #recorrido horizontal
@@ -49,7 +39,7 @@ def gen_dics():
     row = col = 0
     while col < cant_row:
         while row < cant_col:
-            if (col < cant_col -1) and (matriz[row][col] == 0) and (matriz[row][col+1] == 0): #se fija si se puede ingresar una palabra de 2 caracteres
+            if (col < cant_col -1) and (matriz[row][col] == 0) and (matriz[row+1][col] == 0): #se fija si se puede ingresar una palabra de 2 caracteres
                 dic = {}
                 list_tup = []
                 cant = 0
@@ -76,23 +66,3 @@ def gen_dics():
         col += 1
         list_tup = []
     return list_dics
-
-
-matriz = [[0 for j in range(cant_col)] for i in range(cant_row)]
-
-#dic = {tupla = (0,5),cant:6,lst_tuplas = [(0,6),(0,7),(0,8),(0,9),(0,10),(0,11)],esc:'hoizontal'}
-dic = {}
-
-print_matriz(matriz)
-print()
-
-mod_matriz(matriz)
-print_matriz(matriz)
-
-list_dics = []
-list_dics = gen_dics()
-
-for i in list_dics:
-    print(i)
-
-#print_matriz(matriz)

@@ -11,7 +11,7 @@ class AdministradorDeJuego():
     
 
     def __init__(self,dif,modsBolsa):
-        self._dificultad_actual = dif #puede cambiar pero puse medio como PREDETERMINADO
+        self._dificultad_actual = dif
         self._tuplas_DL = []
         self._tuplas_TL = []
         self._tuplas_DW = []
@@ -257,45 +257,3 @@ class AdministradorDeJuego():
         if multiplicador != 0 and puntaje > 0: #Significa que tocó algun DoubleWord o Triple Word. Eso sí, si el puntaje es negativo, no se aumenta
             puntaje *= multiplicador
         return puntaje
-
-
-#objeto = AdministradorDeJuego()
-#print(objeto.tomar_fichas(10))
-
-
-#Me guardé el tomar_fichas original por las dudas
-'''
-        fichas = []
-        lista = []
-        lista_prohibidas = []
-        while len(fichas) < cantidad_fichas:
-            #Creo una lista con las llaves(letras) disponibles del diccionario
-            letras = list(self._diccionario_cantidad.keys()) 
-
-            #r.choice(lista) -> agarra una letra aleatoria. El while sirve para que la letra que se agarre siempre sea valida
-             # -> osea que no esté en la lista de letras prohibidas.
-            booleano = True
-            while booleano:
-                letra_actual = r.choice(letras) #tomo una letra aleatoria.
-                if letra_actual not in lista_prohibidas:
-                    booleano = False
-
-            #Tomo la cantidad actual de la letra, la guardo en aux restada en 1.
-            aux = self._diccionario_cantidad[letra_actual] -1
-            #Ver documentación de comprobar
-            if self.comprobar(aux) and len(fichas) < cantidad_fichas:
-                fichas.append(letra_actual.lower())
-                self._diccionario_cantidad[letra_actual] -= 1
-                lista.append(letra_actual)
-
-            contador = Counter(lista)
-            for clave,valor in contador.items():
-                if valor >= 2:
-                    lista_prohibidas.append(clave)
-            #Ver documentación de no_hay_mas
-            self.no_hay_mas(aux,letra_actual)
-                
-        return fichas
-'''
-
-
