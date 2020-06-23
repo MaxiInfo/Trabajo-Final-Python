@@ -24,8 +24,10 @@ def main (configs):
         event, values = window.read()
         if event == 'guardar':
             if values['nom'] not in (msj):
-                configs = {'name':values['nom'],'timing':values[0],'dificultad':'facil'if values[1] else 'medio' if values[2]else 'dificil'}
                 window.close()
+                configs['name']=values['nom']
+                configs['timing']=values[0]
+                configs['dificultad']='facil'if values[1] else 'medio' if values[2]else 'dificil'
                 return (event,configs)
             else:
                 if (values['nom'] == msj[0]):
@@ -34,7 +36,7 @@ def main (configs):
                     window.FindElement('nom').update(msj[2])
         if event == '-modfichas-':
             window.hide()
-            configs['modsBolsa'] = Fichas.configuracion_bolsa()
+            configs['modsBolsa'] = Fichas.main()
             window.un_hide()
         if event in (None,'atras'):
             break

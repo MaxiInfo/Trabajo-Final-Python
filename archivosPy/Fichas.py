@@ -56,25 +56,19 @@ def set_layout():
     
     return layout
 
-def configuracion_bolsa():
+def main():
     '''
         Sí cambio es True, es por que el usuario tocó en guardar, por lo tanto quiere usar la bolsa que modificó -> la devuelvo
         Sí cambio es False, es por que el usuario tocó Atrás, por lo tanto NO quiere usar la bolsa que modificó -> no la devuelvo
     '''
     window = sg.Window('Bolsa de fichas',set_layout())
-    cambio = False
     while True:
         event,values = window.read()
+        window.close()
         if event in (None,'Atrás'):
-            break
+            return None
         if event in ('Guardar'):
-            cambio = True
-            break
-    window.close()
-    if cambio:
-        return values
-    else:
-        return None 
+            return values
 
 #bolsa = configuracion_bolsa()
 #print(bolsa)

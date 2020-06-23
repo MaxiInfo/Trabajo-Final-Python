@@ -302,6 +302,7 @@ def game_procces (window,admin,board,player,compu):
     return event
 
 def main(configs):
+    print(configs)
     admin = AdministradorDeJuego(configs['dificultad'],configs['modsBolsa'])
     lista_tuplas = admin.devolver_tuplas()
     board = Tablero(lista_tuplas)           
