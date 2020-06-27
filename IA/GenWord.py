@@ -61,8 +61,7 @@ def main(list_letters):
 
     list_final = palabras_correctas(list_combinaciones)
 
-    print(list_final)
-    pass
+    return list_final
 
 """def main():
     list_letters = ['z','z','z','z','z','z','z']

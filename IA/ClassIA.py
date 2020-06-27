@@ -24,5 +24,59 @@ class Computer:
         
     def serch_position(self,matriz):
         dic_positions = gen_dics(matriz,len(matriz),len(matriz[0]))
-        wordlist = gen_wordlist(self.get_letters)
-        
+        wordlist = gen_wordlist(self.get_letters())
+
+        print_mat(dic_positions)
+        print('+'*40)
+        print(self.get_letters())
+        print(wordlist)
+
+
+def palabra(matriz):
+    palabra = 'casa'
+    for i in range(len(palabra)):
+        matriz[5][i+4]= palabra[i]
+    return matriz
+
+def change_matriz(matriz):
+    for i in range(15):
+        for j in range(15):
+            if i == j:
+                matriz[i][j] = 'p'
+    return matriz
+
+
+def print_mat (m):
+    for i in m:
+        print(i)
+    pass
+def main():
+    IA = Computer()
+    IA.set_letters(['c','a','v','p','a','e','t'])
+    matriz = [[0 for j in range(15)]for i in range(15)]
+    print_mat(matriz)
+    print('+'*40)
+    matriz = palabra(matriz)
+    print_mat(matriz)
+    print('+'*40)
+
+    IA.serch_position(matriz)
+
+    pass
+
+main()
+
+
+"""
+
+['a','a','a','a','a','a','a']
+
+['z','z','z','z','z','z','z']
+
+['c','a','v','p','a','e','t']
+
+['r','u','i','a','i','h','y']
+
+['v','b','n','j','q','w','t']
+
+"""
