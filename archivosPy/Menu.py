@@ -14,8 +14,8 @@ layout_main_menu = [
     [sg.Button('TOP 10',size=(12,2)),sg.Text(' '*10),sg.Button('Salir',size=(12,2))]
     ]
 
-configs = dict({'name':'Player','timing':120, 'turn':60, 'dificultad':'facil','modsBolsa':None})
-
+configs = dict({'name':'Player','timing':120, 'turn':60, 'dificultad':'facil','modsBolsa':[None, None]})
+#'modsBolsa' guarda en la posición 0 la cantidad de fichas y en la posición 1 el puntaje
 
 window_menu = sg.Window('ScrabbleAR', layout_main_menu,size=(300,300))
 event, values= window_menu.read()

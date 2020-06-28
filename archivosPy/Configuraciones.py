@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 import Fichas
+import Puntajes
 
 def set_layout ():
     layout_configs = [
@@ -14,7 +15,7 @@ def set_layout ():
         [sg.Text(' '*23),sg.Radio('Fácil','Dificultad',default=False,size=(10,1))],
         [sg.Text(' '*23),sg.Radio('Medio','Dificultad',default=True,size=(10,1))],
         [sg.Text(' '*23),sg.Radio('Difícil','Dificultad',default=False,size=(10,1))],
-        [sg.Text(' '*15),sg.Button('Modificar fichas',key='-modfichas-')],
+        [sg.Text(' '*5),sg.Text('Modificar fichas:'),sg.Button('Cantidad',key='-cantfichas-'),sg.Button('Puntaje',key='-puntfichas-')],
         [sg.Button('Guardar'),sg.Text(' '*30),sg.Button('Atrás')]
         ]
     return layout_configs
@@ -37,9 +38,13 @@ def main (configs):
                     window.FindElement('nom').update(msj[1])
                 elif (values['nom'] == msj[1]):
                     window.FindElement('nom').update(msj[2])
-        if event == '-modfichas-':
+        if event == '-cantfichas-':
             window.hide()
-            configs['modsBolsa'] = Fichas.main()
+            configs['modsBolsa'][0] = Fichas.main()
+            window.un_hide()
+        if event == '-puntfichas-':
+            window.hide()
+            configs['modsBolsa'][1] = Puntajes.main()
             window.un_hide()
         if event in (None,'Atrás'):
             break
