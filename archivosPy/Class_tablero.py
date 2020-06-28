@@ -19,6 +19,7 @@ class Tablero ():
         self.start_button = (7, 7)
         self.time_left = 0
         self.time_game = 0
+        self.turn = 0
         pass
 
     def get_triple_letter(self):
@@ -39,12 +40,15 @@ class Tablero ():
         self.time_left = timeleft
     def set_time_game(self, timegame):
         self.time_game = timegame
+    def set_turn(self, timeturn):
+        self.turn = timeturn
     
     def get_time_game(self):
         return self.time_game
     def get_time_left(self):
         return self.time_left
-
+    def get_turn(self):
+        return self.turn
 
     def get_board(self):
         return self.board
@@ -116,4 +120,7 @@ class Tablero ():
         pass
 
     def sabe_table(self):
+        pass
+
+    def calc_timeleft(self):
         pass

@@ -7,8 +7,6 @@ import time
 
 teclas = ('0','1','2','3','4','5','6')
 
-#tiempo_juego = 0
-#tiempo_restante = 0
 
 def game_on (window,board,fichas_jugador):
     window.FindElement('-MESSAGE-').Update('Comenzo la partida')
@@ -132,21 +130,20 @@ def play_player (player, window,admin,board):
     escritura = None
     letra_ant = ''
 
-    tiempo_turno = int(round(time.time() * 100)) + 500
+    tiempo_turno = int(round(time.time() * 100)) + (board.get_turn() * 100)
     turno_restante = tiempo_turno - int(round(time.time() * 100))  
 
     while True:
         event,_ = window.Read(timeout= 10)
 #==========================================================================================================================#
-        #tiempo_restante = tiempo_juego - int(round(time.time() * 100))
         tiempo_restante = board.get_time_game() - int(round(time.time() * 100))
         window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante // 100) // 60) // 60, ((tiempo_restante // 100) // 60) - 60, (tiempo_restante // 100) % 60))
-        '''if turno_restante > 0:
+        if turno_restante > 0:
             turno_restante = tiempo_turno - int(round(time.time() * 100))
             window['-CLKTURN-'].update('{:02d}:{:02d}'.format((turno_restante // 100) // 60, (turno_restante // 100) % 60))
         else:
             window['-MESSAGE-'].update('Te quedaste sin tiempo papá')
-            #acá iria un break, pero no puedo lograr que imprima el mensaje'''
+            #acá iria un break, pero no puedo lograr que imprima el mensaje
         if tiempo_restante == 0:
             break
 #==========================================================================================================================#
@@ -310,12 +307,11 @@ def main(configs):
     while True:
         event,_ = window.read()
         if event == 'Empezar':
-            #global tiempo_restante
-            #global tiempo_juego
-            tiempo_juego = int(round(time.time() * 100)) + 720000
+            tiempo_juego = int(round(time.time() * 100)) + (configs['timing'] * 60 * 100)
             tiempo_restante = tiempo_juego - int(round(time.time() * 100))
             board.set_time_game(tiempo_juego)
             board.set_time_left(tiempo_restante)
+            board.set_turn(configs['turn'])
             player = jugador(configs['name'],admin.tomar_fichas(7))
             compu = jugador('CPU',admin.tomar_fichas(7))
             game_on(window,board,player.get_fichas())
