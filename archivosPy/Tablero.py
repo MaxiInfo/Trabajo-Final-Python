@@ -130,17 +130,17 @@ def play_player (player, window,admin,board):
     escritura = None
     letra_ant = ''
 
-    tiempo_turno = int(round(time.time() * 100)) + (board.get_turn() * 100)
-    turno_restante = tiempo_turno - int(round(time.time() * 100))  
+    tiempo_turno = int(round(time.time())) + (board.get_turn())
+    turno_restante = tiempo_turno - int(round(time.time()))
 
     while True:
         event,_ = window.Read(timeout= 10)
 #==========================================================================================================================#
-        tiempo_restante = board.get_time_game() - int(round(time.time() * 100))
-        window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante // 100) // 60) // 60, ((tiempo_restante // 100) // 60) - 60, (tiempo_restante // 100) % 60))
+        tiempo_restante = board.get_time_game() - int(round(time.time()))
+        window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante) // 60) // 60, ((tiempo_restante) // 60) - 60, (tiempo_restante) % 60))
         if turno_restante > 0:
-            turno_restante = tiempo_turno - int(round(time.time() * 100))
-            window['-CLKTURN-'].update('{:02d}:{:02d}'.format((turno_restante // 100) // 60, (turno_restante // 100) % 60))
+            turno_restante = tiempo_turno - int(round(time.time()))
+            window['-CLKTURN-'].update('{:02d}:{:02d}'.format((turno_restante) // 60, (turno_restante) % 60))
         else:
             window['-MESSAGE-'].update('Te quedaste sin tiempo papá')
             #acá iria un break, pero no puedo lograr que imprima el mensaje
@@ -307,8 +307,8 @@ def main(configs):
     while True:
         event,_ = window.read()
         if event == 'Empezar':
-            tiempo_juego = int(round(time.time() * 100)) + (configs['timing'] * 60 * 100)
-            tiempo_restante = tiempo_juego - int(round(time.time() * 100))
+            tiempo_juego = int(round(time.time()) + (configs['timing'] * 60))
+            tiempo_restante = tiempo_juego - int(round(time.time()))
             board.set_time_game(tiempo_juego)
             board.set_time_left(tiempo_restante)
             board.set_turn(configs['turn'])
