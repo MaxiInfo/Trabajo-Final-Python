@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 from Class_tablero import Tablero
 from Class_administrador import AdministradorDeJuego
 from Class_Jugador import jugador
+from ClassIA import Computer
 from random import randint as rand
 import time
 
@@ -11,7 +12,6 @@ teclas = ('0','1','2','3','4','5','6')
 def game_on (window,board,fichas_jugador):
     window.FindElement('-MESSAGE-').Update('Comenzo la partida')
     board.table_on(window)
-    board.update_fichas_player(window,fichas_jugador)
     pass
 
 def block_word(window,tuple_list,palabra,board):
@@ -182,8 +182,13 @@ def play_player (player, window,admin,board):
                     # si se quiere intercambiar de ficha actual con otra en el atril
                     pos_en_atril = event
                     window.FindElement(event).Update(letter)
-                    letter = player.change_single_ficha(letter,int(event))
-                    window.FindElement('-LetterSelected-').Update(letter)
+                    let_change = player.change_single_ficha(letter,int(event))
+                    if let_change != 0:
+                        letter = let_change
+                        window.FindElement('-LetterSelected-').Update(letter)
+                    else:
+                        window.FindElement('-LetterSelected-').Update('')
+                        letter_selected = False
             window.FindElement('-MESSAGE-').Update('Seleccione otra letra')
             continue
 #==========================================================================================================================#            
@@ -282,24 +287,26 @@ def play_player (player, window,admin,board):
     return event
 
 
-def game_procces (window,admin,board,player,compu):
+def game_procces (window,admin,board,player,IA):
+    player.set_fichas(admin.tomar_fichas(7))
+    board.update_fichas_player(window,player.get_fichas())
+    IA.set_letters(admin.tomar_fichas(7))
     rand_start = rand(1,2)
     if (rand_start == 1):
         while True:
             event = play_player(player,window,admin,board)
-            #compu.jugar (compu,window)
+            #IA.play (IA,window)
             if event in (None, '-mainMenu-'):
                 break
     else:
         while True:
-            #compu.jugar (compu,window)
+            #IA.play (IA,window)
             event = play_player (player,window,admin,board)
             if event in (None, '-mainMenu-'):
                 break
     return event
 
 def main(configs):
-    print(configs)
     admin = AdministradorDeJuego(configs['dificultad'],configs['modsBolsa'])
     lista_tuplas = admin.devolver_tuplas()
     board = Tablero(lista_tuplas)           
@@ -312,10 +319,10 @@ def main(configs):
             board.set_time_game(tiempo_juego)
             board.set_time_left(tiempo_restante)
             board.set_turn(configs['turn'])
-            player = jugador(configs['name'],admin.tomar_fichas(7))
-            compu = jugador('CPU',admin.tomar_fichas(7))
+            player = jugador()
+            IA = Computer()
             game_on(window,board,player.get_fichas())
-            event = game_procces(window,admin,board,player,compu)
+            event = game_procces(window,admin,board,player,IA)
         if event in (None, '-mainMenu-'):
             break
         else:
