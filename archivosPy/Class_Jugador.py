@@ -1,7 +1,6 @@
 class jugador ():
-    def __init__(self,nombre,fichas):
-        self._nom = nombre
-        self._fichas = fichas
+    def __init__(self):
+        self._fichas = []
         self._puntaje = 0
         pass
     
@@ -21,7 +20,7 @@ class jugador ():
     
     def get_single_ficha (self,pos):
         letter = self._fichas[pos]
-        self._fichas[pos]=0
+        self._fichas[pos]= 0
         return letter
 
     def set_single_ficha(self, letter, pos):

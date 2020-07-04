@@ -32,7 +32,6 @@ while True:
     elif event in ('Configuracion'):
         window_menu.hide()
         event,configs = config.main(configs)
-        print(configs)
     elif event == 'TOP 10':
         window_menu.hide()
         event = top.main()

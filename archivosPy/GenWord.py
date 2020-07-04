@@ -40,7 +40,6 @@ def permuta(c):
 
 def palabras_correctas(list_combinaciones):
     #me ordena la lista por longitud de palbra de menor a mayor
-    list_combinaciones = sorted(list_combinaciones, key=lambda s: (len(s), s))
     list_ok = []
 
     for i in list_combinaciones:
@@ -60,7 +59,8 @@ def main(list_letters):
         list_combinaciones += permuta(i)
 
     list_final = palabras_correctas(list_combinaciones)
-
+    list_final = list(set(list_final))
+    list_final = sorted(list_final, key=lambda s:(len(s),s))
     return list_final
 
 """def main():
