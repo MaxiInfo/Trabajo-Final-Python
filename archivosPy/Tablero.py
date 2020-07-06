@@ -137,7 +137,7 @@ def play_player (player, window,admin,board):
         event,_ = window.Read(timeout= 10)
 #==========================================================================================================================#
         tiempo_restante = board.get_time_game() - int(round(time.time()))
-        window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante) // 60) // 60, ((tiempo_restante) // 60) - 60, (tiempo_restante) % 60))
+        window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante) // 60) // 60, (((tiempo_restante) // 60) - 60), (tiempo_restante) % 60))
         if turno_restante > 0:
             turno_restante = tiempo_turno - int(round(time.time()))
             window['-CLKTURN-'].update('{:02d}:{:02d}'.format((turno_restante) // 60, (turno_restante) % 60))
