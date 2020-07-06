@@ -123,4 +123,14 @@ class Tablero ():
         pass
 
     def calc_timeleft(self):
-        pass
+        tiempo_restante = self.get_time_game() - int(round(time.time()))
+        hora = tiempo_restante // 3600
+        minutos = tiempo_restante // 60
+        segundos = tiempo_restante % 60
+        if minutos >= 60:
+            minutos -= 60
+        string = ('{:02d}:{:02d}:{:02d}'.format(hora, minutos, segundos))
+        if tiempo_restante >= 0:
+            return string
+        else:
+            return 0

@@ -136,8 +136,10 @@ def play_player (player, window,admin,board):
     while True:
         event,_ = window.Read(timeout= 10)
 #==========================================================================================================================#
-        tiempo_restante = board.get_time_game() - int(round(time.time()))
-        window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante) // 60) // 60, (((tiempo_restante) // 60) - 60), (tiempo_restante) % 60))
+        tiempo_restante = board.calc_timeleft()
+        window['-CLKTOTAL-'].update(tiempo_restante)
+        #tiempo_restante = board.get_time_game() - int(round(time.time()))
+        #window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante) // 60) // 60, (((tiempo_restante) // 60) - 60), (tiempo_restante) % 60))
         if turno_restante > 0:
             turno_restante = tiempo_turno - int(round(time.time()))
             window['-CLKTURN-'].update('{:02d}:{:02d}'.format((turno_restante) // 60, (turno_restante) % 60))
@@ -146,6 +148,7 @@ def play_player (player, window,admin,board):
             #acá iria un break, pero no puedo lograr que imprima el mensaje
         if tiempo_restante == 0:
             break
+        #dar un cierre al juego, calcular puntaje, declarar ganador, etc.
 #==========================================================================================================================#
         if event in (None, '-mainMenu-'):
             break
