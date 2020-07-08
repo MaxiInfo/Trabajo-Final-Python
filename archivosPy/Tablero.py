@@ -28,27 +28,46 @@ def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
     if cant == 1:
         tupla_aux1 = (tupla[0],tupla[1]+1) 
         tupla_aux2 = (tupla[0]+1,tupla[1]) 
-        window.FindElement(tupla_aux1).Update(button_color = ('white','blue'))
-        window.FindElement(tupla_aux2).Update(button_color = ('white','blue'))
+        try:
+            window.FindElement(tupla_aux1).Update(button_color = ('white','blue'))
+        except:
+            None
+        try:
+            window.FindElement(tupla_aux2).Update(button_color = ('white','blue'))
+        except:
+            None
     elif cant == 2:
-        if escritura == 'IzqDer':
+        if escritura == 'Horizontal':
             tupla_aux1 = (tupla[0],tupla[1]) 
             tupla_aux2 = (tupla[0]+1,tupla[1]-1) 
-            tupla_aux = (tupla[0],tupla[1]+1) 
+            tupla_aux3 = (tupla[0],tupla[1]+1) 
         else:
             tupla_aux1 = (tupla[0],tupla[1]) 
             tupla_aux2 = (tupla[0]-1,tupla[1]+1) 
-            tupla_aux = (tupla[0]+1,tupla[1]) 
-        window.FindElement(tupla_aux).Update(button_color = ('white','blue'))
+            tupla_aux3 = (tupla[0]+1,tupla[1])
+
         window.FindElement(tupla_aux1).Update(button_color = ('black','#4E61DC'))
-        window.FindElement(tupla_aux2).Update(button_color = ('black','#4E61DC'))
+        try:
+            window.FindElement(tupla_aux2).Update(button_color = ('black','#4E61DC'))
+        except:
+            None
+        try:
+            window.FindElement(tupla_aux3).Update(button_color = ('white','blue'))
+        except:
+            None
     elif cant > 2:
-        if escritura == 'IzqDer':
+        if escritura == 'Horizontal':
             tupla_aux = (tupla[0],tupla[1]+1) 
         else:
             tupla_aux = (tupla[0]+1,tupla[1])
-        window.FindElement(tupla_aux).Update(button_color = ('white','blue'))
-        window.FindElement(tupla).Update(button_color = ('black','#4E61DC'))
+        try:
+            window.FindElement(tupla_aux).Update(button_color = ('white','blue'))
+        except:
+            None
+        try:
+            window.FindElement(tupla).Update(button_color = ('black','#4E61DC'))
+        except:
+            None
     pass
 
 def cambiar_fichas(window,player,admin):
@@ -85,10 +104,14 @@ def ingresa_primera(window,event,letter):
     window.FindElement(event).Update(letter)
     next1 = (event[0]+1,event[1])
     next2 = (event[0],event[1]+1)
-    if(next1[0] < 15):
+    try:
         window.FindElement(next1).Update(button_color= ('black','#4E61DC'))
-    if(next2[1]<15):
+    except:
+        None
+    try:
         window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
+    except:
+        None
     return next1,next2
 
 def ingresa_segunda():
@@ -97,7 +120,7 @@ def ingresa_segunda():
     pass
 
 def ingresa_tercera(window,event,escritura,letter,next_button):
-    if escritura == 'IzqDer':
+    if escritura == 'Horizontal':
         next_button =  (next_button[0],next_button[1]+1)
     else:
         next_button =  (next_button[0]+1,next_button[1])
@@ -221,7 +244,6 @@ def play_player (player, window,admin,board):
                     next_button = (event[0]+1,event[1])
                     if 15 not in next_button:
                         window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
-                    escritura = 'ArribaAbajo'
                     window.FindElement(pos_en_atril).Update(disabled=True)
                     window.FindElement('-LetterSelected-').Update('')
                 elif (event == next2):
@@ -237,7 +259,7 @@ def play_player (player, window,admin,board):
                     next_button = (event[0],event[1]+1)
                     if 15 not in next_button:
                         window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
-                    escritura = 'IzqDer'
+                    escritura = 'Horizontal'
                     window.FindElement(pos_en_atril).Update(disabled=True)
                     window.FindElement('-LetterSelected-').Update('')
                 else: 
