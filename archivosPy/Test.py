@@ -1,4 +1,7 @@
-x = 'hola'
-print(x)
-x = x[0:-1]
-print(x)
+def i (a):
+    a.append(2)
+
+a = [5]
+i(a)
+
+print(a)

@@ -110,7 +110,7 @@ def fill_letters(player,window,admin):
     list_fichas = player.get_fichas()
     for i in range(len(list_fichas)):
         if list_fichas[i] == 0:
-            ficha = admin.tomar_fichas(1)
+            ficha = admin.tomar_fichas(1)[0]
             list_fichas[i] = ficha
             window.FindElement(str(i)).Update(ficha,disabled=False)
     player.set_fichas(list_fichas)
