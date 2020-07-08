@@ -33,36 +33,37 @@ class AdministradorDeJuego():
         csv_reader = csv.reader(archivo_csv, delimiter = ',', quotechar = '"')
         next(archivo_csv) # me salteo la primer linea que sólo contiene la información de las columnas.
 
-        if bolsa_fichas[0] == None:
+        '''
+            Corregí lo siguiente xq si fuera el caso que ninguno se haya modificado, daría error ya que procesaría dos veces
+                el CSV.
+        '''
+
+        if bolsa_fichas[0] == None and bolsa_fichas[1] == None: #NINGUNO SE MODIFICÓ.
+            puntajes = {}
+            cantidades = {}
+            #los identificadores de cada columna empiezan desde cero.
+            for columna in csv_reader:
+                letra_actual = columna[0] #letra
+                cantidad_actual = int(columna[1]) #cantidad
+                puntaje_actual = int(columna[2]) #puntaje
+                cantidades[letra_actual] = cantidad_actual
+                puntajes[letra_actual] = puntaje_actual
+
+        elif bolsa_fichas[0] != None and bolsa_fichas[1] == None: #Cantidades se modificó, pero puntajes no.
             cantidades = {}
             for columna in csv_reader:
                 letra_actual = columna[0]
                 cantidad_actual = int(columna[1])
                 cantidades[letra_actual] = cantidad_actual
-        else:
-            cantidades = bolsa_fichas[0]
-
-        if bolsa_fichas[1] == None:
+        elif bolsa_fichas[0] == None and bolsa_fichas[1] != None: #Cantidades no se modificó, pero puntajes sí.
             puntajes = {}
             for columna in csv_reader:
                 letra_actual = columna[0]
                 puntaje_actual = int(columna[2])
                 puntajes[letra_actual] = puntaje_actual
-        else:
+        else: #AMBOS SE MODIFICAN
+            cantidades = bolsa_fichas[0]
             puntajes = bolsa_fichas[1]
-
-        '''
-        puntajes = {}
-        cantidades = {}
-
-        #los identificadores de cada columna empiezan desde cero.
-        for columna in csv_reader:
-            letra_actual = columna[0] #letra
-            cantidad_actual = int(columna[1]) #cantidad
-            puntaje_actual = int(columna[2]) #puntaje
-            cantidades[letra_actual] = cantidad_actual
-            puntajes[letra_actual] = puntaje_actual
-        '''
         
         self._diccionario_cantidad = cantidades
         self._diccionario_puntaje = puntajes
@@ -259,8 +260,10 @@ class AdministradorDeJuego():
             posicion_actual = tupla[i]
 
             if posicion_actual in self._tuplas_DW: #Double word
+                puntaje += self._diccionario_puntaje[palabra[i].upper()]
                 multiplicador += 2
             elif posicion_actual in self._tuplas_TW: #Triple word
+                puntaje += self._diccionario_puntaje[palabra[i].upper()]
                 multiplicador += 3
             elif posicion_actual in self._tuplas_DL: #Double letter
                 puntaje += self._diccionario_puntaje[palabra[i].upper()] * 2
