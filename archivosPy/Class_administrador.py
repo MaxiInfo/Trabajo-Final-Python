@@ -19,12 +19,12 @@ class AdministradorDeJuego():
         self._tuplas_R10 = []
         self._tuplas_R20 = []
         self.__crear_tuplas()
-        self.__crear_diccionarios()
+        self.__crear_diccionarios(modsBolsa)
 
     def set_dificultad(self,dificultad_nueva):
         self._dificultad_actual = dificultad_nueva
 
-    def __crear_diccionarios(self):
+    def __crear_diccionarios(self, bolsa_fichas):
         '''
             En base a la dificultad, toma la cantidad y puntaje de cada letra y mete ambas en dos diccionarios
         '''
@@ -33,6 +33,25 @@ class AdministradorDeJuego():
         csv_reader = csv.reader(archivo_csv, delimiter = ',', quotechar = '"')
         next(archivo_csv) # me salteo la primer linea que sólo contiene la información de las columnas.
 
+        if bolsa_fichas[0] == None:
+            cantidades = {}
+            for columna in csv_reader:
+                letra_actual = columna[0]
+                cantidad_actual = int(columna[1])
+                cantidades[letra_actual] = cantidad_actual
+        else:
+            cantidades = bolsa_fichas[0]
+
+        if bolsa_fichas[1] == None:
+            puntajes = {}
+            for columna in csv_reader:
+                letra_actual = columna[0]
+                puntaje_actual = int(columna[2])
+                puntajes[letra_actual] = puntaje_actual
+        else:
+            puntajes = bolsa_fichas[1]
+
+        '''
         puntajes = {}
         cantidades = {}
 
@@ -43,10 +62,10 @@ class AdministradorDeJuego():
             puntaje_actual = int(columna[2]) #puntaje
             cantidades[letra_actual] = cantidad_actual
             puntajes[letra_actual] = puntaje_actual
+        '''
         
         self._diccionario_cantidad = cantidades
         self._diccionario_puntaje = puntajes
-
     
     def existe_en(self,palabra):
         '''
