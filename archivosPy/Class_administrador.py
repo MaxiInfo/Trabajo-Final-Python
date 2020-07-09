@@ -49,18 +49,22 @@ class AdministradorDeJuego():
                 cantidades[letra_actual] = cantidad_actual
                 puntajes[letra_actual] = puntaje_actual
 
-        elif bolsa_fichas[0] != None and bolsa_fichas[1] == None: #Cantidades se modificó, pero puntajes no.
+        elif bolsa_fichas[0] == None and bolsa_fichas[1] != None: #Cantidades no se modificó, pero puntajes si.
             cantidades = {}
             for columna in csv_reader:
                 letra_actual = columna[0]
                 cantidad_actual = int(columna[1])
                 cantidades[letra_actual] = cantidad_actual
-        elif bolsa_fichas[0] == None and bolsa_fichas[1] != None: #Cantidades no se modificó, pero puntajes sí.
+            puntajes = bolsa_fichas[1] #modifico puntajes con lo modificado en configuraciones.
+
+        elif bolsa_fichas[0] != None and bolsa_fichas[1] == None: #Cantidades se modificó, pero puntajes no.
             puntajes = {}
             for columna in csv_reader:
                 letra_actual = columna[0]
                 puntaje_actual = int(columna[2])
                 puntajes[letra_actual] = puntaje_actual
+            cantidades = bolsa_fichas[0] #modifico cantidades con lo modificado en configuraciones.
+            
         else: #AMBOS SE MODIFICAN
             cantidades = bolsa_fichas[0]
             puntajes = bolsa_fichas[1]
