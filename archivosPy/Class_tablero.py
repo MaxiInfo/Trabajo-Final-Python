@@ -59,7 +59,7 @@ class Tablero ():
         for i,j in tuplas:
             self.board[i][j] = palabra[k]
             k += 1
-        
+        pass
 
     def set_layout(self, configs):
         col = [[sg.Button('Empezar')],

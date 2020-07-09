@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 from Class_tablero import Tablero
 from Class_administrador import AdministradorDeJuego
 from Class_Jugador import jugador
-from ClassIA import Computer
+from Class_IA import Computer
 from random import randint as rand
 import time
 
@@ -29,30 +29,32 @@ def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
         tupla_aux1 = (tupla[0],tupla[1]+1) 
         tupla_aux2 = (tupla[0]+1,tupla[1]) 
         try:
-            window.FindElement(tupla_aux1).Update(button_color = ('white','blue'))
+            if board.get_board()[tupla_aux1[0]][tupla_aux1[1]] == 0:
+                window.FindElement(tupla_aux1).Update(button_color = ('white','blue'))
         except:
             None
         try:
-            window.FindElement(tupla_aux2).Update(button_color = ('white','blue'))
+            if board.get_board()[tupla_aux2[0]][tupla_aux2[1]] == 0:
+                window.FindElement(tupla_aux2).Update(button_color = ('white','blue'))
         except:
             None
     elif cant == 2:
         if escritura == 'Horizontal':
-            tupla_aux1 = (tupla[0],tupla[1]) 
             tupla_aux2 = (tupla[0]+1,tupla[1]-1) 
             tupla_aux3 = (tupla[0],tupla[1]+1) 
         else:
-            tupla_aux1 = (tupla[0],tupla[1]) 
             tupla_aux2 = (tupla[0]-1,tupla[1]+1) 
             tupla_aux3 = (tupla[0]+1,tupla[1])
 
-        window.FindElement(tupla_aux1).Update(button_color = ('black','#4E61DC'))
+        window.FindElement(tupla).Update(button_color = ('black','#4E61DC'))
         try:
-            window.FindElement(tupla_aux2).Update(button_color = ('black','#4E61DC'))
+            if board.get_board()[tupla_aux2[0]][tupla_aux2[1]] == 0:
+                window.FindElement(tupla_aux2).Update(button_color = ('black','#4E61DC'))
         except:
             None
         try:
-            window.FindElement(tupla_aux3).Update(button_color = ('white','blue'))
+            if board.get_board()[tupla_aux3[0]][tupla_aux3[1]] == 0:
+                window.FindElement(tupla_aux3).Update(button_color = ('white','blue'))
         except:
             None
     elif cant > 2:
@@ -61,13 +63,12 @@ def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
         else:
             tupla_aux = (tupla[0]+1,tupla[1])
         try:
-            window.FindElement(tupla_aux).Update(button_color = ('white','blue'))
+            if board.get_board()[tupla_aux[0]][tupla_aux[1]] == 0:
+                window.FindElement(tupla_aux).Update(button_color = ('white','blue'))
         except:
             None
-        try:
-            window.FindElement(tupla).Update(button_color = ('black','#4E61DC'))
-        except:
-            None
+        window.FindElement(tupla).Update(button_color = ('black','#4E61DC'))
+
     pass
 
 def cambiar_fichas(window,player,admin):
@@ -100,18 +101,21 @@ def cambiar_fichas(window,player,admin):
             break
     return event
 
-def ingresa_primera(window,event,letter):
+def ingresa_primera(window,event,letter,board):
     window.FindElement(event).Update(letter)
-    next1 = (event[0]+1,event[1])
-    next2 = (event[0],event[1]+1)
+    #(fila,columna)
+    next1 = (event[0]+1,event[1])#abajo
+    next2 = (event[0],event[1]+1)#derecha
     try:
-        window.FindElement(next1).Update(button_color= ('black','#4E61DC'))
+        if (board.get_board()[next1[0]][next1[1]] == 0):
+            window.FindElement(next1).Update(button_color= ('black','#4E61DC'))
     except:
         None
     try:
-        window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
+        if (board.get_board()[next2[0]][next2[1]] == 0):
+            window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
     except:
-        None
+        None    
     return next1,next2
 
 def ingresa_segunda():
@@ -120,13 +124,16 @@ def ingresa_segunda():
     pass
 
 def ingresa_tercera(window,event,escritura,letter,next_button):
+    window.FindElement(event).Update(letter,button_color = ('white','blue'))
     if escritura == 'Horizontal':
         next_button =  (next_button[0],next_button[1]+1)
     else:
         next_button =  (next_button[0]+1,next_button[1])
-    if 15 not in next_button:
-        window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
-    window.FindElement(event).Update(letter,button_color = ('white','blue'))
+    try:
+        if (board.get_board()[next2[0]][next2[1]] == 0):
+            window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+    except:
+        None
     return next_button
 
 def fill_letters(player,window,admin):
@@ -226,7 +233,7 @@ def play_player (player, window,admin,board):
                 letter_selected = False
                 cant_letras += 1
                 tuple_list = [event]
-                next1,next2 = ingresa_primera(window,event,letter)
+                next1,next2 = ingresa_primera(window,event,letter,board)
                 window.FindElement(pos_en_atril).Update(disabled=True)
                 window.FindElement('-LetterSelected-').Update('')
             elif cant_letras == 1:
@@ -238,27 +245,39 @@ def play_player (player, window,admin,board):
                     cant_letras += 1
                     letra_ant = letter
                     tuple_list.append(event)
-                    if event[1] < 14:
-                        window.FindElement(next2).Update(button_color = ('white','blue'))
+                    try:
+                        if (board.get_board()[next2[0]][next2[1]] == 0):
+                            window.FindElement(next2).Update(button_color = ('white','blue'))
+                    except:
+                        None
                     window.FindElement(event).Update(letter,button_color = ('white','blue'))
                     next_button = (event[0]+1,event[1])
-                    if 15 not in next_button:
-                        window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
-                    window.FindElement(pos_en_atril).Update(disabled=True)
+                    try:
+                        if (board.get_board()[next_button[0]][next_button[1]] == 0):
+                            window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                    except:
+                        None
+                    window.FindElement(pos_en_atril).Update(disabled=True) ###CAMBIAR ACA
                     window.FindElement('-LetterSelected-').Update('')
                 elif (event == next2):
                     #si se ingreso de Izquierda a Derecha
                     palabra += letter
                     letter_selected = False
                     cant_letras += 1
-                    letra_ant = letter
+                    letra_ant = letter 
                     tuple_list.append(event)
-                    if event[0] < 14:
-                        window.FindElement(next1).Update(button_color = ('white','blue'))
+                    try:
+                        if (board.get_board()[next1[0]][next1[1]] == 0):
+                            window.FindElement(next1).Update(button_color = ('white','blue'))
+                    except:
+                        None
                     window.FindElement(event).Update(letter,button_color = ('white','blue'))
                     next_button = (event[0],event[1]+1)
-                    if 15 not in next_button:
-                        window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                    try:
+                        if (board.get_board()[next_button[0]][next_button[1]] == 0):
+                            window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
+                    except:
+                        None
                     escritura = 'Horizontal'
                     window.FindElement(pos_en_atril).Update(disabled=True)
                     window.FindElement('-LetterSelected-').Update('')
