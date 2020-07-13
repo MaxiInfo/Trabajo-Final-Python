@@ -10,7 +10,7 @@ class AdministradorDeJuego():
     tupla_verb = ('VAG','VBG','VAI','VAN','MD','VAS','VMG','VMI','VB','VMM','VMN','VMP','VBN','VMS','VSG','VSI','VSN','VSP','VSS')
     
 
-    def __init__(self,dif,modsBolsa):
+    def __init__(self,dif,modsBolsa = [None,None]):
         self._dificultad_actual = dif
         self._tuplas_DL = []
         self._tuplas_TL = []
@@ -71,6 +71,8 @@ class AdministradorDeJuego():
         
         self._diccionario_cantidad = cantidades
         self._diccionario_puntaje = puntajes
+
+        archivo_csv.close()
     
     def existe_en(self,palabra):
         '''
@@ -283,3 +285,12 @@ class AdministradorDeJuego():
         if multiplicador != 0 and puntaje > 0: #Significa que tocó algun DoubleWord o Triple Word. Eso sí, si el puntaje es negativo, no se aumenta
             puntaje *= multiplicador
         return puntaje
+    def calcular_sobrante(self,lista_caracteres):
+        '''
+            Recibe una lista de caracteres. Retorna la suma de todos los caracteres.
+        '''
+        puntaje = 0
+        for char in lista_caracteres:
+            puntaje += self._diccionario_puntaje[char.upper()]
+        return puntaje
+

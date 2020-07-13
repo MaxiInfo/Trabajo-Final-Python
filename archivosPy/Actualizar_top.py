@@ -41,3 +41,14 @@ def actualizar(nombre_jugador,puntaje,fecha,dificultad_jugada):
         archivo_nuevo = open(nombre,'w')
         json.dump(diccionario,archivo_nuevo)
         archivo_nuevo.close()
+def get_ult_top10(dif):
+    '''
+        En base a la dificultad toma el peor puntaje del top10. La precondición es que sí o sí exista dicho archivo.
+    '''
+    nombre_archivo = 'archivoTop.json'
+    archivo = open(nombre_archivo,'r') #Apertura de archivo
+    diccionario_completo = json.load(archivo)
+    archivo.close() #Cierre de archivo
+    diccionario_buscado = diccionario_completo[dif]
+    llaves = list(diccionario_buscado.keys()) #Toma todas las llaves, hace la conversión a lista para poder hacer uso de indice. (dict_keys no soporta indice)
+    return diccionario_buscado[llaves[9]][0] #Devuelve el puntaje del ultimo en el top de la dificultad.
