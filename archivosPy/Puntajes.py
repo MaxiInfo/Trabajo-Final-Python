@@ -48,7 +48,7 @@ def set_layout():
     ]
 
     layout = [
-        [sg.Text('Configuración puntaje de las fichas',size=(38,1),font=(None,15),justification='center',background_color='purple')],
+        [sg.Text('Configuración puntaje de las fichas',size=(38,1),font=(None,15),justification='center',text_color='white',background_color='purple')],
         [sg.Text('')],
         [sg.Column(col1,background_color='black'),sg.Column(col2,background_color='red'),sg.Column(col3,background_color='green'),sg.Column(col4,background_color='blue'),sg.Column(col5,background_color='white')],
         [sg.Button('Guardar',size=(25,1)),sg.Button('Atrás',size=(25,1))]

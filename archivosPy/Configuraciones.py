@@ -4,23 +4,24 @@ import Puntajes
 
 def set_layout ():
     layout_configs = [
-        [sg.Text('Configuraciones',size=(100,1),font=(None,15),justification='center')],
-        [sg.Text('Nombre del jugador',size=(100,1),justification='center')],
-        [sg.InputText('',size=(40,1),key='nom',justification='center')],
-        [sg.Text(''),sg.Text('Tiempo de juego'),sg.Text(' '*5),sg.Text('Tiempo de turno')],
-        [sg.Text(' '),sg.InputCombo((30,60,90,120,),size=(4,1),default_value='120',readonly=True,pad=(0,0)),sg.Text('minutos'),sg.Text(' '*6),sg.InputCombo((20,30,40,60,),size=(3,1),default_value='60',readonly=True,pad=(0,0)),sg.Text('segundos')],
-        [sg.Text('Dificultad',size=(100,1),justification='center')],
-        [sg.Text(' '*23),sg.Radio('Fácil','Dificultad',default=False,size=(10,1))],
-        [sg.Text(' '*23),sg.Radio('Medio','Dificultad',default=True,size=(10,1))],
-        [sg.Text(' '*23),sg.Radio('Difícil','Dificultad',default=False,size=(10,1))],
-        [sg.Text(' '*5),sg.Text('Modificar fichas:'),sg.Button('Cantidad',key='-cantfichas-'),sg.Button('Puntaje',key='-puntfichas-')],
-        [sg.Text(' '*10),sg.Button('Guardar'),sg.Text(' '*10),sg.Button('Atrás')]
+        [sg.Text('Configuraciones',size=(100,1),font=(None,15),text_color='black',justification='center')],
+        [sg.Text('Nombre del jugador',size=(100,1),font=(None,11),justification='center')],
+        [sg.Text(' '*8),sg.InputText('',size=(40,1),key='nom',justification='center')],
+        [sg.Text(' '*12),sg.Text('Tiempo de juego',font=(None,11)),sg.Text(' '*2),sg.Text('Tiempo de turno',font=(None,11))],
+        [sg.Text(' '*14),sg.InputCombo((30,60,90,120,),size=(4,1),default_value='120',readonly=True,pad=(0,0)),sg.Text('minutos'),sg.Text(' '*6),sg.InputCombo((20,30,40,60,),size=(3,1),default_value='60',readonly=True,pad=(0,0)),sg.Text('segundos')],
+        [sg.Text('Dificultad',size=(100,1),font=(None,11),justification='center')],
+        [sg.Text(' '*35),sg.Radio('Fácil','Dificultad',default=False,size=(10,1))],
+        [sg.Text(' '*35),sg.Radio('Medio','Dificultad',default=True,size=(10,1))],
+        [sg.Text(' '*35),sg.Radio('Difícil','Dificultad',default=False,size=(10,1))],
+        [sg.Text(' '*5),sg.Text('Modificar fichas:',font=(None,11)),sg.Button(' ',image_filename='Cantidad.png',image_size=(105,28),size=(15,2),key='-cantfichas-'),sg.Button(' ',image_filename='Puntaje.png',image_size=(105,28),size=(15,2),key='-puntfichas-')],
+        [sg.Text('')],
+        [sg.Text(' '*4),sg.Button(' ',image_filename='Guardar.png',image_size=(120,28),size=(15,2),key='Guardar'),sg.Text(' '*10),sg.Button(' ',image_filename='Atras.png',image_size=(120,28),size=(15,2),key='Atrás')]
         ]
     return layout_configs
 
 def main (configs):
     msj=('','Ingrese un nombre','Tiene que ingresar un nombre')
-    window = sg.Window('ScrabbleAR', set_layout(),size=(300,320))
+    window = sg.Window('ScrabbleAR', set_layout(),size=(400,360))
     while True:
         event, values = window.read()
         if event == 'Guardar':
