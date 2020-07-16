@@ -4,6 +4,7 @@ from Class_administrador import AdministradorDeJuego
 from Class_Jugador import jugador
 from Class_IA import Computer
 from random import randint as rand
+from End_Game import main as End
 import time
 
 teclas = ('0','1','2','3','4','5','6')
@@ -146,7 +147,7 @@ def fill_letters(player,window,admin):
     player.set_fichas(list_fichas)
     pass
 
-def play_player (player, window,admin,board):
+def play_player (player, window,admin,board,changes_player):
     '''
     el modulo play_player es el encargado del manejo de la colocacion de palabras en el tablero y el manejr de la interfaz 
     que el usuario va a tener dentro del juego
@@ -184,11 +185,17 @@ def play_player (player, window,admin,board):
             break
 #==========================================================================================================================#
         if event == '-changeAll-': #and cant_letras != 0
+            if changes_player == 3:
+                return '-ChangesDone-'
+            changes_player += 1
             player.set_fichas(admin.tomar_fichas(7))
             board.update_fichas_player(window,player.get_fichas())
             continue
 #==========================================================================================================================#  
         if event == '-change-' and cant_letras == 0:
+            if changes_player == 3:
+                return '-ChangesDone-'
+            changes_player += 1
             event = cambiar_fichas(window,player,admin)
             break
 #==========================================================================================================================#       
@@ -335,19 +342,29 @@ def game_procces (window,admin,board,player,IA):
     player.set_fichas(admin.tomar_fichas(7))
     board.update_fichas_player(window,player.get_fichas())
     IA.set_letters(admin.tomar_fichas(7))
+    changes_player = 0
+    changes_IA = 0
     rand_start = rand(1,2)
     if (rand_start == 1):
         while True:
-            event = play_player(player,window,admin,board)
+            event = play_player(player,window,admin,board,changes_player)
             #IA.play (IA,window)
             if event in (None, '-mainMenu-'):
+                break
+            if event == '-ChangesDone-':
+                end_game()
                 break
     else:
         while True:
             #IA.play (IA,window)
-            event = play_player (player,window,admin,board)
+            event = play_player (player,window,admin,board,changes_player)
             if event in (None, '-mainMenu-'):
                 break
+            if event == '-ChangesDone-':
+                end_game()
+                break
+    end(player,IA
+    ,admin)
     return event
 
 def main(configs):
