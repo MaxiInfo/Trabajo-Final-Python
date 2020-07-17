@@ -67,7 +67,7 @@ def set_layout():
     ]
 
     layout_top = [
-        [sg.Text('TOP10',size=(75,1),font=(None,20),justification='center',background_color='black')],
+        [sg.Text('TOP10',size=(75,1),font=(None,20),justification='center',text_color='black',background_color=('#E6DECE','#E6DECE'))],
         [sg.Column(columna_facil,background_color='green'),sg.Column(columna_medio,background_color='yellow'),sg.Column(columna_dificil,background_color='red')],
         [sg.Button('Atrás',size=(15,2))]
     ]
