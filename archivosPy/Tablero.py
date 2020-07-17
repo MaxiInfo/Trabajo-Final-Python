@@ -4,7 +4,8 @@ from Class_administrador import AdministradorDeJuego
 from Class_Jugador import jugador
 from Class_IA import Computer
 from random import randint as rand
-from End_Game import main as End
+from GenDic import gen_dics
+from End_Game import End
 import time
 
 teclas = ('0','1','2','3','4','5','6')
@@ -318,6 +319,10 @@ def play_player (player, window,admin,board,changes_player):
                     window.FindElement(next_button).Update(button_color = ('white','blue'))
                     block_word(window,tuple_list,palabra,board)
                     fill_letters(player,window,admin)
+                    board_aux = board.get_board()
+                    lis_pos = gen_dics(board_aux,len(board_aux),len(board_aux[0]))
+                    if len(lis_pos) == 0:
+                        return '-GameOver-'
                     break
                 else:
                     window.FindElement('-MESSAGE-').Update(str(palabra)+' no es una palabra')
@@ -351,8 +356,8 @@ def game_procces (window,admin,board,player,IA):
             #IA.play (IA,window)
             if event in (None, '-mainMenu-'):
                 break
-            if event == '-ChangesDone-':
-                end_game()
+            if event in ('-ChangesDone-','-GameOver-'):
+                End(player,IA,admin)
                 break
     else:
         while True:
@@ -360,17 +365,14 @@ def game_procces (window,admin,board,player,IA):
             event = play_player (player,window,admin,board,changes_player)
             if event in (None, '-mainMenu-'):
                 break
-            if event == '-ChangesDone-':
-                end_game()
+            if event in ('-ChangesDone-','-GameOver-'):
+                End(player,IA,admin)
                 break
-    end(player,IA
-    ,admin)
     return event
 
 def main(configs):
     admin = AdministradorDeJuego(configs['dificultad'],configs['modsBolsa'])
-    lista_tuplas = admin.devolver_tuplas()
-    board = Tablero(lista_tuplas)           
+    board = Tablero(admin.devolver_tuplas())           
     window = sg.Window('ScrabbleAR', board.set_layout(configs),background_color=('#1CB7C3'))
     while True:
         event,_ = window.read()
@@ -380,11 +382,11 @@ def main(configs):
             board.set_time_game(tiempo_juego)
             board.set_time_left(tiempo_restante)
             board.set_turn(configs['turn'])
-            player = jugador()
+            player = jugador(configs['name'])
             IA = Computer()
             game_on(window,board,player.get_fichas())
             event = game_procces(window,admin,board,player,IA)
-        if event in (None, '-mainMenu-'):
+        if event in (None, '-mainMenu-','-GameOver-','-ChangesDone-'):
             break
         else:
             window.FindElement('-MESSAGE-').Update('Comienza el juego para poder utilizar la interfaz')

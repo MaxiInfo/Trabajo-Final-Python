@@ -1,5 +1,6 @@
 class jugador ():
-    def __init__(self):
+    def __init__(self,nombre):
+        self._nom = nombre
         self._fichas = []
         self._puntaje = 0
         pass
@@ -10,6 +11,9 @@ class jugador ():
 
     def get_fichas(self):
         return(self._fichas)
+
+    def get_name(self):
+        return self._nom
 
     def get_puntaje(self):
         return self._puntaje

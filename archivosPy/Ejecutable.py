@@ -22,6 +22,7 @@ configs = dict({'name':'Player','timing':120, 'turn':60, 'dificultad':'facil','m
 #'modsBolsa' guarda en la posición 0 la cantidad de fichas y en la posición 1 el puntaje
 
 #[sg.Text(' '*18),sg.Button('',image_filename = 'Configuraciones5.png',image_size=(100,35),)], -->Ejemplo de uso de imagen como botón.
+
 window_menu = sg.Window('ScrabbleAR', layout_main_menu,size=(400,350))
 event, values= window_menu.read()
 while True:
