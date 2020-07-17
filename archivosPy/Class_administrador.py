@@ -21,8 +21,8 @@ class AdministradorDeJuego():
         self.__crear_tuplas()
         self.__crear_diccionarios(modsBolsa)
 
-    def set_dificultad(self,dificultad_nueva):
-        self._dificultad_actual = dificultad_nueva
+    def get_dificultad(self):
+        return self._dificultad_actual
 
     def __crear_diccionarios(self, bolsa_fichas):
         '''
@@ -292,5 +292,5 @@ class AdministradorDeJuego():
         puntaje = 0
         for char in lista_caracteres:
             puntaje += self._diccionario_puntaje[char.upper()]
-        return puntaje
+        return puntaje * -1
 
