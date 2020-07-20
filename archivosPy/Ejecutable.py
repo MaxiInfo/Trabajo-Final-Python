@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import Configuraciones as config
 import Tablero as board
 import Top10 as top
+import Saved_file as save
 
 sg.theme('LightBrown1')
 
@@ -18,7 +19,7 @@ layout_main_menu = [
     [sg.Text(' '*3),sg.Button(' ',image_filename='TOP10.png',image_size=(122,37),size=(12,2),key='TOP 10'),sg.Text(' '*12),sg.Button(' ',image_filename='Salir.png',image_size=(122,37),size=(12,2),key='Salir')]
     ]
 
-configs = dict({'name':'Player','timing':120, 'turn':60, 'dificultad':'facil','modsBolsa':[None, None]})
+configs = {'name':'Player','timing':120, 'turn':60, 'dificultad':'facil','modsBolsa':[None, None]}
 #'modsBolsa' guarda en la posición 0 la cantidad de fichas y en la posición 1 el puntaje
 
 #[sg.Text(' '*18),sg.Button('',image_filename = 'Configuraciones5.png',image_size=(100,35),)], -->Ejemplo de uso de imagen como botón.
@@ -31,9 +32,13 @@ while True:
         window_menu.hide()
         event = board.main(configs)
     elif event == 'Continuar':
-        window_menu.close()
-        #FAALTAAAAAAAAAAAAAAAAAAAAAAAAaaaa
-        #event = board.main(configs)
+        try:
+            guardado = save.main()
+        except FileNotFoundError:
+            sg.Popup('No hay un archivo de juego guardado')
+        else:
+            configs = save.load_saved(configs, guardado)
+        event = board.main(configs)
     elif event in ('Configuracion'):
         window_menu.hide()
         event,configs = config.main(configs)
