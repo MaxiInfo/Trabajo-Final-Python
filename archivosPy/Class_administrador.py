@@ -73,15 +73,6 @@ class AdministradorDeJuego():
         self._diccionario_puntaje = puntajes
 
         archivo_csv.close()
-
-    def get_cantidad(self):
-        return self._diccionario_cantidad
-    
-    def get_puntaje(self):
-        return self._diccionario_puntaje
-
-    def get_dificultad(self):
-        return self._dificultad_actual
     
     def existe_en(self,palabra):
         '''
