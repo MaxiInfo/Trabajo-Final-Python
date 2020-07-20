@@ -400,11 +400,11 @@ def game_procces (window,admin,board,player,IA):
     if len(player.get_fichas()) == 0: #no hay juego guardado
         player.set_fichas(admin.tomar_fichas(7))
         IA.set_letters(admin.tomar_fichas(7))
-        changes_player = 0
-        changes_IA = 0
         rand_start = rand(1,2)
     else:
         rand_start = 1 #hay juego guardado y empieza el jugador
+    changes_player = 0
+    changes_IA = 0 #momentáneo, agregar a clases para guardar
     board.update_fichas_player(window,player.get_fichas())
     if (rand_start == 1):
         while True:
