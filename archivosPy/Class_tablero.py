@@ -63,7 +63,7 @@ class Tablero ():
 
     def set_layout(self, configs):
         col = [[sg.Button('Empezar')],
-               [sg.Button('Posponer')],
+               [sg.Button('Guardar',key='-SAVE-')],
                [sg.Button('Menu principal',key='-mainMenu-')],
                [sg.Text('Tiempo restante')],
                [sg.Text(' ', size=(8, 1), key=("-CLKTOTAL-"))],
@@ -116,11 +116,6 @@ class Tablero ():
             window.FindElement(str(i)).Update(fichas_player[i])
         pass
 
-    def calc_puntaje(self):
-        pass
-
-    def sabe_table(self):
-        pass
 
     def calc_timeleft(self):
         '''

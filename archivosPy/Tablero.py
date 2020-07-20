@@ -5,9 +5,59 @@ from Class_Jugador import jugador
 from Class_IA import Computer
 from random import randint as rand
 import time
+import json
 
 teclas = ('0','1','2','3','4','5','6')
 
+
+def guardar (board, jugador, admin, compu, name):
+    '''
+    Guarda diccionario en formato JSON. Información: "name" (nombre jugador, str), "turn" (tiempo de turno, int),
+    "dificultad" (str), "atril_player" (list), "atril_compu" (list), "punt_player" (int), "punt_compu" (int),
+    "tiempo_restante" (int, segundos para hacer cálculo), "bolsa_fichas" (dict, letra y cant),
+    "puntaje_fichas" (dict, letra y puntaje), "tablero" (solo guarda las letras bloqueadas en una lista de tuplas,
+    pos 0 es letra, 1 fila y 2 columna).
+    '''
+    letras_tablero = []
+    tab_completo = board.get_board()
+    for i in range(15): #desp cambiar por get del maximo de filas, lo mismo abajo
+        for j in range(15):
+            if tab_completo[i][j] != 0:
+                tup = (tab_completo[i][j], i, j)
+                letras_tablero.append(tup)
+    diccionario = {
+        'name': name,
+        'turn': board.get_turn(),
+        'dificultad': admin.get_dificultad(),
+        'atril_player': jugador.get_fichas(),
+        'atril_compu': compu.get_letters(),
+        'punt_player': jugador.get_puntaje(),
+        'punt_compu': compu.get_score(),
+        'tiempo_restante': board.get_time_game() - int(round(time.time())),
+        'bolsa_fichas': admin.get_cantidad(),
+        'puntaje_fichas': admin.get_puntaje(),
+        'tablero': letras_tablero
+    }
+    
+    with open("saved_game.json", "w") as saved_file:
+        json.dump(diccionario, saved_file, ensure_ascii=False)
+    
+    '''
+    dict_guardar = json.dumps(diccionario, ensure_ascii= False)
+    print(dict_guardar)
+    '''
+
+def saved_board(lista_guardadas):
+    '''
+    Esta función crea una palabra con todas las letras guardadas y una lista de tuplas con las posiciones de cada letra.
+    '''
+    palabra = ''
+    tuplas = []
+    for i in lista_guardadas:
+        palabra += i[0]
+        pos = (i[1], i[2])
+        tuplas.append(pos)
+    return palabra, tuplas
 
 def game_on (window,board,fichas_jugador):
     window.FindElement('-MESSAGE-').Update('Comenzo la partida')
@@ -16,8 +66,11 @@ def game_on (window,board,fichas_jugador):
 
 def block_word(window,tuple_list,palabra,board):
     board.mod_board(tuple_list,palabra)
+    j = 0
     for i in tuple_list:
-        window.FindElement(i).Update(disabled=True,button_color = ('black','#58F76D'))
+        #window.FindElement(i).Update(disabled=True,button_color = ('black','#58F76D'))
+        window.FindElement(i).Update(palabra[j], disabled=True,button_color = ('black','#58F76D'))
+        j += 1
     pass
 
 def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
@@ -123,14 +176,14 @@ def ingresa_segunda():
     #para hacer
     pass
 
-def ingresa_tercera(window,event,escritura,letter,next_button):
+def ingresa_tercera(window,event,escritura,letter,next_button, board):
     window.FindElement(event).Update(letter,button_color = ('white','blue'))
     if escritura == 'Horizontal':
         next_button =  (next_button[0],next_button[1]+1)
     else:
         next_button =  (next_button[0]+1,next_button[1])
     try:
-        if (board.get_board()[next2[0]][next2[1]] == 0):
+        if (board.get_board()[next_button[0]][next_button[1]] == 0):
             window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
     except:
         None
@@ -180,7 +233,7 @@ def play_player (player, window,admin,board):
             break
         #dar un cierre al juego, calcular puntaje, declarar ganador, etc.
 #==========================================================================================================================#
-        if event in (None, '-mainMenu-'):
+        if event in (None, '-mainMenu-', '-SAVE-'):
             break
 #==========================================================================================================================#
         if event == '-changeAll-': #and cant_letras != 0
@@ -290,7 +343,7 @@ def play_player (player, window,admin,board):
                     palabra += letter
                     letter_selected = False
                     tuple_list.append(event)
-                    next_button = ingresa_tercera(window,event,escritura,letter,next_button)
+                    next_button = ingresa_tercera(window,event,escritura,letter,next_button, board)
                     cant_letras += 1
                     window.FindElement(pos_en_atril).Update(disabled=True)
                     window.FindElement('-LetterSelected-').Update('')
@@ -332,21 +385,24 @@ def play_player (player, window,admin,board):
 
 
 def game_procces (window,admin,board,player,IA):
-    player.set_fichas(admin.tomar_fichas(7))
+    if len(player.get_fichas()) == 0: #no hay juego guardado
+        player.set_fichas(admin.tomar_fichas(7))
+        IA.set_letters(admin.tomar_fichas(7))
+        rand_start = rand(1,2)
+    else:
+        rand_start = 1 #hay juego guardado y empieza el jugador
     board.update_fichas_player(window,player.get_fichas())
-    IA.set_letters(admin.tomar_fichas(7))
-    rand_start = rand(1,2)
     if (rand_start == 1):
         while True:
             event = play_player(player,window,admin,board)
-            #IA.play (IA,window)
-            if event in (None, '-mainMenu-'):
+            #IA.play (IA,window) Creo que tiene que ir abajo del if, porque sino jugaría la IA aunque el jug termine
+            if event in (None, '-mainMenu-', '-SAVE-'):
                 break
     else:
         while True:
             #IA.play (IA,window)
             event = play_player (player,window,admin,board)
-            if event in (None, '-mainMenu-'):
+            if event in (None, '-mainMenu-', '-SAVE-'):
                 break
     return event
 
@@ -358,15 +414,32 @@ def main(configs):
     while True:
         event,_ = window.read()
         if event == 'Empezar':
-            tiempo_juego = int(round(time.time()) + (configs['timing'] * 60))
+            player = jugador() #subi estas variables para que cree las instancias y modificarlas con configs
+            IA = Computer()
+            if 'tablero' in configs: #si lo tiene, viene de un juego guardado
+                player.set_fichas(configs['atril_player'])
+                IA.set_letters(configs['atril_compu'])
+                player.mod_puntaje(configs['punt_player'])
+                window['-SCORE-'].Update(player.get_puntaje())
+                IA.set_score(configs['punt_compu'])
+                t = configs['timing']
+            else:
+                t = configs['timing'] * 60 #si viene de un juego nuevo, pasar de minutos a segundos
+            tiempo_juego = int(round(time.time()) + (t))
             tiempo_restante = tiempo_juego - int(round(time.time()))
             board.set_time_game(tiempo_juego)
             board.set_time_left(tiempo_restante)
             board.set_turn(configs['turn'])
-            player = jugador()
-            IA = Computer()
-            game_on(window,board,player.get_fichas())
+            #player = jugador()
+            #IA = Computer()
+            game_on(window,board,player.get_fichas()) #preguntar para que pasa el get_fichas, si es posible sacarlo
+            if 'tablero' in configs: #prueba, queda horrible hacer el if de nuevo
+                palabra, tuplas = saved_board(configs['tablero'])
+                block_word(window, tuplas, palabra, board)
             event = game_procces(window,admin,board,player,IA)
+        if event == '-SAVE-':
+            guardar(board, player, admin, IA, configs["name"])
+            break
         if event in (None, '-mainMenu-'):
             break
         else:
