@@ -4,6 +4,8 @@ from Class_administrador import AdministradorDeJuego
 from Class_Jugador import jugador
 from Class_IA import Computer
 from random import randint as rand
+from GenDic import gen_dics
+from End_Game import End
 import time
 import json
 
@@ -199,7 +201,7 @@ def fill_letters(player,window,admin):
     player.set_fichas(list_fichas)
     pass
 
-def play_player (player, window,admin,board):
+def play_player (player, window,admin,board,changes_player):
     '''
     el modulo play_player es el encargado del manejo de la colocacion de palabras en el tablero y el manejr de la interfaz 
     que el usuario va a tener dentro del juego
@@ -237,11 +239,17 @@ def play_player (player, window,admin,board):
             break
 #==========================================================================================================================#
         if event == '-changeAll-': #and cant_letras != 0
+            if changes_player == 3:
+                return '-ChangesDone-'
+            changes_player += 1
             player.set_fichas(admin.tomar_fichas(7))
             board.update_fichas_player(window,player.get_fichas())
             continue
 #==========================================================================================================================#  
         if event == '-change-' and cant_letras == 0:
+            if changes_player == 3:
+                return '-ChangesDone-'
+            changes_player += 1
             event = cambiar_fichas(window,player,admin)
             break
 #==========================================================================================================================#       
@@ -364,6 +372,10 @@ def play_player (player, window,admin,board):
                     window.FindElement(next_button).Update(button_color = ('white','blue'))
                     block_word(window,tuple_list,palabra,board)
                     fill_letters(player,window,admin)
+                    board_aux = board.get_board()
+                    lis_pos = gen_dics(board_aux,len(board_aux),len(board_aux[0]))
+                    if len(lis_pos) == 0:
+                        return '-GameOver-'
                     break
                 else:
                     window.FindElement('-MESSAGE-').Update(str(palabra)+' no es una palabra')
@@ -388,33 +400,40 @@ def game_procces (window,admin,board,player,IA):
     if len(player.get_fichas()) == 0: #no hay juego guardado
         player.set_fichas(admin.tomar_fichas(7))
         IA.set_letters(admin.tomar_fichas(7))
+        changes_player = 0
+        changes_IA = 0
         rand_start = rand(1,2)
     else:
         rand_start = 1 #hay juego guardado y empieza el jugador
     board.update_fichas_player(window,player.get_fichas())
     if (rand_start == 1):
         while True:
-            event = play_player(player,window,admin,board)
+            event = play_player(player,window,admin,board,changes_player)
             #IA.play (IA,window) Creo que tiene que ir abajo del if, porque sino jugaría la IA aunque el jug termine
             if event in (None, '-mainMenu-', '-SAVE-'):
+                break
+            if event in ('-ChangesDone-','-GameOver-'):
+                End(player,IA,admin)
                 break
     else:
         while True:
             #IA.play (IA,window)
-            event = play_player (player,window,admin,board)
+            event = play_player (player,window,admin,board,changes_player)
             if event in (None, '-mainMenu-', '-SAVE-'):
+                break
+            if event in ('-ChangesDone-','-GameOver-'):
+                End(player,IA,admin)
                 break
     return event
 
 def main(configs):
     admin = AdministradorDeJuego(configs['dificultad'],configs['modsBolsa'])
-    lista_tuplas = admin.devolver_tuplas()
-    board = Tablero(lista_tuplas)           
+    board = Tablero(admin.devolver_tuplas())           
     window = sg.Window('ScrabbleAR', board.set_layout(configs),background_color=('#1CB7C3'))
     while True:
         event,_ = window.read()
         if event == 'Empezar':
-            player = jugador() #subi estas variables para que cree las instancias y modificarlas con configs
+            player = jugador(configs['name']) #subi estas variables para que cree las instancias y modificarlas con configs
             IA = Computer()
             if 'tablero' in configs: #si lo tiene, viene de un juego guardado
                 player.set_fichas(configs['atril_player'])
@@ -440,7 +459,7 @@ def main(configs):
         if event == '-SAVE-':
             guardar(board, player, admin, IA, configs["name"])
             break
-        if event in (None, '-mainMenu-'):
+        if event in (None, '-mainMenu-','-GameOver-','-ChangesDone-'):
             break
         else:
             window.FindElement('-MESSAGE-').Update('Comienza el juego para poder utilizar la interfaz')

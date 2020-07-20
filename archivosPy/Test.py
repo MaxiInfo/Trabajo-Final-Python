@@ -1,7 +1,1 @@
-def i (a):
-    a.append(2)
-
-a = [5]
-i(a)
-
-print(a)
+print (4%2)
