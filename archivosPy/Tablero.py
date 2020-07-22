@@ -378,7 +378,7 @@ def play_player (player, window,admin,board,changes_player):
                         return '-GameOver-'
                     break
                 else:
-                    window.FindElement('-MESSAGE-').Update(str(palabra)+', no es una palabra')
+                    window.FindElement('-MESSAGE-').Update(str(palabra)+' no es una palabra')
             else:
                 window.FindElement('-MESSAGE-').Update('palabra minima 2 caracteres')
             continue
