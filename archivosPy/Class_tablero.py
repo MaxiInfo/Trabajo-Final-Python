@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import time
 import Class_administrador as administrador
 
+#Color de fondo del tablero: #1CB7C3
 
 class Tablero ():
     def __init__(self,lista_tuplas):
@@ -63,27 +64,31 @@ class Tablero ():
         pass
 
     def set_layout(self, configs):
-        col = [[sg.Button('Empezar')],
-               [sg.Button('Posponer')],
-               [sg.Button('Menu principal',key='-mainMenu-')],
-               [sg.Text('Tiempo restante')],
-               [sg.Text(' ', size=(8, 1), key=("-CLKTOTAL-"))],
-               [sg.Text('Notas del juego', size=(15, 10), key=("-MESSAGE-"))],
-               [sg.Text('Tiempo de jugada')],
-               [sg.Text('', size= (8, 1), key= ('-CLKTURN-'))],
-               [sg.Text('Puntaje = '),sg.Text('0',key='-SCORE-')],
-               [sg.Text('letra actual')],
-               [sg.Text('',size=(5,1),key=('-LetterSelected-'),justification=('center'))],
-               [sg.Text(' ', size=(8, 1), key=("-TURN-"))]]
+        col = [[sg.Button(' ',image_filename='Empezar.png',image_size=(75,25),key='Empezar')],
+               [sg.Button(' ',image_filename='GuardarT.png',image_size=(75,25),key='-SAVE-')],
+               [sg.Button(' ',image_filename='Menu.png',image_size=(120,25),key='-mainMenu-')],
+               [sg.Text('Tiempo restante',background_color='#00FDFD')],
+               [sg.Text(' ',background_color='#00FDFD',size=(8, 1), key=("-CLKTOTAL-"))],
+               [sg.Text('Notas del juego',background_color='#00FDFD' ,size=(15, 5), key=("-MESSAGE-"))],
+               [sg.Text('Tiempo de jugada',background_color='#00FDFD')],
+               [sg.Text('',background_color='#00FDFD' ,size= (4, 1), key= ('-CLKTURN-'))],
+               [sg.Text('Letra actual',background_color='#00FDFD')],
+               [sg.Text('',background_color='#00FDFD',size=(4,1),key=('-LetterSelected-'),justification=('center'))],
+               #[sg.Text(' ',background_color='#00FDFD' ,size=(8, 1), key=("-TURN-"))],
+               [sg.Text('Puntaje',background_color='#00FDFD')],
+               [sg.Text('',size=(4,1),background_color='#00FDFD',key='-SCORE-')]
+            ]
 
         col2 = [[sg.Button(' ', size=(4, 2), key=(i, j), pad=(0, 0),button_color=('white','blue')) for j in range(self._MAX_COL)] for i in range(self._MAX_ROWS)]
 
         col3 = [[sg.Button('', size=(4, 2), key= (str(n)), pad=(0, 0),button_color=('white','blue'))for n in range(7)]]
-
+#C70F0F
         layout_tablero = [
-            [sg.Text('COMPUTADORA'), sg.Text('', size=(30, 1),background_color='Brown', relief=sg.RELIEF_RIDGE)],
-            [sg.Column(col2), sg.Column(col,background_color=('#C70F0F'))],
-            [sg.Text(configs['name'], key=("-NOMBRE-")), sg.Column(col3), sg.Button('Comprobar'), sg.Button('-pasar-'),sg.Button('Revertir'), sg.Button('cambiar', key=('-change-')), sg.Button('Change All', key=('-changeAll-'))]
+            [sg.Text('COMPUTADORA',background_color='#00FDFD'), sg.Text('', size=(30, 1),background_color='Brown', relief=sg.RELIEF_RIDGE)],
+            [sg.Column(col2),sg.Text(' '*9,background_color='#1CB7C3') ,sg.Column(col,background_color=('#33C3C3'))],
+            [sg.Text(configs['name'],background_color='#00FDFD', key=("-NOMBRE-")), sg.Column(col3), sg.Button(' ',image_filename='Comprobar.png',image_size=(85,25),key='Comprobar'), 
+            sg.Button(' ',image_filename='Pasar.png',image_size=(85,25),key='-pasar-'),sg.Button(' ',image_filename='Revertir.png',image_size=(85,25),key='Revertir'), 
+            sg.Button(' ',image_filename='Cambiar.png',image_size=(85,25), key=('-change-')), sg.Button(' ',image_filename='ChangeAll.png',image_size=(85,25), key=('-changeAll-'))]
         ]
         return layout_tablero
 
@@ -117,11 +122,6 @@ class Tablero ():
             window.FindElement(str(i)).Update(fichas_player[i])
         pass
 
-    def calc_puntaje(self):
-        pass
-
-    def sabe_table(self):
-        pass
 
     def calc_timeleft(self):
         '''
