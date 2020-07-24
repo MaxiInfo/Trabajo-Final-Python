@@ -3,6 +3,7 @@ class jugador ():
         self._nom = nombre
         self._fichas = []
         self._puntaje = 0
+        self._cambios = 0
         pass
     
     def set_fichas (self,fichas):
@@ -14,6 +15,11 @@ class jugador ():
 
     def get_name(self):
         return self._nom
+
+    def get_cambios(self):
+        return self._cambios
+    def add_cambio(self):
+        self._cambios += 1
 
     def get_puntaje(self):
         return self._puntaje

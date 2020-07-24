@@ -1,8 +1,7 @@
 def gen_dics(matriz,cant_row,cant_col):
     '''
-    gen_dics me genera una lista de diccionarios donde guarda la primera posicion donde se puede insertar una palabra en la clave "tupla"
-    tambien guarda una lista de tuplas correspondientes a cada posicion donde se puede ingresar la palabra y la cantidad de aracteres maxima
-    de la palabra a insertar
+    gen_dics me genera una lista de diccionarios donde guarda la primera posicion  una lista de tuplas correspondientes a cada posicion
+    donde se puede ingresar la palabra y la cantidad de aracteres maxima de la palabra a insertar
     '''
     row = col = 0
     list_dics = []
@@ -13,7 +12,6 @@ def gen_dics(matriz,cant_row,cant_col):
                 dic = {}
                 list_tup = []
                 cant = 0
-                dic['tupla'] = (row,col)
                 list_tup.append((row,col))
                 cant += 1
                 col += 1
@@ -37,13 +35,12 @@ def gen_dics(matriz,cant_row,cant_col):
         list_tup = []
     #recorrido vertical
     row = col = 0
-    while col < cant_row:
-        while row < cant_col:
-            if (col < cant_col -1) and (matriz[row][col] == 0) and (matriz[row+1][col] == 0): #se fija si se puede ingresar una palabra de 2 caracteres
+    while col < cant_col:
+        while row < cant_row:
+            if (row < cant_row -1) and (matriz[row][col] == 0) and (matriz[row+1][col] == 0): #se fija si se puede ingresar una palabra de 2 caracteres
                 dic = {}
                 list_tup = []
                 cant = 0
-                dic['tupla'] = (row,col)
                 list_tup.append((row,col))
                 cant += 1
                 row += 1

@@ -36,6 +36,7 @@ class Tablero ():
         return self.R10
     def get_r20(self):
         return self.R20
+        
     def set_time_left(self, timeleft):
         self.time_left = timeleft
     def set_time_game(self, timegame):
@@ -82,7 +83,7 @@ class Tablero ():
         layout_tablero = [
             [sg.Text('COMPUTADORA'), sg.Text('', size=(30, 1),background_color='Brown', relief=sg.RELIEF_RIDGE)],
             [sg.Column(col2), sg.Column(col,background_color=('#C70F0F'))],
-            [sg.Text(configs['name'], key=("-NOMBRE-")), sg.Column(col3), sg.Button('Comprobar'), sg.Button('Pasar'),sg.Button('Revertir'), sg.Button('cambiar', key=('-change-')), sg.Button('Change All', key=('-changeAll-'))]
+            [sg.Text(configs['name'], key=("-NOMBRE-")), sg.Column(col3), sg.Button('Comprobar'), sg.Button('-pasar-'),sg.Button('Revertir'), sg.Button('cambiar', key=('-change-')), sg.Button('Change All', key=('-changeAll-'))]
         ]
         return layout_tablero
 

@@ -148,7 +148,7 @@ def fill_letters(player,window,admin):
     player.set_fichas(list_fichas)
     pass
 
-def play_player (player, window,admin,board,changes_player):
+def play_player (player, window,admin,board):
     '''
     el modulo play_player es el encargado del manejo de la colocacion de palabras en el tablero y el manejr de la interfaz 
     que el usuario va a tener dentro del juego
@@ -185,18 +185,29 @@ def play_player (player, window,admin,board,changes_player):
         if event in (None, '-mainMenu-'):
             break
 #==========================================================================================================================#
+        if event == '-pasar-':
+            if player.get_cambios() == 3:
+                return '-GameOver-'
+            else:
+                player.add_cambio()
+                break
+#==========================================================================================================================#
         if event == '-changeAll-': #and cant_letras != 0
-            if changes_player == 3:
-                return '-ChangesDone-'
-            changes_player += 1
+            if player.get_cambios() == 3:
+                window.FindElement('-change-').Update(disabled=True)
+                window.FindElement('-changeAll-').Update(diabled=True)
+                return '-GameOver-'
+            player.add_cambio()
             player.set_fichas(admin.tomar_fichas(7))
             board.update_fichas_player(window,player.get_fichas())
-            continue
+            break
 #==========================================================================================================================#  
         if event == '-change-' and cant_letras == 0:
-            if changes_player == 3:
-                return '-ChangesDone-'
-            changes_player += 1
+            if player.get_cambios() == 3:
+                window.FindElement('-change-').Update(disabled=True)
+                window.FindElement('-changeAll-').Update(diabled=True)
+                return '-GameOver-'
+            player.add_cambio()
             event = cambiar_fichas(window,player,admin)
             break
 #==========================================================================================================================#       
@@ -347,25 +358,28 @@ def game_procces (window,admin,board,player,IA):
     player.set_fichas(admin.tomar_fichas(7))
     board.update_fichas_player(window,player.get_fichas())
     IA.set_letters(admin.tomar_fichas(7))
-    changes_player = 0
-    changes_IA = 0
     rand_start = rand(1,2)
     if (rand_start == 1):
         while True:
-            event = play_player(player,window,admin,board,changes_player)
-            #IA.play (IA,window)
+            event = play_player(player,window,admin,board)
+            IA.play (window,admin,board)
+            if IA.get_changes() == 3:
+                End(player,IA,admin)
+                return '-ChangesDone-'
             if event in (None, '-mainMenu-'):
                 break
-            if event in ('-ChangesDone-','-GameOver-'):
+            if event =='-GameOver-':
                 End(player,IA,admin)
                 break
     else:
         while True:
-            #IA.play (IA,window)
-            event = play_player (player,window,admin,board,changes_player)
+            IA.play (window,admin,board)
+            if IA.get_changes() == 3:
+                return '-ChangesDone-'
+            event = play_player (player,window,admin,board)
             if event in (None, '-mainMenu-'):
                 break
-            if event in ('-ChangesDone-','-GameOver-'):
+            if event == '-GameOver-':
                 End(player,IA,admin)
                 break
     return event
@@ -386,7 +400,7 @@ def main(configs):
             IA = Computer()
             game_on(window,board,player.get_fichas())
             event = game_procces(window,admin,board,player,IA)
-        if event in (None, '-mainMenu-','-GameOver-','-ChangesDone-'):
+        if event in (None, '-mainMenu-','-GameOver-'):
             break
         else:
             window.FindElement('-MESSAGE-').Update('Comienza el juego para poder utilizar la interfaz')
