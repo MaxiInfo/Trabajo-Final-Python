@@ -12,6 +12,8 @@ from archivosPy.gameLogic.End_Game import End
 
 teclas = ('0','1','2','3','4','5','6')
 
+path_letras = 'Imagenes/tablero/letras/'
+extension = '.png'
 
 def guardar (board, jugador, admin, compu, name):
     '''
@@ -72,7 +74,7 @@ def block_word(window,tuple_list,palabra,board):
     j = 0
     for i in tuple_list:
         #window.FindElement(i).Update(disabled=True,button_color = ('black','#58F76D'))
-        window.FindElement(i).Update(palabra[j], disabled=True,button_color = ('black','#58F76D'))
+        window.FindElement(i).Update(disabled=True,image_filename = path_letras + palabra[j].upper() + extension,button_color = ('black','#58F76D')) ##
         j += 1
     pass
 
@@ -80,7 +82,7 @@ def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
     board.set_default_button(window,tupla)
     pos = player.pos_libre()
     player.set_single_ficha(letter,pos)
-    window.FindElement(str(pos)).Update(letter,disabled = False)
+    window.FindElement(str(pos)).Update(image_filename = path_letras + letter.upper() + extension,disabled = False) ##
     if cant == 1:
         tupla_aux1 = (tupla[0],tupla[1]+1) 
         tupla_aux2 = (tupla[0]+1,tupla[1]) 
@@ -149,7 +151,7 @@ def cambiar_fichas(window,player,admin):
         if event == '-change-' and cant > 0:
             fichas_nue = admin.tomar_fichas(cant)
             for i in range(cant):
-                window.FindElement(tecla_select[i]).Update(fichas_nue[i],button_color = ('white','blue'))
+                window.FindElement(tecla_select[i]).Update(image_filename = path_letras + fichas_nue[i].upper() + extension,button_color = ('white','blue')) #Para el atril
                 player.set_single_ficha(fichas_nue[i],int(tecla_select[i]))    
                 window.FindElement('-change-').Update(image_filename='Imagenes/board/Cambiar.png',image_size=(85,25))
             break
@@ -158,7 +160,7 @@ def cambiar_fichas(window,player,admin):
     return event
 
 def ingresa_primera(window,event,letter,board):
-    window.FindElement(event).Update(letter)
+    window.FindElement(event).Update(image_filename = path_letras + letter.upper() + extension) ##
     #(fila,columna)
     next1 = (event[0]+1,event[1])#abajo
     next2 = (event[0],event[1]+1)#derecha
@@ -180,7 +182,7 @@ def ingresa_segunda():
     pass
 
 def ingresa_tercera(window,event,escritura,letter,next_button, board):
-    window.FindElement(event).Update(letter,button_color = ('white','blue'))
+    window.FindElement(event).Update(image_filename = path_letras + letter.upper() + extension, button_color = ('white','blue')) ##
     if escritura == 'Horizontal':
         next_button =  (next_button[0],next_button[1]+1)
     else:
@@ -198,7 +200,7 @@ def fill_letters(player,window,admin):
         if list_fichas[i] == 0:
             ficha = admin.tomar_fichas(1)[0]
             list_fichas[i] = ficha
-            window.FindElement(str(i)).Update(ficha,disabled=False)
+            window.FindElement(str(i)).Update(image_filename = path_letras + ficha.upper() + extension,disabled=False) 
     player.set_fichas(list_fichas)
     pass
 
@@ -296,7 +298,7 @@ def play_player (player, window,admin,board):
                 pos_en_atril = event
                 letter = get_ficha(int(event))
                 window.FindElement(event).Update('')
-                window.FindElement('-LetterSelected-').Update(letter)
+                window.FindElement('-LetterSelected-').Update(letter.upper())
                 letter_selected = True
             else:
                 # devoludion de ficha seleccionada
@@ -310,11 +312,11 @@ def play_player (player, window,admin,board):
                 else:
                     # si se quiere intercambiar de ficha actual con otra en el atril
                     pos_en_atril = event
-                    window.FindElement(event).Update(letter)
+                    window.FindElement(event).Update(image_filename = path_letras + letter.upper() + extension)
                     let_change = player.change_single_ficha(letter,int(event))
                     if let_change != 0:
                         letter = let_change
-                        window.FindElement('-LetterSelected-').Update(letter)
+                        window.FindElement('-LetterSelected-').Update(letter.upper())
                     else:
                         window.FindElement('-LetterSelected-').Update('')
                         letter_selected = False
@@ -346,7 +348,7 @@ def play_player (player, window,admin,board):
                             window.FindElement(next2).Update(button_color = ('white','blue'))
                     except:
                         None
-                    window.FindElement(event).Update(letter,button_color = ('white','blue'))
+                    window.FindElement(event).Update(image_filename = path_letras + letter.upper() + extension,button_color = ('white','blue'))
                     next_button = (event[0]+1,event[1])
                     try:
                         if (board.get_board()[next_button[0]][next_button[1]] == 0):
@@ -367,7 +369,7 @@ def play_player (player, window,admin,board):
                             window.FindElement(next1).Update(button_color = ('white','blue'))
                     except:
                         None
-                    window.FindElement(event).Update(letter,button_color = ('white','blue'))
+                    window.FindElement(event).Update(image_filename = path_letras + letter.upper() + extension,button_color = ('white','blue'))
                     next_button = (event[0],event[1]+1)
                     try:
                         if (board.get_board()[next_button[0]][next_button[1]] == 0):
@@ -404,7 +406,10 @@ def play_player (player, window,admin,board):
                     player.mod_puntaje(admin.calcular_puntaje(palabra,tuple_list))
                     window.FindElement('-SCORE-').Update(player.get_puntaje())
                     window.FindElement('-MESSAGE-').Update('palabra correcta')
-                    window.FindElement(next_button).Update(button_color = ('white','blue'))
+                    try:
+                        window.FindElement(next_button).Update(button_color = ('white','blue'))
+                    except:
+                        None
                     block_word(window,tuple_list,palabra,board)
                     fill_letters(player,window,admin)
                     board_aux = board.get_board()

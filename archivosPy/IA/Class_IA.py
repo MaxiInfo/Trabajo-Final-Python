@@ -1,5 +1,9 @@
 from archivosPy.IA.GenDic import gen_dics
 from archivosPy.IA.GenWord import main as gen_wordlist
+
+path_letras = 'Imagenes/tablero/letras/'
+extension = '.png'
+
 class Computer:
     def __init__(self):
         self._letters = []
@@ -64,7 +68,7 @@ class Computer:
 
     def _insert_word(self,window,pos, word,board):
         for i in range(len(word)):
-            window.FindElement(pos['listTuplas'][i]).Update(word[i],disabled=True,button_color = ('black','#58F76D'))
+            window.FindElement(pos['listTuplas'][i]).Update(image_filename = path_letras + word[i].upper() + extension,disabled=True,button_color = ('black','#58F76D'))
             board.mod_board(pos['listTuplas'][0:len(word)],word)
         pass
 
