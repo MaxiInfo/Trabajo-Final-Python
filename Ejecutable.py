@@ -9,14 +9,15 @@ sg.theme('LightBrown1')
 color_fondo = ('#E6DECE','#E6DECE')
 
 layout_main_menu = [
-    [sg.Text(' '*18),sg.Button(' ',image_filename='Imagenes/ScrabbleAr.png',image_size=(200,50),size=(15,2),button_color=color_fondo,key='Titulo')],
+    [sg.Text(' '*18),sg.Button(' ',image_filename='Imagenes/menu/ScrabbleAr.png',image_size=(200,50),size=(15,2),button_color=color_fondo,key='Titulo')],
     [sg.Text('')],
-    [sg.Text(' '*28),sg.Button(' ',image_filename='Imagenes/Jugar1.png',image_size=(122,40),size=(15,2),key='Jugar')],
-    [sg.Text(' '*28),sg.Button(' ',image_filename='Imagenes/Continuar1.png',image_size=(122,37),size=(15,2),key='Continuar')],
-    [sg.Text(' '*28),sg.Button(' ',image_filename='Imagenes/Configuracion1.png',image_size=(122,37),size=(15,2),key='Configuracion')],
+    [sg.Text(' '*28),sg.Button(' ',image_filename='Imagenes/menu/Jugar1.png',image_size=(122,40),size=(15,2),key='Jugar')],
+    [sg.Text(' '*28),sg.Button(' ',image_filename='Imagenes/menu/Continuar1.png',image_size=(122,37),size=(15,2),key='Continuar')],
+    [sg.Text(' '*28),sg.Button(' ',image_filename='Imagenes/menu/Configuracion1.png',image_size=(122,37),size=(15,2),key='Configuracion')],
     [sg.Text('')],
     [sg.Text('')],
-    [sg.Text(' '*3),sg.Button(' ',image_filename='Imagenes/TOP10.png',image_size=(122,37),size=(12,2),key='TOP 10'),sg.Text(' '*12),sg.Button(' ',image_filename='Imagenes/Salir.png',image_size=(122,37),size=(12,2),key='Salir')]
+    [sg.Text(' '*3),sg.Button(' ',image_filename='Imagenes/menu/TOP10.png',image_size=(122,37),size=(12,2),key='TOP 10'),sg.Text(' '*12),
+    sg.Button(' ',image_filename='Imagenes/menu/Salir.png',image_size=(122,37),size=(12,2),key='Salir')]
     ]
 
 configs = {'name':'Player','timing':120, 'turn':60, 'dificultad':'facil','modsBolsa':[None, None]}

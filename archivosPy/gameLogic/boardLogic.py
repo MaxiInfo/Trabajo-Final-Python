@@ -42,7 +42,7 @@ def guardar (board, jugador, admin, compu, name):
         'tablero': letras_tablero
     }
     
-    with open("saved_game.json", "w") as saved_file:
+    with open("archivosJSON/saved_game.json", "w") as saved_file:
         json.dump(diccionario, saved_file, ensure_ascii=False)
     
     '''
@@ -131,7 +131,7 @@ def cambiar_fichas(window,player,admin):
     cant = 0
     tecla_select = []
     window.FindElement('-MESSAGE-').Update('seleccione hasta 3 letras para cambiar')
-    window.FindElement('-change-').Update(image_filename='Ok.png',image_size=(85,25))
+    window.FindElement('-change-').Update(image_filename='Imagenes/board/Ok.png',image_size=(85,25))
     while True:
         event,_ = window.Read()
         if event in teclas:
@@ -151,7 +151,7 @@ def cambiar_fichas(window,player,admin):
             for i in range(cant):
                 window.FindElement(tecla_select[i]).Update(fichas_nue[i],button_color = ('white','blue'))
                 player.set_single_ficha(fichas_nue[i],int(tecla_select[i]))    
-                window.FindElement('-change-').Update(image_filename='Cambiar.png',image_size=(85,25))
+                window.FindElement('-change-').Update(image_filename='Imagenes/board/Cambiar.png',image_size=(85,25))
             break
         if event in (None, '-mainMenu-'):
             break

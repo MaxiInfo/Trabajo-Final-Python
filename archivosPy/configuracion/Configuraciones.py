@@ -8,14 +8,17 @@ def set_layout ():
         [sg.Text('Nombre del jugador',size=(100,1),font=(None,11),justification='center')],
         [sg.Text(' '*8),sg.InputText('',size=(40,1),key='nom',justification='center')],
         [sg.Text(' '*12),sg.Text('Tiempo de juego',font=(None,11)),sg.Text(' '*2),sg.Text('Tiempo de turno',font=(None,11))],
-        [sg.Text(' '*14),sg.InputCombo((30,60,90,120,),size=(4,1),default_value='120',readonly=True,pad=(0,0)),sg.Text('minutos'),sg.Text(' '*6),sg.InputCombo((20,30,40,60,),size=(3,1),default_value='60',readonly=True,pad=(0,0)),sg.Text('segundos')],
+        [sg.Text(' '*14),sg.InputCombo((30,60,90,120,),size=(4,1),default_value='120',readonly=True,pad=(0,0)),sg.Text('minutos'),
+        sg.Text(' '*6),sg.InputCombo((20,30,40,60,),size=(3,1),default_value='60',readonly=True,pad=(0,0)),sg.Text('segundos')],
         [sg.Text('Dificultad',size=(100,1),font=(None,11),justification='center')],
         [sg.Text(' '*35),sg.Radio('Fácil','Dificultad',default=False,size=(10,1))],
         [sg.Text(' '*35),sg.Radio('Medio','Dificultad',default=True,size=(10,1))],
         [sg.Text(' '*35),sg.Radio('Difícil','Dificultad',default=False,size=(10,1))],
-        [sg.Text(' '*5),sg.Text('Modificar fichas:',font=(None,11)),sg.Button(' ',image_filename='Imagenes/Cantidad.png',image_size=(105,28),size=(15,2),key='-cantfichas-'),sg.Button(' ',image_filename='Imagenes/Puntaje.png',image_size=(105,28),size=(15,2),key='-puntfichas-')],
+        [sg.Text(' '*5),sg.Text('Modificar fichas:',font=(None,11)),sg.Button(' ',image_filename='Imagenes/configuracion/Cantidad.png',image_size=(105,28),size=(15,2),key='-cantfichas-'),
+        sg.Button(' ',image_filename='Imagenes/configuracion/Puntaje.png',image_size=(105,28),size=(15,2),key='-puntfichas-')],
         [sg.Text('')],
-        [sg.Text(' '*4),sg.Button(' ',image_filename='Imagenes/Guardar.png',image_size=(120,28),size=(15,2),key='Guardar'),sg.Text(' '*10),sg.Button(' ',image_filename='Imagenes/Atras.png',image_size=(120,28),size=(15,2),key='Atrás')]
+        [sg.Text(' '*4),sg.Button(' ',image_filename='Imagenes/configuracion/Guardar.png',image_size=(120,28),size=(15,2),key='Guardar'),sg.Text(' '*10),
+        sg.Button(' ',image_filename='Imagenes/configuracion/Atras.png',image_size=(120,28),size=(15,2),key='Atrás')]
         ]
     return layout_configs
 

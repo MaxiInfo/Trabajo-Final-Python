@@ -32,7 +32,7 @@ def load_saved(configs, diccionario):
 
 
 def main():
-    archivo = open('saved_game.json', 'r')
+    archivo = open('archivosJSON/saved_game.json', 'r')
     diccionario = json.load(archivo)
     archivo.close()
     return diccionario
