@@ -43,11 +43,11 @@ class Computer:
         else:
             #La IA juega
             self._insert_word(window,serch[0],serch[1],board)
-            self.set_score(admin.calcular_puntaje(serch[1],serch[0]['listTuplas'][0:len(serch[1])]))
-            self.refill_letters(admin,serch[1])
+            self.set_score(admin.calcular_puntaje(serch[1],serch[0]))
+            self._refill_letters(admin,serch[1])
         return
 
-    def refill_letters(self,admin,word):
+    def _refill_letters(self,admin,word):
         letters = self.get_letters() #Porque las vincula por valor??
         pos = 0
         while pos <= len(word)-1:
@@ -69,7 +69,8 @@ class Computer:
     def _insert_word(self,window,pos, word,board):
         for i in range(len(word)):
             window.FindElement(pos['listTuplas'][i]).Update(image_filename = path_letras + word[i].upper() + extension,disabled=True,button_color = ('black','#58F76D'))
-            board.mod_board(pos['listTuplas'][0:len(word)],word)
+            board.mod_board(pos,word)
+
         pass
 
     def _select_word_and_position(self,matriz):
@@ -100,5 +101,5 @@ class Computer:
         pos,maximo = serch_pos(list_positions)
         word = serch_word(maximo, wordlist)
         if word != "Error" and len(word) <= pos['cant']:
-            return (pos, word)
+            return (pos['listTuplas'][0:len(word)], word)
         return None
