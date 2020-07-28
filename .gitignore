@@ -1,8 +1,8 @@
 
-archivosPy/__pycache__
-archivosPy/clases/__pycache__
-archivosPy/configuracion/__pycache__
-archivosPy/gameLogic/__pycache__
-archivosPy/top/__pycache__
-archivosPy/IA/__pycache__
+archivosPy/clases/__pycache__/
+archivosPy/configuracion/__pycache__/
+archivosPy/gameLogic/__pycache__/
+archivosPy/top/__pycache__/
+archivosPy/IA/__pycache__/
 .idea
+.pic
