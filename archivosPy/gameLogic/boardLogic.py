@@ -1,13 +1,14 @@
 import PySimpleGUI as sg
-from Class_tablero import Tablero
-from Class_administrador import AdministradorDeJuego
-from Class_Jugador import jugador
-from Class_IA import Computer
-from random import randint as rand
-from GenDic import gen_dics
-from End_Game import End
-import time
 import json
+import time
+from random import randint as rand
+
+from archivosPy.clases.Class_tablero import Tablero
+from archivosPy.clases.Class_administrador import AdministradorDeJuego
+from archivosPy.clases.Class_Jugador import jugador
+from archivosPy.IA.Class_IA import Computer
+from archivosPy.IA.GenDic import gen_dics
+from archivosPy.gameLogic.End_Game import End
 
 teclas = ('0','1','2','3','4','5','6')
 
@@ -243,24 +244,47 @@ def play_player (player, window,admin,board):
                 return '-GameOver-'
             else:
                 player.add_cambio()
+                if cant_letras != 0:
+                    for i in range(cant_letras):
+                        vuelta_atras(window,player,board,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
+                        tuple_list.pop()
+                        palabra = palabra[0:-1]
+                        cant_letras -= 1
+                    window.FindElement('-LetterSelected-').Update('')
                 break
 #==========================================================================================================================#
         if event == '-changeAll-': #and cant_letras != 0
             if player.get_cambios() == 3:
-                window.FindElement('-change-').Update(disabled=True)
-                window.FindElement('-changeAll-').Update(disabled=True)
                 return '-GameOver-'
             player.add_cambio()
+            if player.get_cambios() == 3:
+                window.FindElement('-change-').Update(disabled=True)
+                window.FindElement('-changeAll-').Update(disabled=True)
+            if cant_letras != 0:
+                    for i in range(cant_letras):
+                        vuelta_atras(window,player,board,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
+                        tuple_list.pop()
+                        palabra = palabra[0:-1]
+                        cant_letras -= 1
+                    window.FindElement('-LetterSelected-').Update('')
             player.set_fichas(admin.tomar_fichas(7))
             board.update_fichas_player(window,player.get_fichas())
             break
 #==========================================================================================================================#  
         if event == '-change-' and cant_letras == 0:
             if player.get_cambios() == 3:
-                window.FindElement('-change-').Update(disabled=True)
-                window.FindElement('-changeAll-').Update(diabled=True)
                 return '-GameOver-'
             player.add_cambio()
+            if player.get_cambios() == 3:
+                window.FindElement('-change-').Update(disabled=True)
+                window.FindElement('-changeAll-').Update(disabled=True)
+            if cant_letras != 0:
+                    for i in range(cant_letras):
+                        vuelta_atras(window,player,board,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
+                        tuple_list.pop()
+                        palabra = palabra[0:-1]
+                        cant_letras -= 1
+                    window.FindElement('-LetterSelected-').Update('')
             event = cambiar_fichas(window,player,admin)
             break
 #==========================================================================================================================#       
@@ -414,12 +438,10 @@ def game_procces (window,admin,board,player,IA):
         rand_start = rand(1,2)
     else:
         rand_start = 1 #hay juego guardado y empieza el jugador
-    changes_player = 0
-    changes_IA = 0 #momentáneo, agregar a clases para guardar
     board.update_fichas_player(window,player.get_fichas())
     if (rand_start == 1):
         while True:
-            event = play_player(player,window,admin,board,changes_player)
+            event = play_player(player,window,admin,board)
             IA.play (window,admin,board)
             if IA.get_changes() == 3:
                 End(player,IA,admin)

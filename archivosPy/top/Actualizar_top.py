@@ -9,7 +9,7 @@ def actualizar(nombre_jugador,puntaje,fecha,dificultad_jugada):
                 no ingresa.
     '''
 
-    nombre = 'archivoTop.json'
+    nombre = 'archivosJSON/archivoTop.json'
     sigo = True
     try:
         with open(nombre,'r') as archivo_top:
@@ -45,7 +45,7 @@ def get_ult_top10(dif):
     '''
         En base a la dificultad toma el peor puntaje del top10. La precondición es que sí o sí exista dicho archivo.
     '''
-    nombre_archivo = 'archivoTop.json'
+    nombre_archivo = 'archivosJSON/archivoTop.json'
     archivo = open(nombre_archivo,'r') #Apertura de archivo
     diccionario_completo = json.load(archivo)
     archivo.close() #Cierre de archivo

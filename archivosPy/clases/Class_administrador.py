@@ -28,7 +28,7 @@ class AdministradorDeJuego():
         '''
             En base a la dificultad, toma la cantidad y puntaje de cada letra y mete ambas en dos diccionarios
         '''
-        ubicacion = self._dificultad_actual + ".csv" # -> medio.csv, facil.csv, dificil.csv
+        ubicacion = 'archivosCSV/'+self._dificultad_actual + ".csv" # -> medio.csv, facil.csv, dificil.csv
         archivo_csv = open(ubicacion,'r',encoding= 'utf8')
         csv_reader = csv.reader(archivo_csv, delimiter = ',', quotechar = '"')
         next(archivo_csv) # me salteo la primer linea que sólo contiene la información de las columnas.
@@ -229,7 +229,7 @@ class AdministradorDeJuego():
         '''
             usado en el __init__, en base a la dificultad llena la lista de tuplas correspondiente. PARA EL TABLERO
         '''
-        ubicacion = 'tuplas_' + self._dificultad_actual + ".csv" # tuplas_dificultad.csv. Sólo para abrir
+        ubicacion = 'archivosCSV/tuplas_' + self._dificultad_actual + ".csv" # tuplas_dificultad.csv. Sólo para abrir
         archivo_csv = open(ubicacion,'r',encoding= 'utf8') #abro el archivo
         csv_reader = csv.reader(archivo_csv, delimiter = ',', quotechar = '"') 
         next(archivo_csv) # me salteo la primer linea que sólo contiene la información de las columnas.

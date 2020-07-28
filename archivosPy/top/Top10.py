@@ -1,8 +1,9 @@
 import PySimpleGUI as sg
-import TopString
 import json
 
-nombre_archivo = "archivoTop.json"
+from archivosPy.top import TopString
+
+nombre_archivo = "archivosJSON/archivoTop.json"
 archivo_top = open(nombre_archivo,'r')
 
 diccionario = json.load(archivo_top)

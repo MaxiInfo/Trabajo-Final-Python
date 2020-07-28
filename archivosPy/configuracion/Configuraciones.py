@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
-import Fichas
-import Puntajes
+from archivosPy.configuracion import Fichas
+from archivosPy.configuracion import Puntajes
 
 def set_layout ():
     layout_configs = [
@@ -13,9 +13,9 @@ def set_layout ():
         [sg.Text(' '*35),sg.Radio('Fácil','Dificultad',default=False,size=(10,1))],
         [sg.Text(' '*35),sg.Radio('Medio','Dificultad',default=True,size=(10,1))],
         [sg.Text(' '*35),sg.Radio('Difícil','Dificultad',default=False,size=(10,1))],
-        [sg.Text(' '*5),sg.Text('Modificar fichas:',font=(None,11)),sg.Button(' ',image_filename='Cantidad.png',image_size=(105,28),size=(15,2),key='-cantfichas-'),sg.Button(' ',image_filename='Puntaje.png',image_size=(105,28),size=(15,2),key='-puntfichas-')],
+        [sg.Text(' '*5),sg.Text('Modificar fichas:',font=(None,11)),sg.Button(' ',image_filename='Imagenes/Cantidad.png',image_size=(105,28),size=(15,2),key='-cantfichas-'),sg.Button(' ',image_filename='Imagenes/Puntaje.png',image_size=(105,28),size=(15,2),key='-puntfichas-')],
         [sg.Text('')],
-        [sg.Text(' '*4),sg.Button(' ',image_filename='Guardar.png',image_size=(120,28),size=(15,2),key='Guardar'),sg.Text(' '*10),sg.Button(' ',image_filename='Atras.png',image_size=(120,28),size=(15,2),key='Atrás')]
+        [sg.Text(' '*4),sg.Button(' ',image_filename='Imagenes/Guardar.png',image_size=(120,28),size=(15,2),key='Guardar'),sg.Text(' '*10),sg.Button(' ',image_filename='Imagenes/Atras.png',image_size=(120,28),size=(15,2),key='Atrás')]
         ]
     return layout_configs
 

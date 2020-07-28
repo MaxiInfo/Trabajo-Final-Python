@@ -1,6 +1,5 @@
-from GenDic import gen_dics
-from GenWord import main as gen_wordlist
-import InsertWord
+from archivosPy.IA.GenDic import gen_dics
+from archivosPy.IA.GenWord import main as gen_wordlist
 class Computer:
     def __init__(self):
         self._letters = []
@@ -47,8 +46,6 @@ class Computer:
     def refill_letters(self,admin,word):
         letters = self.get_letters() #Porque las vincula por valor??
         pos = 0
-        print(letters)
-        print(word)
         while pos <= len(word)-1:
             try:
                 if (word[pos:pos+2] == 'rr') and ('rr' in letters):

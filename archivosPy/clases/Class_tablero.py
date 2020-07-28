@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 import time
-import Class_administrador as administrador
+import archivosPy.clases.Class_administrador as administrador
 
 #Color de fondo del tablero: #1CB7C3
 
@@ -64,9 +64,9 @@ class Tablero ():
         pass
 
     def set_layout(self, configs):
-        col = [[sg.Button(' ',image_filename='Empezar.png',image_size=(75,25),key='Empezar')],
-               [sg.Button(' ',image_filename='GuardarT.png',image_size=(75,25),key='-SAVE-')],
-               [sg.Button(' ',image_filename='Menu.png',image_size=(120,25),key='-mainMenu-')],
+        col = [[sg.Button(' ',image_filename='Imagenes/Empezar.png',image_size=(75,25),key='Empezar')],
+               [sg.Button(' ',image_filename='Imagenes/GuardarT.png',image_size=(75,25),key='-SAVE-')],
+               [sg.Button(' ',image_filename='Imagenes/Menu.png',image_size=(120,25),key='-mainMenu-')],
                [sg.Text('Tiempo restante',background_color='#00FDFD')],
                [sg.Text(' ',background_color='#00FDFD',size=(8, 1), key=("-CLKTOTAL-"))],
                [sg.Text('Notas del juego',background_color='#00FDFD' ,size=(15, 5), key=("-MESSAGE-"))],
@@ -86,9 +86,9 @@ class Tablero ():
         layout_tablero = [
             [sg.Text('COMPUTADORA',background_color='#00FDFD'), sg.Text('', size=(30, 1),background_color='Brown', relief=sg.RELIEF_RIDGE)],
             [sg.Column(col2),sg.Text(' '*9,background_color='#1CB7C3') ,sg.Column(col,background_color=('#33C3C3'))],
-            [sg.Text(configs['name'],background_color='#00FDFD', key=("-NOMBRE-")), sg.Column(col3), sg.Button(' ',image_filename='Comprobar.png',image_size=(85,25),key='Comprobar'), 
-            sg.Button(' ',image_filename='Pasar.png',image_size=(85,25),key='-pasar-'),sg.Button(' ',image_filename='Revertir.png',image_size=(85,25),key='Revertir'), 
-            sg.Button(' ',image_filename='Cambiar.png',image_size=(85,25), key=('-change-')), sg.Button(' ',image_filename='ChangeAll.png',image_size=(85,25), key=('-changeAll-'))]
+            [sg.Text(configs['name'],background_color='#00FDFD', key=("-NOMBRE-")), sg.Column(col3), sg.Button(' ',image_filename='Imagenes/Comprobar.png',image_size=(85,25),key='Comprobar'), 
+            sg.Button(' ',image_filename='Imagenes/Pasar.png',image_size=(85,25),key='-pasar-'),sg.Button(' ',image_filename='Imagenes/Revertir.png',image_size=(85,25),key='Revertir'), 
+            sg.Button(' ',image_filename='Imagenes/Cambiar.png',image_size=(85,25), key=('-change-')), sg.Button(' ',image_filename='Imagenes/ChangeAll.png',image_size=(85,25), key=('-changeAll-'))]
         ]
         return layout_tablero
 
