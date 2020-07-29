@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 import time
+from sys import platform 
 import archivosPy.clases.Class_administrador as administrador
 
 #Color de fondo del tablero: #1CB7C3
@@ -81,14 +82,15 @@ class Tablero ():
                [sg.Text('Puntaje',background_color='#00FDFD')],
                [sg.Text('',size=(4,1),background_color='#00FDFD',key='-SCORE-')]
             ]
-
+        
         col2 = [[sg.Button(image_size=(50,50),size=(4, 2), key=(i, j), pad=(1, 1),button_color=('white','blue')) for j in range(self._MAX_COL)] for i in range(self._MAX_ROWS)]
 
         col3 = [[sg.Button('', size=(4, 2), key= (str(n)), pad=(0, 0),button_color=('white','blue'))for n in range(7)]]
-#C70F0F
+
+        specialSize = (663,663) if platform.startswith('win32') else (692,692)
         layout_tablero = [
             [sg.Text('COMPUTADORA',background_color='#00FDFD'), sg.Text('', size=(30, 1),background_color='Brown', relief=sg.RELIEF_RIDGE)],
-            [sg.Column(col2,size=(663,663)),sg.Text(' '*9,background_color='#1CB7C3') ,sg.Column(col,background_color=('#33C3C3'))],
+            [sg.Column(col2,size=specialSize),sg.Text(' '*9,background_color='#1CB7C3') ,sg.Column(col,background_color=('#33C3C3'))],
             [sg.Text(configs['name'],background_color='#00FDFD', key=("-NOMBRE-")), sg.Column(col3), sg.Button(' ',image_filename='Imagenes/board/Comprobar.png',image_size=(85,25),key='Comprobar'), 
             sg.Button(' ',image_filename='Imagenes/board/Pasar.png',image_size=(85,25),key='-pasar-'),sg.Button(' ',image_filename='Imagenes/board/Revertir.png',image_size=(85,25),key='Revertir'), 
             sg.Button(' ',image_filename='Imagenes/board/Cambiar.png',image_size=(85,25), key=('-change-')), sg.Button(' ',image_filename='Imagenes/board/ChangeAll.png',image_size=(85,25), key=('-changeAll-'))]

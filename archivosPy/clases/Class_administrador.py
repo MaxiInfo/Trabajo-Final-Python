@@ -96,7 +96,7 @@ class AdministradorDeJuego():
         '''
         booleano = self.existe_en(palabra)
         return booleano
-             
+
     def __es_correcta_medio(self,palabra):
         '''
             Ver comentario en naranja de arriba
@@ -270,26 +270,35 @@ class AdministradorDeJuego():
     def calcular_puntaje(self,palabra,tupla):
         puntaje = 0
         multiplicador = 0
-
-        for i in range(len(palabra)): #de 0 hasta len(palabra) -1
-            posicion_actual = tupla[i]
-
-            if posicion_actual in self._tuplas_DW: #Double word
-                puntaje += self._diccionario_puntaje[palabra[i].upper()]
+        if len(tupla) != len(palabra):
+            cant = 0
+            letras = []
+            while cant < len(palabra):
+                if cant < len(palabra)-1 and palabra[cant]+palabra[cant+1] in ('rr','ll'):
+                    letras += [palabra[cant]+palabra[cant+1]]
+                    cant+=2
+                else:
+                    letras += palabra[cant]
+                    cant += 1
+        else:
+            letras = palabra
+        for i in range(len(tupla)): #de 0 hasta len(tupla) -1
+            if tupla[i] in self._tuplas_DW: #Double word
+                puntaje += self._diccionario_puntaje[letras[i].upper()]
                 multiplicador += 2
-            elif posicion_actual in self._tuplas_TW: #Triple word
-                puntaje += self._diccionario_puntaje[palabra[i].upper()]
+            elif tupla[i] in self._tuplas_TW: #Triple word
+                puntaje += self._diccionario_puntaje[letras[i].upper()]
                 multiplicador += 3
-            elif posicion_actual in self._tuplas_DL: #Double letter
-                puntaje += self._diccionario_puntaje[palabra[i].upper()] * 2
-            elif posicion_actual in self._tuplas_TL: #Triple letter
-                puntaje += self._diccionario_puntaje[palabra[i].upper()] * 3
-            elif posicion_actual in self._tuplas_R10: #Restar 10
-                puntaje += self._diccionario_puntaje[palabra[i].upper()] -10
-            elif posicion_actual in self._tuplas_R20: #Restar 20
-                puntaje += self._diccionario_puntaje[palabra[i].upper()] -20
+            elif tupla[i] in self._tuplas_DL: #Double letter
+                puntaje += self._diccionario_puntaje[letras[i].upper()] * 2
+            elif tupla[i] in self._tuplas_TL: #Triple letter
+                puntaje += self._diccionario_puntaje[letras[i].upper()] * 3
+            elif tupla[i] in self._tuplas_R10: #Restar 10
+                puntaje += self._diccionario_puntaje[letras[i].upper()] -10
+            elif tupla[i] in self._tuplas_R20: #Restar 20
+                puntaje += self._diccionario_puntaje[letras[i].upper()] -20
             else: #La letra tocó una casilla no especial
-                puntaje += self._diccionario_puntaje[palabra[i].upper()]
+                puntaje += self._diccionario_puntaje[letras[i].upper()]
 
         if multiplicador != 0 and puntaje > 0: #Significa que tocó algun DoubleWord o Triple Word. Eso sí, si el puntaje es negativo, no se aumenta
             puntaje *= multiplicador

@@ -1,11 +1,12 @@
-x = 'pollo'
-try:
-    print(x[5])
-except IndexError:
-    print('ok')
+palabra = 'lldwajhdksndrrakdjhwjkallal'
+cant = 0
+letras = []
+while cant < len(palabra):
+    if cant < len(palabra)-1 and palabra[cant]+palabra[cant+1] in ('rr','ll'):
+        letras += [palabra[cant]+palabra[cant+1]]
+        cant+=2
+    else:
+        letras += palabra[cant]
+        cant += 1
 
-'''
-Bronce, para ST: #763c28
-Plata, para TL,DL: 	#C0C0C0
-Dorado, para TP, DP : 	#FFD700
-'''
+print(letras)

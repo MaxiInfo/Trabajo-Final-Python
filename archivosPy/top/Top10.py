@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 import json
+from sys import platform 
 
 from archivosPy.top import TopString
 
@@ -75,7 +76,8 @@ def set_layout():
     return layout_top
 
 def main ():
-    window = sg.Window('ScrabbleAR', set_layout(),size=(1230,400))
+    winSize = (1230,400) if platform.startswith('win32') else (1400,400)
+    window = sg.Window('ScrabbleAR', set_layout(),size=winSize)
     event,values= window.read()
     window.close()
     return event

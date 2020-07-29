@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from sys import platform 
 from archivosPy.configuracion import Configuraciones as config
 from archivosPy.gameLogic import boardLogic as board
 from archivosPy.gameLogic import Saved_file as save
@@ -24,8 +25,8 @@ configs = {'name':'Player','timing':120, 'turn':60, 'dificultad':'facil','modsBo
 #'modsBolsa' guarda en la posición 0 la cantidad de fichas y en la posición 1 el puntaje
 
 #[sg.Text(' '*18),sg.Button('',image_filename = 'Configuraciones5.png',image_size=(100,35),)], -->Ejemplo de uso de imagen como botón.
-
-window_menu = sg.Window('ScrabbleAR', layout_main_menu,size=(400,350))
+winSize = (400,350) if platform.startswith('win32') else (451,390)
+window_menu = sg.Window('ScrabbleAR', layout_main_menu,size= winSize)
 event, values= window_menu.read()
 while True:
     if event in (None,'Salir'):

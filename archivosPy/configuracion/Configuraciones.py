@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from sys import platform 
 from archivosPy.configuracion import Fichas
 from archivosPy.configuracion import Puntajes
 
@@ -24,7 +25,8 @@ def set_layout ():
 
 def main (configs):
     msj=('','Ingrese un nombre','Tiene que ingresar un nombre')
-    window = sg.Window('ScrabbleAR', set_layout(),size=(400,360))
+    winSize = (400,360) if platform.startswith('win32') else (500,390)
+    window = sg.Window('ScrabbleAR', set_layout(),size=winSize)
     while True:
         event, values = window.read()
         if event == 'Guardar':

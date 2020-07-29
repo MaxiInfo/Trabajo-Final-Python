@@ -30,8 +30,8 @@ class Computer:
         return self._changes 
 
     def add_changes(self):
-            self._changes += 1
-            pass       
+        self._changes += 1
+        pass
     def play (self,window,admin,board): 
         matriz = board.get_board()
         #serch type (pos,word)
