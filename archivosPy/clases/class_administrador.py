@@ -143,13 +143,6 @@ class AdministradorDeJuego():
         return booleano
 
     #=======================================================================================================================#
-    def _no_hay_mas(self,auxiliar,letra):
-        '''
-            Si auxiliar me queda en cero, entonces es momento de hacer un delete de esa letra del diccionario de cantidades
-        '''
-        if auxiliar <= 0:
-            del self._diccionario_cantidad[letra]
-    
     
     def _comprobar(self,auxiliar):
         '''
@@ -174,6 +167,13 @@ class AdministradorDeJuego():
                 break
         return caracter
 
+    def _conseguir_disponibles(self):
+        lista_return = []
+        for clave,valor in self._diccionario_cantidad.items():
+            if valor > 0:
+                lista_return.append(clave)
+        return lista_return
+
     def tomar_fichas(self,cantidad_fichas):
         '''
             El primer prototipo de este metodo fue HORRIBLE, explico que hace este método hermoso:
@@ -194,8 +194,8 @@ class AdministradorDeJuego():
         frecuencia_media = ['B', 'G', 'V', 'Y', 'Q', 'H', 'F','RR','LL']
         frecuencia_baja = ['Z', 'J', 'Ñ', 'X', 'K', 'W']
         while len(fichas) < cantidad_fichas:
-            #Creo una lista con las llaves(letras) disponibles del diccionario
-            letras = list(self._diccionario_cantidad.keys()) 
+            #Creo una lista con las llaves(letras) disponibles del diccionario (cantidad > 0)
+            letras = self._conseguir_disponibles() 
 
             RNG = r.randint(1,100)
             letra_actual = ''
@@ -213,13 +213,10 @@ class AdministradorDeJuego():
                 fichas.append(letra_actual.lower())
                 self._diccionario_cantidad[letra_actual] -= 1
                 lista.append(letra_actual)
-
-            contador = Counter(lista)
-            for clave,valor in contador.items():
-                if valor >= 2: 
-                    lista_prohibidas.append(clave)
-            #Ver documentación de no_hay_mas
-            self._no_hay_mas(aux,letra_actual)
+                contador = Counter(lista)
+                for clave,valor in contador.items():
+                    if valor >= 2: 
+                        lista_prohibidas.append(clave)
                 
         return fichas
     #=======================================================================================================================#
