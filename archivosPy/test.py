@@ -1,4 +1,5 @@
-palabra = 'lldwajhdksndrrakdjhwjkallal'
+import PySimpleGUI as sg
+'''palabra = 'lldwajhdksndrrakdjhwjkallal'
 cant = 0
 letras = []
 while cant < len(palabra):
@@ -10,3 +11,19 @@ while cant < len(palabra):
         cant += 1
 
 print(letras)
+'''
+layout = [
+    [sg.Text('',key = 'Text')],
+    [sg.Button('Salir'),sg.Button('Sigue')]
+]
+
+window = sg.Window('Prueba',layout)
+
+while True:
+    event,values = window.read()
+
+    if event in ('Salir',None):
+        break
+    if event in 'Sigue':
+        pass
+    window['Text'].Update([sg.Image(filename='Imagenes/tablero/letras/A.png')])
