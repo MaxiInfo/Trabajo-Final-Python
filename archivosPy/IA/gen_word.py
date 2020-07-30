@@ -40,16 +40,15 @@ def permuta(c):
 
 def palabras_correctas(list_combinaciones):
     #me ordena la lista por longitud de palbra de menor a mayor
-    list_ok = []
-
+    test_list = []
     for i in list_combinaciones:
         palabra = ''
         for j in i:
             palabra += j
         ok = comprobar(palabra)
         if ok and len(palabra) > 1:
-            list_ok.append(palabra)
-    return list_ok
+            test_list.append(i)
+    return test_list
 
 def main(list_letters):
     list_conj_potencia = potencia(list_letters)
@@ -59,7 +58,7 @@ def main(list_letters):
         list_combinaciones += permuta(i)
 
     list_final = palabras_correctas(list_combinaciones)
-    list_final = list(set(list_final))
+    #list_final = list(set(list_final))
     list_final = sorted(list_final, key=lambda s:(len(s),s))
     return list_final
 

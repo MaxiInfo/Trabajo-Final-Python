@@ -310,6 +310,7 @@ class AdministradorDeJuego():
         for char in lista_caracteres:
             puntaje += self._diccionario_puntaje[char.upper()]
         return puntaje * -1
+        
     def devolver_a_bolsa(self, lista_fichas):
         for ficha in lista_fichas:
             self._diccionario_cantidad[ficha.upper()] += 1

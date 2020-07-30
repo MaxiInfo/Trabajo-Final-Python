@@ -20,7 +20,7 @@ class Computer:
         pass
 
     def get_score(self):
-        return self._score
+        return self._score 
 
     def set_score(self,add_score):
         self._score += add_score
@@ -38,7 +38,9 @@ class Computer:
         serch = self._select_word_and_position(matriz)
         if serch == None:
             #La IA pasa
+            fichas_ant = self.get_letters()
             self.set_letters(admin.tomar_fichas(7))
+            admin.devolver_a_bolsa(fichas_ant)
             self.add_changes()
         else:
             #La IA juega
@@ -51,19 +53,8 @@ class Computer:
         letters = self.get_letters() #Porque las vincula por valor??
         pos = 0
         while pos <= len(word)-1:
-            try:
-                if (word[pos:pos+2] == 'rr') and ('rr' in letters):
-                    letters[letters.index('rr')] = admin.tomar_fichas(1)[0]
-                    pos +=2
-                elif (word[pos:pos+2] == 'll') and ('ll' in letters):
-                    letters[letters.index('ll')] = admin.tomar_fichas(1)[0]
-                    pos +=2
-                else:
-                    letters[letters.index(word[pos])] = admin.tomar_fichas(1)[0]
-                    pos +=1
-            except IndexError:
-                letters[letters.index(word[pos])] = admin.tomar_fichas(1)[0]
-                return
+            letters[letters.index(word[pos])] = admin.tomar_fichas(1)[0]
+            pos +=1
         pass
 
     def _insert_word(self,window,pos, word,board):
@@ -99,6 +90,6 @@ class Computer:
         wordlist = gen_wordlist(self.get_letters())
         pos,maximo = serch_pos(list_positions)
         word = serch_word(maximo, wordlist)
-        if word != "Error" and len(word) <= pos['cant']:
+        if word != "Error" and len(word) > 1 and len(word) <= pos['cant']:
             return (pos['listTuplas'][0:len(word)], word)
         return None

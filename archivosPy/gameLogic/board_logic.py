@@ -150,11 +150,13 @@ def cambiar_fichas(window,player,admin):
                 else:
                     window.FindElement('-MESSAGE-').Update('Ya Seleccionaste 3 Letras')
         if event == '-change-' and cant > 0:
+            letters_ant = [player.get_single_ficha(int(i)) for i in tecla_select]
             fichas_nue = admin.tomar_fichas(cant)
             for i in range(cant):
                 window.FindElement(tecla_select[i]).Update(image_filename = path_letras + fichas_nue[i].upper() + extension,button_color = ('white','blue')) #Para el atril
                 player.set_single_ficha(fichas_nue[i],int(tecla_select[i]))    
                 window.FindElement('-change-').Update(image_filename='Imagenes/board/Cambiar.png',image_size=(85,25))
+            admin.devolver_a_bolsa(letters_ant)
             break
         if event in (None, '-mainMenu-'):
             break
@@ -256,7 +258,7 @@ def play_player (player, window,admin,board):
                     window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
                 break
 #==========================================================================================================================#
-        if event == '-changeAll-': #and cant_letras != 0
+        if event == '-changeAll-':
             if player.get_cambios() == 3:
                 return '-GameOver-'
             player.add_cambio()
@@ -270,7 +272,9 @@ def play_player (player, window,admin,board):
                         palabra = palabra[0:-1]
                         cant_letras -= 1
                     window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
-            player.set_fichas(admin.tomar_fichas(7))
+            letters_ant = player.get_fichas()
+            player.set_fichas(admin.tomar_fichas(len(letters_ant)))
+            admin.devolver_a_bolsa(letters_ant)
             board.update_fichas_player(window,player.get_fichas())
             break
 #==========================================================================================================================#  
