@@ -168,11 +168,10 @@ class AdministradorDeJuego():
               -> también está contemplado el caso donde se eliminen letras del diccionario (lista_letras contiene solo las letras disponibles)
 
         '''
-        booleano = True
-        while booleano:
+        while True:
             caracter = r.choice(lista_letras)
             if caracter not in lista_prohibidas and caracter in lista_rng:
-                booleano = False
+                break
         return caracter
 
     def tomar_fichas(self,cantidad_fichas):
@@ -312,3 +311,15 @@ class AdministradorDeJuego():
             puntaje += self._diccionario_puntaje[char.upper()]
         return puntaje * -1
 
+'''ad = AdministradorDeJuego('facil')
+while True:
+    x = ad.tomar_fichas(7)
+    vocales = []
+    for i in x:
+        if i in ('a','e','i','o','u'):
+            vocales+= i
+    print(x)
+    print(vocales)
+    msj = input('====')
+    if msj == '0':
+        break'''

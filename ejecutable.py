@@ -1,16 +1,18 @@
 import PySimpleGUI as sg
 from sys import platform 
-from archivosPy.configuracion import Configuraciones as config
-from archivosPy.gameLogic import boardLogic as board
-from archivosPy.gameLogic import Saved_file as save
-from archivosPy.top import Top10 as top
+from archivosPy.configuracion import configuraciones as config
+from archivosPy.gameLogic import board_logic as board
+from archivosPy.gameLogic import saved_file as save
+from archivosPy.top import top10 as top
 
 sg.theme('LightBrown1')
 
 color_fondo = ('#E6DECE','#E6DECE')
 
+#sg.Button(' ',image_filename='Imagenes/menu/ScrabbleAr.png',image_size=(200,50),size=(15,2),button_color=color_fondo,key='Titulo')
+
 layout_main_menu = [
-    [sg.Text(' '*18),sg.Button(' ',image_filename='Imagenes/menu/ScrabbleAr.png',image_size=(200,50),size=(15,2),button_color=color_fondo,key='Titulo')],
+    [sg.Text(' '*18),sg.Image('Imagenes/menu/ScrabbleAr.png',size=(250,60))],
     [sg.Text('')],
     [sg.Text(' '*28),sg.Button(' ',image_filename='Imagenes/menu/Jugar1.png',image_size=(122,40),size=(15,2),key='Jugar')],
     [sg.Text(' '*28),sg.Button(' ',image_filename='Imagenes/menu/Continuar1.png',image_size=(122,37),size=(15,2),key='Continuar')],

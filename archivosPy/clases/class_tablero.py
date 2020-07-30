@@ -1,11 +1,12 @@
 import PySimpleGUI as sg
 import time
 from sys import platform 
-import archivosPy.clases.Class_administrador as administrador
+import archivosPy.clases.class_administrador as administrador
 
 #Color de fondo del tablero: #1CB7C3
 
 path_letras = 'Imagenes/tablero/letras/'
+path_especiales = 'Imagenes/tablero/especiales/'
 extension = '.png'
 
 class Tablero ():
@@ -77,7 +78,8 @@ class Tablero ():
                [sg.Text('Tiempo de jugada',background_color='#00FDFD')],
                [sg.Text('',background_color='#00FDFD' ,size= (4, 1), key= ('-CLKTURN-'))],
                [sg.Text('Letra actual',background_color='#00FDFD')],
-               [sg.Text('',background_color='#00FDFD',size=(4,1),key=('-LetterSelected-'),justification=('center'))],
+               [sg.Image(path_especiales+'VACIO'+extension,size=(50,50),key=('-LetterSelected-'))],
+               #[sg.Text('',background_color='#00FDFD',size=(4,1),key=('-LetterSelected-'),justification=('center'))],
                #[sg.Text(' ',background_color='#00FDFD' ,size=(8, 1), key=("-TURN-"))],
                [sg.Text('Puntaje',background_color='#00FDFD')],
                [sg.Text('',size=(4,1),background_color='#00FDFD',key='-SCORE-')]
@@ -98,23 +100,21 @@ class Tablero ():
         return layout_tablero
 
     def set_default_button(self,window,tupla):
-        direccion = 'Imagenes/tablero/especiales/'
-        formato = '.png'
         i,j=tupla
         if (i, j) in self.triple_letter:
-            window.FindElement((i, j)).Update(image_filename = direccion +'TL'+ formato) #Triple Letra
+            window.FindElement((i, j)).Update(image_filename = path_especiales +'TL'+ extension) #Triple Letra
         elif (i, j) in self.double_letter:
-            window.FindElement((i, j)).Update(image_filename = direccion +'DL'+ formato) #Doble Letra
+            window.FindElement((i, j)).Update(image_filename = path_especiales +'DL'+ extension) #Doble Letra
         elif (i, j) in self.triple_word:
-            window.FindElement((i, j)).Update(image_filename = direccion +'TP'+ formato) #Triple Palabra
+            window.FindElement((i, j)).Update(image_filename = path_especiales +'TP'+ extension) #Triple Palabra
         elif (i, j) in self.double_word:
-            window.FindElement((i, j)).Update(image_filename = direccion +'DP'+ formato) #Doble Palabra
+            window.FindElement((i, j)).Update(image_filename = path_especiales +'DP'+ extension) #Doble Palabra
         elif (i, j) == self.start_button:
-            window.FindElement((i, j)).Update(image_filename = direccion +'ST'+ formato) #Start
+            window.FindElement((i, j)).Update(image_filename = path_especiales +'ST'+ extension) #Start
         elif (i, j) in self.R10 or (i, j) in self.R20:
-            window.FindElement((i, j)).Update(image_filename = direccion +'BOMBA'+ formato) #Bomba
+            window.FindElement((i, j)).Update(image_filename = path_especiales +'BOMBA'+ extension) #Bomba
         else:
-            window.FindElement((i, j)).Update(image_filename = direccion +'VACIO'+ formato)
+            window.FindElement((i, j)).Update(image_filename = path_especiales +'VACIO'+ extension)
             
     def table_on(self, window):
         for i in range(self._MAX_ROWS):

@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 import json
 from sys import platform 
 
-from archivosPy.top import TopString
+from archivosPy.top import top_string
 
 nombre_archivo = "archivosJSON/archivoTop.json"
 archivo_top = open(nombre_archivo,'r')

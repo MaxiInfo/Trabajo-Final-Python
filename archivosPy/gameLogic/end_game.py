@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-import archivosPy.top.Actualizar_top as top
+import archivosPy.top.actualizar_top as top
 
 def End(player,IA,admin):
     player.mod_puntaje(admin.calcular_sobrante(player.get_fichas()))

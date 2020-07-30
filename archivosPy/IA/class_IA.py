@@ -1,5 +1,5 @@
-from archivosPy.IA.GenDic import gen_dics
-from archivosPy.IA.GenWord import main as gen_wordlist
+from archivosPy.IA.gen_dic import gen_dics
+from archivosPy.IA.gen_word import main as gen_wordlist
 
 path_letras = 'Imagenes/tablero/letras/'
 extension = '.png'

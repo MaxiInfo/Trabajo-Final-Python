@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 from sys import platform 
-from archivosPy.configuracion import Fichas
-from archivosPy.configuracion import Puntajes
+from archivosPy.configuracion import fichas
+from archivosPy.configuracion import puntajes
 
 def set_layout ():
     layout_configs = [
