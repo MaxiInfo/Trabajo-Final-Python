@@ -33,9 +33,9 @@ class Computer:
     def add_changes(self):
         self._changes += 1
         pass
-    def play (self,window,admin,board): 
+    def play (self,window,admin,board,player_score): 
         matriz = board.get_board()
-        pos,word = self._select_word_and_position(matriz,admin)
+        pos,word = self._select_word_and_position(matriz,admin,player_score)
         if pos == None:
             #La IA pasa
             fichas_ant = self.get_letters()
@@ -68,20 +68,19 @@ class Computer:
             board.mod_board(pos,word)
         pass
 
-    def __serch_pos(self,list_positions,word_list,admin):
+    def __serch_pos(self,list_positions,word_list,admin,player_score):
         """
         Esta funcion se encarga de ejecutar uno u otra funcion de busqueda segun la dificultad del juego
         """
         if admin.get_dificultad() == 'facil':
-            pos, word = self.serch_easy(list_positions,word_list)
+            pos, word = self.serch_easy(list_positions,player_score,admin,word_list)
         elif admin.get_dificultad() == 'medio':
-            print('aca')
             pos, word = self.serch_medium(list_positions,admin,word_list)
         else:
             pos, word = self.serch_dificult(list_positions,word_list,admin)
         return pos,word
 
-    def serch_easy(self,list_positions,word_list):
+    def serch_easy(self,list_positions,player_score,admin,word_list):
         """
         Funcion recursiva, busca si la ultima palabra que se encuentra en la lista 'word_list'
         entra en las posiciones de 'list_positions', se agrea todos los posibles lugares en 'l_aux'
@@ -94,17 +93,32 @@ class Computer:
         #el algoritmo tiene la deficiencia que en caso de tener palabras con la misma longituud las compruena todas i entran en los espacioss
         if word_list == []:
             return None,None
-        word_act = word_list[-1]
+        word_act = word_list[0]
         ls_aux =[]
-        for i in list_positions:
-            if len(i) >= len(word_act):
-                ls_aux.append(i)
+        if self.get_score() >= player_score:
+            for i in list_positions:
+                if len(i) >= len(word_act):
+                    for j in range(len(i)-len(word_act)):
+                        ok = False
+                        for k in i[j:j+len(word_act)]:
+                            if k in admin.get_bad_positions():
+                                ok = True
+                        if ok:
+                            ls_aux.append(i[j:j+len(word_act)])
+            if ls_aux == []:
+                for i in list_positions:
+                    if len(i) >= len(word_act):
+                        ls_aux.append(i)
+        else:
+            for i in list_positions:
+                if len(i) >= len(word_act):
+                    ls_aux.append(i)
         if ls_aux != []:
             ls_def = ls_aux[r(0,len(ls_aux)-1)]
             st_pos = r(0,(len(ls_def)-1)-(len(word_act)-1))
             return ls_def[st_pos:st_pos+len(word_act)],word_act
         else:
-            serch_easy(list_positions,word_list[0:-1])
+            serch_easy(list_positions,player_score,admin,word_list[1:])
 
     def serch_medium(self,list_positions,admin,word_list):
         """
@@ -153,7 +167,7 @@ class Computer:
         else:
             serch_dificult(list_positions,admin,word_list[0:-1])
 
-    def _select_word_and_position(self,matriz,admin):
+    def _select_word_and_position(self,matriz,admin,player_score):
         """
         Funcion que en base a la matriz de estado del tablero y las letras en el atril de la clase busca el espacio para insertar alguna
         de las palabra generadas por el modulo genWord
@@ -164,5 +178,5 @@ class Computer:
         word_list = gen_wordlist(self.get_letters())
         if word_list == []:
             return (None,None)
-        pos,word = self.__serch_pos(list_positions,word_list,admin)
+        pos,word = self.__serch_pos(list_positions,word_list,admin,player_score)
         return (pos,word)

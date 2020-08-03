@@ -453,7 +453,7 @@ def game_procces (window,admin,board,player,IA):
             event = play_player(player,window,admin,board)
             if event in (None, '-mainMenu-', '-SAVE-'):
                 break
-            IA.play (window,admin,board)
+            IA.play (window,admin,board,player.get_puntaje())
             if event =='-GameOver-':
                 End(player,IA,admin)
                 break
@@ -463,7 +463,7 @@ def game_procces (window,admin,board,player,IA):
             
     else:
         while True:
-            IA.play (window,admin,board)
+            IA.play (window,admin,board,player.get_puntaje())
             if IA.get_changes() == 3:
                 return '-ChangesDone-'
             event = play_player (player,window,admin,board)
