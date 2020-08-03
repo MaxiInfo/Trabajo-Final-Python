@@ -35,7 +35,7 @@ class Computer:
         pass
     def play (self,window,admin,board): 
         matriz = board.get_board()
-        pos,word = self._select_word_and_position(matriz,admin.get_dificultad())
+        pos,word = self._select_word_and_position(matriz,admin)
         if pos == None:
             #La IA pasa
             fichas_ant = self.get_letters()
@@ -46,6 +46,7 @@ class Computer:
             #La IA juega
             self._insert_word(window,pos,word,board)
             self.set_score(admin.calcular_puntaje(word,pos))
+            print(self._score)
             self._refill_letters(admin,word)
         return
 
@@ -62,40 +63,38 @@ class Computer:
         Inserta una palabra recibida como parametro en la window con key (int,int)
         hace modificaciones a la matriz recibida como parametro en dichas posiciones
         """
-        '''print('+'*20)
-        print(pos)
-        print(word)'''
         for i in range(len(word)):
             window.FindElement(pos[i]).Update(image_filename = PATH_LETRAS + word[i].upper() + EXTENSION,disabled=True,button_color = ('black','#58F76D'))
             board.mod_board(pos,word)
         pass
 
-    def __serch_pos(self,list_positions,wordlist,dif):
+    def __serch_pos(self,list_positions,word_list,admin):
         """
         Esta funcion se encarga de ejecutar uno u otra funcion de busqueda segun la dificultad del juego
         """
-        if dif == 'facil':
-            pos, word = self.serch_easy(list_positions,wordlist)
-        elif dif == 'medio':
-            pos, word = self.serch_medium(list_positions,wordlist)
+        if admin.get_dificultad() == 'facil':
+            pos, word = self.serch_easy(list_positions,word_list)
+        elif admin.get_dificultad() == 'medio':
+            print('aca')
+            pos, word = self.serch_medium(list_positions,admin,word_list)
         else:
-            pos, word = self.serch_dificult(list_positions,wordlist)
+            pos, word = self.serch_dificult(list_positions,word_list,admin)
         return pos,word
 
-    def serch_dificult(self,list_positions,wordlist):
-        pass
-
-    def serch_medium(self,list_positions,wordlist):
-        pass
-
-    def serch_easy(self,list_positions,wordlist):
+    def serch_easy(self,list_positions,word_list):
         """
-        Funcion que busca segun el ultimo valor de la lista wordlist el que seria el mas grande
-        busca las posiciones donde entraria y retorna la posicion a ingresar y la palabra
+        Funcion recursiva, busca si la ultima palabra que se encuentra en la lista 'word_list'
+        entra en las posiciones de 'list_positions', se agrea todos los posibles lugares en 'l_aux'
+        luego se busca un lugar aleatorio de todos los posibles y se acomoda la palabra en una posicion 
+        aleatoria dentro del arreglo escogido, tanto esta ultima posicion como la palabra son retornados
+        parametros
+        list_positions type = lista de tuplas
+        word_list = lista de listas de caracteres o lista de palabras
         """
-        if wordlist == []:
+        #el algoritmo tiene la deficiencia que en caso de tener palabras con la misma longituud las compruena todas i entran en los espacioss
+        if word_list == []:
             return None,None
-        word_act = wordlist[-1]
+        word_act = word_list[-1]
         ls_aux =[]
         for i in list_positions:
             if len(i) >= len(word_act):
@@ -105,9 +104,56 @@ class Computer:
             st_pos = r(0,(len(ls_def)-1)-(len(word_act)-1))
             return ls_def[st_pos:st_pos+len(word_act)],word_act
         else:
-            serch_easy(list_positions,wordlist[0:-1])
+            serch_easy(list_positions,word_list[0:-1])
 
-    def _select_word_and_position(self,matriz,dif):
+    def serch_medium(self,list_positions,admin,word_list):
+        """
+        Funcion similar a serch_easy el unico cambio es que la IA primero busca si existen posiciones 
+        posibles sin descuentos de puntaje y de no haber ingresa la palabra en una posicion con descuentos de puntaje
+        """
+        if word_list == []:
+            return None,None
+        word_act = word_list[-1]
+        ls_aux =[]
+        for i in list_positions:
+            if len(i) >= len(word_act):
+                for j in range(len(i)-len(word_act)):
+                    ok = True
+                    for k in i[j:j+len(word_act)]:
+                        if k in admin.get_bad_positions():
+                            ok = False
+                    if ok:
+                        ls_aux.append(i)
+        if ls_aux == []:
+            for i in list_positions:
+                if len(i) >= len(word_act):
+                    ls_aux.append(i)
+        if ls_aux != []:
+            ls_def = ls_aux[r(0,len(ls_aux)-1)]
+            st_pos = r(0,(len(ls_def)-1)-(len(word_act)-1))
+            return ls_def[st_pos:st_pos+len(word_act)],word_act
+        else:
+            serch_medium(list_positions,admin,word_list[0:-1])
+
+    def serch_dificult(self,list_positions,word_list,admin):
+        if word_list == []:
+            return None,None
+        word_act = word_list[-1]
+        ls_tuplas = []
+        pun_max = -1
+        for i in list_positions:
+            if len(i) >= len(word_act):
+                for j in range(len(i)-len(word_act)):
+                    pun_act = admin.calcular_puntaje(word_act,i[j:j+len(word_act)])
+                    if pun_act > pun_max:
+                        pun_max = pun_act
+                        ls_tuplas = i[j:j+len(word_act)]
+        if ls_tuplas != []:
+            return ls_tuplas,word_act
+        else:
+            serch_dificult(list_positions,admin,word_list[0:-1])
+
+    def _select_word_and_position(self,matriz,admin):
         """
         Funcion que en base a la matriz de estado del tablero y las letras en el atril de la clase busca el espacio para insertar alguna
         de las palabra generadas por el modulo genWord
@@ -115,8 +161,8 @@ class Computer:
         list_positions = serch_positions(matriz,len(matriz),len(matriz[0]))
         if list_positions == []:
             return (None,None)
-        wordlist = gen_wordlist(self.get_letters())
-        if wordlist == []:
+        word_list = gen_wordlist(self.get_letters())
+        if word_list == []:
             return (None,None)
-        pos,word = self.__serch_pos(list_positions,wordlist,dif)
+        pos,word = self.__serch_pos(list_positions,word_list,admin)
         return (pos,word)

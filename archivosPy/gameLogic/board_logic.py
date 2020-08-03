@@ -451,9 +451,9 @@ def game_procces (window,admin,board,player,IA):
     if (rand_start == 1):
         while True:
             event = play_player(player,window,admin,board)
-            IA.play (window,admin,board)
             if event in (None, '-mainMenu-', '-SAVE-'):
                 break
+            IA.play (window,admin,board)
             if event =='-GameOver-':
                 End(player,IA,admin)
                 break

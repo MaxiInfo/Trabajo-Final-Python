@@ -20,7 +20,7 @@ class AdministradorDeJuego():
         self.__crear_diccionarios(modsBolsa)
 
     def get_bad_positions(self):
-        return set(self._tuplas_R10,self._tuplas_R20)
+        return set(self._tuplas_R10 + self._tuplas_R20)
 
     def get_dificultad(self):
         return self._dificultad_actual
