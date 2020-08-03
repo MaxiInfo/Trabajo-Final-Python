@@ -5,9 +5,9 @@ import archivosPy.clases.class_administrador as administrador
 
 #Color de fondo del tablero: #1CB7C3
 
-path_letras = 'Imagenes/tablero/letras/'
-path_especiales = 'Imagenes/tablero/especiales/'
-extension = '.png'
+PATH_LETRAS = 'Imagenes/tablero/letras/'
+PATH_ESPECIALES = 'Imagenes/tablero/especiales/'
+EXTENSION = '.png'
 
 class Tablero ():
     def __init__(self,lista_tuplas):
@@ -78,7 +78,7 @@ class Tablero ():
                [sg.Text('Tiempo de jugada',background_color='#00FDFD')],
                [sg.Text('',background_color='#00FDFD' ,size= (4, 1), key= ('-CLKTURN-'))],
                [sg.Text('Letra actual',background_color='#00FDFD')],
-               [sg.Image(path_especiales+'VACIO'+extension,size=(50,50),key=('-LetterSelected-'))],
+               [sg.Image(PATH_ESPECIALES+'VACIO'+EXTENSION,size=(50,50),key=('-LetterSelected-'))],
                #[sg.Text('',background_color='#00FDFD',size=(4,1),key=('-LetterSelected-'),justification=('center'))],
                #[sg.Text(' ',background_color='#00FDFD' ,size=(8, 1), key=("-TURN-"))],
                [sg.Text('Puntaje',background_color='#00FDFD')],
@@ -102,19 +102,19 @@ class Tablero ():
     def set_default_button(self,window,tupla):
         i,j=tupla
         if (i, j) in self.triple_letter:
-            window.FindElement((i, j)).Update(image_filename = path_especiales +'TL'+ extension) #Triple Letra
+            window.FindElement((i, j)).Update(image_filename = PATH_ESPECIALES +'TL'+ EXTENSION) #Triple Letra
         elif (i, j) in self.double_letter:
-            window.FindElement((i, j)).Update(image_filename = path_especiales +'DL'+ extension) #Doble Letra
+            window.FindElement((i, j)).Update(image_filename = PATH_ESPECIALES +'DL'+ EXTENSION) #Doble Letra
         elif (i, j) in self.triple_word:
-            window.FindElement((i, j)).Update(image_filename = path_especiales +'TP'+ extension) #Triple Palabra
+            window.FindElement((i, j)).Update(image_filename = PATH_ESPECIALES +'TP'+ EXTENSION) #Triple Palabra
         elif (i, j) in self.double_word:
-            window.FindElement((i, j)).Update(image_filename = path_especiales +'DP'+ extension) #Doble Palabra
+            window.FindElement((i, j)).Update(image_filename = PATH_ESPECIALES +'DP'+ EXTENSION) #Doble Palabra
         elif (i, j) == self.start_button:
-            window.FindElement((i, j)).Update(image_filename = path_especiales +'ST'+ extension) #Start
+            window.FindElement((i, j)).Update(image_filename = PATH_ESPECIALES +'ST'+ EXTENSION) #Start
         elif (i, j) in self.R10 or (i, j) in self.R20:
-            window.FindElement((i, j)).Update(image_filename = path_especiales +'BOMBA'+ extension) #Bomba
+            window.FindElement((i, j)).Update(image_filename = PATH_ESPECIALES +'BOMBA'+ EXTENSION) #Bomba
         else:
-            window.FindElement((i, j)).Update(image_filename = path_especiales +'VACIO'+ extension)
+            window.FindElement((i, j)).Update(image_filename = PATH_ESPECIALES +'VACIO'+ EXTENSION)
             
     def table_on(self, window):
         for i in range(self._MAX_ROWS):
@@ -124,7 +124,7 @@ class Tablero ():
 
     def update_fichas_player(self, window, fichas_player):
         for i in range(len(fichas_player)):
-            window.FindElement(str(i)).Update(image_filename = path_letras + fichas_player[i].upper() + extension)
+            window.FindElement(str(i)).Update(image_filename = PATH_LETRAS + fichas_player[i].upper() + EXTENSION)
         pass
 
 

@@ -1,17 +1,5 @@
 import json
 import PySimpleGUI as sg
-'''
-def main():
-    try:
-        archivo = open('saved_game.json', 'r')
-        diccionario = json.load(archivo)
-    except FileNotFoundError:
-        sg.Popup('No hay archivo de juego guardado')
-        return 0
-    else:
-        archivo.close()
-        return diccionario
-'''
 
 def load_saved(configs, diccionario):
     '''
@@ -29,7 +17,6 @@ def load_saved(configs, diccionario):
     configs['modsBolsa'][1] = diccionario['puntaje_fichas']
     configs['tablero'] = diccionario['tablero']
     return configs
-
 
 def main():
     archivo = open('archivosJSON/saved_game.json', 'r')

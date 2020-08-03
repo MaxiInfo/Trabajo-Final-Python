@@ -4,8 +4,8 @@ from sys import platform
 
 from archivosPy.top import top_string
 
-nombre_archivo = "archivosJSON/archivoTop.json"
-archivo_top = open(nombre_archivo,'r')
+NOMBRE_ARCHIVO = "archivosJSON/archivoTop.json"
+archivo_top = open(NOMBRE_ARCHIVO,'r')
 
 diccionario = json.load(archivo_top)
 

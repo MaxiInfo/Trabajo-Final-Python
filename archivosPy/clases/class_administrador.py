@@ -3,13 +3,11 @@ from pattern.text.es import parse , split, lexicon, spelling , verbs
 import random as r
 from collections import Counter
 
-
 class AdministradorDeJuego():
     tupla_adj = ('AO','JJ','AQ','DI','DT')
     tupla_sus = ('NC','NN','NCS','NCP','NNS','NP','NNP','W')
     tupla_verb = ('VAG','VBG','VAI','VAN','MD','VAS','VMG','VMI','VB','VMM','VMN','VMP','VBN','VMS','VSG','VSI','VSN','VSP','VSS')
     
-
     def __init__(self,dif,modsBolsa = [None,None]):
         self._dificultad_actual = dif
         self._tuplas_DL = []
@@ -20,6 +18,9 @@ class AdministradorDeJuego():
         self._tuplas_R20 = []
         self.__crear_tuplas()
         self.__crear_diccionarios(modsBolsa)
+
+    def get_bad_positions(self):
+        return set(self._tuplas_R10,self._tuplas_R20)
 
     def get_dificultad(self):
         return self._dificultad_actual

@@ -3,16 +3,16 @@ import json
 def actualizar(nombre_jugador,puntaje,fecha,dificultad_jugada):
     '''El siguiente modulo lo que hace es actualizar el top10 de una dificultad previamente jugada.
         Abarca todos los casos posibles:
-            Sí repito el nombre como jugador y supero el puntaje existente -> lo actualizo.
-            Sí repito el nombre como jugador PERO no supero el puntaje existente -> no se actualiza.
-            Sí es un nuevo nombre, puede que entre o no al top10, de todas formas sí entra se verá bién posicionado, caso contrario 
+            Sí repito el NOMBRE como jugador y supero el puntaje existente -> lo actualizo.
+            Sí repito el NOMBRE como jugador PERO no supero el puntaje existente -> no se actualiza.
+            Sí es un nuevo NOMBRE, puede que entre o no al top10, de todas formas sí entra se verá bién posicionado, caso contrario 
                 no ingresa.
     '''
 
-    nombre = 'archivosJSON/archivoTop.json'
+    NOMBRE = 'archivosJSON/archivoTop.json'
     sigo = True
     try:
-        with open(nombre,'r') as archivo_top:
+        with open(NOMBRE,'r') as archivo_top:
             diccionario_completo = json.load(archivo_top) #Tomo todo el diccionario
             diccionario_ordenar = diccionario_completo[dificultad_jugada] #facil, medio, o dificil.
 
@@ -38,7 +38,7 @@ def actualizar(nombre_jugador,puntaje,fecha,dificultad_jugada):
     except FileNotFoundError:
         #Si se dá el caso que el usuario borra el archivoTop.json por que es un cliente desastroso, no estaría mal generarlo de nuevo.
         diccionario = {"facil": {"AAA": [50, "22/5"], "BBB": [45, "22/5"], "CCC": [40, "22/5"], "DDD": [35, "22/5"], "EEE": [30, "22/5"], "FFF": [25, "22/5"], "GGG": [20, "22/5"], "HHH": [15, "22/5"], "III": [10, "22/5"], "JJJ": [5, "22/5"]}, "medio": {"KKK": [70, "23/5"], "LLL": [65, "23/5"], "MMM": [60, "23/5"], "NNN": [55, "23/5"], "OOO": [50, "23/5"], "PPP": [45, "23/5"], "QQQ": [40, "23/5"], "RRR": [35, "23/5"], "SSS": [30, "23/5"], "TTT": [25, "23/5"]}, "dificil": {"j1": [45, "24/5"], "j2": [40, "24/5"], "j3": [35, "24/5"], "j4": [30, "24/5"], "j5": [25, "24/5"], "j6": [20, "24/5"], "j7": [15, "24/5"], "j8": [10, "24/5"], "j9": [5, "24/5"], "j10": [0, "24/5"]}}
-        archivo_nuevo = open(nombre,'w')
+        archivo_nuevo = open(NOMBRE,'w')
         json.dump(diccionario,archivo_nuevo)
         archivo_nuevo.close()
 def get_ult_top10(dif):

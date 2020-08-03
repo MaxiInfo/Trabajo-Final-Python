@@ -1,8 +1,9 @@
-from archivosPy.IA.gen_dic import gen_dics
+from archivosPy.IA.gen_list_positions import main as serch_positions
 from archivosPy.IA.gen_word import main as gen_wordlist
+from random import randint as r
 
-path_letras = 'Imagenes/tablero/letras/'
-extension = '.png'
+PATH_LETRAS = 'Imagenes/tablero/letras/'
+EXTENSION = '.png'
 
 class Computer:
     def __init__(self):
@@ -34,9 +35,8 @@ class Computer:
         pass
     def play (self,window,admin,board): 
         matriz = board.get_board()
-        #serch type (pos,word)
-        serch = self._select_word_and_position(matriz)
-        if serch == None:
+        pos,word = self._select_word_and_position(matriz,admin.get_dificultad())
+        if pos == None:
             #La IA pasa
             fichas_ant = self.get_letters()
             self.set_letters(admin.tomar_fichas(7))
@@ -44,9 +44,9 @@ class Computer:
             self.add_changes()
         else:
             #La IA juega
-            self._insert_word(window,serch[0],serch[1],board)
-            self.set_score(admin.calcular_puntaje(serch[1],serch[0]))
-            self._refill_letters(admin,serch[1])
+            self._insert_word(window,pos,word,board)
+            self.set_score(admin.calcular_puntaje(word,pos))
+            self._refill_letters(admin,word)
         return
 
     def _refill_letters(self,admin,word):
@@ -58,38 +58,65 @@ class Computer:
         pass
 
     def _insert_word(self,window,pos, word,board):
+        """
+        Inserta una palabra recibida como parametro en la window con key (int,int)
+        hace modificaciones a la matriz recibida como parametro en dichas posiciones
+        """
+        '''print('+'*20)
+        print(pos)
+        print(word)'''
         for i in range(len(word)):
-            window.FindElement(pos[i]).Update(image_filename = path_letras + word[i].upper() + extension,disabled=True,button_color = ('black','#58F76D'))
+            window.FindElement(pos[i]).Update(image_filename = PATH_LETRAS + word[i].upper() + EXTENSION,disabled=True,button_color = ('black','#58F76D'))
             board.mod_board(pos,word)
         pass
 
-    def _select_word_and_position(self,matriz):
+    def __serch_pos(self,list_positions,wordlist,dif):
+        """
+        Esta funcion se encarga de ejecutar uno u otra funcion de busqueda segun la dificultad del juego
+        """
+        if dif == 'facil':
+            pos, word = self.serch_easy(list_positions,wordlist)
+        elif dif == 'medio':
+            pos, word = self.serch_medium(list_positions,wordlist)
+        else:
+            pos, word = self.serch_dificult(list_positions,wordlist)
+        return pos,word
+
+    def serch_dificult(self,list_positions,wordlist):
+        pass
+
+    def serch_medium(self,list_positions,wordlist):
+        pass
+
+    def serch_easy(self,list_positions,wordlist):
+        """
+        Funcion que busca segun el ultimo valor de la lista wordlist el que seria el mas grande
+        busca las posiciones donde entraria y retorna la posicion a ingresar y la palabra
+        """
+        if wordlist == []:
+            return None,None
+        word_act = wordlist[-1]
+        ls_aux =[]
+        for i in list_positions:
+            if len(i) >= len(word_act):
+                ls_aux.append(i)
+        if ls_aux != []:
+            ls_def = ls_aux[r(0,len(ls_aux)-1)]
+            st_pos = r(0,(len(ls_def)-1)-(len(word_act)-1))
+            return ls_def[st_pos:st_pos+len(word_act)],word_act
+        else:
+            serch_easy(list_positions,wordlist[0:-1])
+
+    def _select_word_and_position(self,matriz,dif):
         """
         Funcion que en base a la matriz de estado del tablero y las letras en el atril de la clase busca el espacio para insertar alguna
         de las palabra generadas por el modulo genWord
         """
-        def serch_pos(list_positions):
-            maximo = -1
-            positions = []
-            #Busco la palabra mas grande
-            for i in list_positions:
-                if i['cant'] > maximo:
-                    maximo = i['cant']
-                    pos = i
-            return pos,maximo
-        def serch_word(maximo, wordlist):
-            if len(wordlist) != 0:
-                if maximo < len(wordlist[-1]):
-                    serch_word(maximo,wordlist[0:-1])
-                else:
-                    return (wordlist[-1])         
-            else:
-                return "Error"
-
-        list_positions = gen_dics(matriz,len(matriz),len(matriz[0]))
+        list_positions = serch_positions(matriz,len(matriz),len(matriz[0]))
+        if list_positions == []:
+            return (None,None)
         wordlist = gen_wordlist(self.get_letters())
-        pos,maximo = serch_pos(list_positions)
-        word = serch_word(maximo, wordlist)
-        if word != "Error" and len(word) > 1 and len(word) <= pos['cant']:
-            return (pos['listTuplas'][0:len(word)], word)
-        return None
+        if wordlist == []:
+            return (None,None)
+        pos,word = self.__serch_pos(list_positions,wordlist,dif)
+        return (pos,word)

@@ -7,14 +7,14 @@ from archivosPy.clases.class_tablero import Tablero
 from archivosPy.clases.class_administrador import AdministradorDeJuego
 from archivosPy.clases.class_Jugador import jugador
 from archivosPy.IA.class_IA import Computer
-from archivosPy.IA.gen_dic import gen_dics
+from archivosPy.IA.gen_list_positions import main as serch_positions
 from archivosPy.gameLogic.end_game import End
 
-teclas = ('0','1','2','3','4','5','6')
+TECLAS = ('0','1','2','3','4','5','6')
 
-path_letras = 'Imagenes/tablero/letras/'
-path_especiales = 'Imagenes/tablero/especiales/'
-extension = '.png'
+PATH_LETRAS = 'Imagenes/tablero/letras/'
+PATH_ESPECIALES = 'Imagenes/tablero/especiales/'
+EXTENSION = '.png'
 
 def guardar (board, jugador, admin, compu, name):
     '''
@@ -75,7 +75,7 @@ def block_word(window,tuple_list,palabra,board):
     j = 0
     for i in tuple_list:
         #window.FindElement(i).Update(disabled=True,button_color = ('black','#58F76D'))
-        window.FindElement(i).Update(disabled=True,image_filename = path_letras + palabra[j].upper() + extension,button_color = ('black','#58F76D')) ##
+        window.FindElement(i).Update(disabled=True,image_filename = PATH_LETRAS + palabra[j].upper() + EXTENSION,button_color = ('black','#58F76D')) ##
         j += 1
     pass
 
@@ -83,7 +83,7 @@ def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
     board.set_default_button(window,tupla)
     pos = player.pos_libre()
     player.set_single_ficha(letter,pos)
-    window.FindElement(str(pos)).Update(image_filename = path_letras + letter.upper() + extension,disabled = False) ##
+    window.FindElement(str(pos)).Update(image_filename = PATH_LETRAS + letter.upper() + EXTENSION,disabled = False) ##
     if cant == 1:
         tupla_aux1 = (tupla[0],tupla[1]+1) 
         tupla_aux2 = (tupla[0]+1,tupla[1]) 
@@ -137,7 +137,7 @@ def cambiar_fichas(window,player,admin):
     window.FindElement('-change-').Update(image_filename='Imagenes/board/Ok.png',image_size=(85,25))
     while True:
         event,_ = window.Read()
-        if event in teclas:
+        if event in TECLAS:
             if event in tecla_select:
                 cant -= 1
                 tecla_select.remove(event)
@@ -153,7 +153,7 @@ def cambiar_fichas(window,player,admin):
             letters_ant = [player.get_single_ficha(int(i)) for i in tecla_select]
             fichas_nue = admin.tomar_fichas(cant)
             for i in range(cant):
-                window.FindElement(tecla_select[i]).Update(image_filename = path_letras + fichas_nue[i].upper() + extension,button_color = ('white','blue')) #Para el atril
+                window.FindElement(tecla_select[i]).Update(image_filename = PATH_LETRAS + fichas_nue[i].upper() + EXTENSION,button_color = ('white','blue')) #Para el atril
                 player.set_single_ficha(fichas_nue[i],int(tecla_select[i]))    
                 window.FindElement('-change-').Update(image_filename='Imagenes/board/Cambiar.png',image_size=(85,25))
             admin.devolver_a_bolsa(letters_ant)
@@ -163,7 +163,7 @@ def cambiar_fichas(window,player,admin):
     return event
 
 def ingresa_primera(window,event,letter,board):
-    window.FindElement(event).Update(image_filename = path_letras + letter.upper() + extension) ##
+    window.FindElement(event).Update(image_filename = PATH_LETRAS + letter.upper() + EXTENSION) ##
     #(fila,columna)
     next1 = (event[0]+1,event[1])#abajo
     next2 = (event[0],event[1]+1)#derecha
@@ -185,7 +185,7 @@ def ingresa_segunda():
     pass
 
 def ingresa_tercera(window,event,escritura,letter,next_button, board):
-    window.FindElement(event).Update(image_filename = path_letras + letter.upper() + extension, button_color = ('white','blue')) ##
+    window.FindElement(event).Update(image_filename = PATH_LETRAS + letter.upper() + EXTENSION, button_color = ('white','blue')) ##
     if escritura == 'Horizontal':
         next_button =  (next_button[0],next_button[1]+1)
     else:
@@ -203,7 +203,7 @@ def fill_letters(player,window,admin):
         if list_fichas[i] == 0:
             ficha = admin.tomar_fichas(1)[0]
             list_fichas[i] = ficha
-            window.FindElement(str(i)).Update(image_filename = path_letras + ficha.upper() + extension,disabled=False) 
+            window.FindElement(str(i)).Update(image_filename = PATH_LETRAS + ficha.upper() + EXTENSION,disabled=False) 
     player.set_fichas(list_fichas)
     pass
 
@@ -255,11 +255,11 @@ def play_player (player, window,admin,board):
                         tuple_list.pop()
                         palabra = palabra[0:-1]
                         cant_letras -= 1
-                    window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
+                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
                 break
 #==========================================================================================================================#
         if event == '-changeAll-':
-            if player.get_cambios() == 3:
+            '''if player.get_cambios() == 3:
                 return '-GameOver-'
             player.add_cambio()
             if player.get_cambios() == 3:
@@ -271,11 +271,11 @@ def play_player (player, window,admin,board):
                         tuple_list.pop()
                         palabra = palabra[0:-1]
                         cant_letras -= 1
-                    window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
+                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
             letters_ant = player.get_fichas()
             player.set_fichas(admin.tomar_fichas(len(letters_ant)))
             admin.devolver_a_bolsa(letters_ant)
-            board.update_fichas_player(window,player.get_fichas())
+            board.update_fichas_player(window,player.get_fichas())'''
             break
 #==========================================================================================================================#  
         if event == '-change-' and cant_letras == 0:
@@ -291,11 +291,11 @@ def play_player (player, window,admin,board):
                         tuple_list.pop()
                         palabra = palabra[0:-1]
                         cant_letras -= 1
-                    window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
+                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
             event = cambiar_fichas(window,player,admin)
             break
 #==========================================================================================================================#       
-        if event in teclas:
+        if event in TECLAS:
             window.FindElement('-MESSAGE-').Update('Ingrese la letrra en el tablero')
             if not letter_selected:
                 # si no hay fichas seleccionadas tomo una ficha del atril, actualizo fichas del jugador
@@ -303,7 +303,7 @@ def play_player (player, window,admin,board):
                 pos_en_atril = event
                 letter = get_ficha(int(event))
                 window.FindElement(event).Update('')
-                window.FindElement('-LetterSelected-').Update(filename = path_letras + letter.upper() + extension)
+                window.FindElement('-LetterSelected-').Update(filename = PATH_LETRAS + letter.upper() + EXTENSION)
                 letter_selected = True
             else:
                 # devoludion de ficha seleccionada
@@ -312,18 +312,18 @@ def play_player (player, window,admin,board):
                     pos_en_atril = None
                     window.FindElement(event).Update(letter)
                     set_ficha(letter,int(event))
-                    window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
+                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
                     letter_selected = False
                 else:
                     # si se quiere intercambiar de ficha actual con otra en el atril
                     pos_en_atril = event
-                    window.FindElement(event).Update(image_filename = path_letras + letter.upper() + extension)
+                    window.FindElement(event).Update(image_filename = PATH_LETRAS + letter.upper() + EXTENSION)
                     let_change = player.change_single_ficha(letter,int(event))
                     if let_change != 0:
                         letter = let_change
-                        window.FindElement('-LetterSelected-').Update(filename = path_letras + letter.upper() + extension)
+                        window.FindElement('-LetterSelected-').Update(filename = PATH_LETRAS + letter.upper() + EXTENSION)
                     else:
-                        window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
+                        window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
                         letter_selected = False
             window.FindElement('-MESSAGE-').Update('Seleccione otra letra')
             continue
@@ -338,7 +338,7 @@ def play_player (player, window,admin,board):
                 tuple_list = [event]
                 next1,next2 = ingresa_primera(window,event,letter,board)
                 window.FindElement(pos_en_atril).Update(disabled=True)
-                window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
+                window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
             elif cant_letras == 1:
                 #si ya esta ingresada la primera letra
                 if (event == next1):
@@ -353,15 +353,15 @@ def play_player (player, window,admin,board):
                             window.FindElement(next2).Update(button_color = ('white','blue'))
                     except:
                         None
-                    window.FindElement(event).Update(image_filename = path_letras + letter.upper() + extension,button_color = ('white','blue'))
+                    window.FindElement(event).Update(image_filename = PATH_LETRAS + letter.upper() + EXTENSION,button_color = ('white','blue'))
                     next_button = (event[0]+1,event[1])
                     try:
                         if (board.get_board()[next_button[0]][next_button[1]] == 0):
                             window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
                     except:
                         None
-                    window.FindElement(pos_en_atril).Update(disabled=True) ###CAMBIAR ACA
-                    window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
+                    window.FindElement(pos_en_atril).Update(disabled=True) 
+                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
                 elif (event == next2):
                     #si se ingreso de Izquierda a Derecha
                     palabra += letter
@@ -374,7 +374,7 @@ def play_player (player, window,admin,board):
                             window.FindElement(next1).Update(button_color = ('white','blue'))
                     except:
                         None
-                    window.FindElement(event).Update(image_filename = path_letras + letter.upper() + extension,button_color = ('white','blue'))
+                    window.FindElement(event).Update(image_filename = PATH_LETRAS + letter.upper() + EXTENSION,button_color = ('white','blue'))
                     next_button = (event[0],event[1]+1)
                     try:
                         if (board.get_board()[next_button[0]][next_button[1]] == 0):
@@ -383,7 +383,7 @@ def play_player (player, window,admin,board):
                         None
                     escritura = 'Horizontal'
                     window.FindElement(pos_en_atril).Update(disabled=True)
-                    window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
+                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
                 else: 
                     continue
             elif cant_letras >= 2:
@@ -396,7 +396,7 @@ def play_player (player, window,admin,board):
                     next_button = ingresa_tercera(window,event,escritura,letter,next_button, board)
                     cant_letras += 1
                     window.FindElement(pos_en_atril).Update(disabled=True)
-                    window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
+                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
                 else:
                     continue
             elif event == (14,14):
@@ -418,7 +418,7 @@ def play_player (player, window,admin,board):
                     block_word(window,tuple_list,palabra,board)
                     fill_letters(player,window,admin)
                     board_aux = board.get_board()
-                    lis_pos = gen_dics(board_aux,len(board_aux),len(board_aux[0]))
+                    lis_pos = serch_positions(board_aux,len(board_aux),len(board_aux[0]))
                     if len(lis_pos) == 0:
                         return '-GameOver-'
                     break
@@ -436,7 +436,7 @@ def play_player (player, window,admin,board):
                 tuple_list.pop()
                 palabra = palabra[0:-1]
                 cant_letras -= 1
-                window.FindElement('-LetterSelected-').Update(filename = path_especiales + 'VACIO' + extension)
+                window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
             continue
     return event
 

@@ -46,7 +46,7 @@ def palabras_correctas(list_combinaciones):
         for j in i:
             palabra += j
         ok = comprobar(palabra)
-        if ok and len(palabra) > 1:
+        if ok and len(i) > 1:
             test_list.append(i)
     return test_list
 
@@ -62,8 +62,8 @@ def main(list_letters):
     list_final = sorted(list_final, key=lambda s:(len(s),s))
     return list_final
 
-"""def main():
-    list_letters = ['z','z','z','z','z','z','z']
+'''def main():
+    list_letters = ['a','z','o','z','c','p','i']
     list_conj_potencia = potencia(list_letters)
     print(list_conj_potencia)
     list_combinaciones = []
@@ -78,4 +78,4 @@ def main(list_letters):
     print(list_final)
     pass
 
-main()"""
+main()'''
