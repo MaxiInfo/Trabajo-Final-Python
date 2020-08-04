@@ -47,11 +47,7 @@ def guardar (board, jugador, admin, compu, name):
     
     with open("archivosJSON/saved_game.json", "w") as saved_file:
         json.dump(diccionario, saved_file, ensure_ascii=False)
-    
-    '''
-    dict_guardar = json.dumps(diccionario, ensure_ascii= False)
-    print(dict_guardar)
-    '''
+    pass
 
 def saved_board(lista_guardadas):
     '''
@@ -71,15 +67,19 @@ def game_on (window,board,fichas_jugador):
     pass
 
 def block_word(window,tuple_list,palabra,board):
+    """
+    dada una lista de tuplas y una palabra este modulo cambiarle el color de findo y deshabilitar el boton
+    """
     board.mod_board(tuple_list,palabra)
-    j = 0
-    for i in tuple_list:
-        #window.FindElement(i).Update(disabled=True,button_color = ('black','#58F76D'))
-        window.FindElement(i).Update(disabled=True,image_filename = PATH_LETRAS + palabra[j].upper() + EXTENSION,button_color = ('black','#58F76D')) ##
-        j += 1
+    for i in range(len(tuple_list)):
+        window.FindElement(tuple_list[i]).Update(disabled=True,button_color = ('black','#58F76D'))
     pass
 
 def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
+    """
+    modulo que se encarga de retornar el tablero y a las variables del jugador 
+    a la posicion anterior en caso de este haber nigresado una ficha
+    """
     board.set_default_button(window,tupla)
     pos = player.pos_libre()
     player.set_single_ficha(letter,pos)
@@ -127,10 +127,12 @@ def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
         except:
             None
         window.FindElement(tupla).Update(button_color = ('black','#4E61DC'))
-
     pass
 
 def cambiar_fichas(window,player,admin):
+    """
+    modulo que se encarga de tomar las fichas las cuales el jugador desee cambiar y pedirles un remplazo a la bolsa
+    """
     cant = 0
     tecla_select = []
     window.FindElement('-MESSAGE-').Update('seleccione hasta 3 letras para cambiar')
@@ -179,11 +181,6 @@ def ingresa_primera(window,event,letter,board):
         None    
     return next1,next2
 
-def ingresa_segunda():
-    #no me sale una forma facil de simplificar aca
-    #para hacer
-    pass
-
 def ingresa_tercera(window,event,escritura,letter,next_button, board):
     window.FindElement(event).Update(image_filename = PATH_LETRAS + letter.upper() + EXTENSION, button_color = ('white','blue')) ##
     if escritura == 'Horizontal':
@@ -198,6 +195,9 @@ def ingresa_tercera(window,event,escritura,letter,next_button, board):
     return next_button
 
 def fill_letters(player,window,admin):
+    """
+    modulo que se encarga de rellenar las letras al player cuando las necesite
+    """
     list_fichas = player.get_fichas()
     for i in range(len(list_fichas)):
         if list_fichas[i] == 0:
@@ -209,7 +209,7 @@ def fill_letters(player,window,admin):
 
 def play_player (player, window,admin,board):
     '''
-    el modulo play_player es el encargado del manejo de la colocacion de palabras en el tablero y el manejr de la interfaz 
+    el modulo play_player es el encargado del manejo de la colocacion de palabras en el tablero y el manejo de la interfaz 
     que el usuario va a tener dentro del juego
     '''
 
@@ -259,7 +259,7 @@ def play_player (player, window,admin,board):
                 break
 #==========================================================================================================================#
         if event == '-changeAll-':
-            '''if player.get_cambios() == 3:
+            if player.get_cambios() == 3:
                 return '-GameOver-'
             player.add_cambio()
             if player.get_cambios() == 3:
@@ -275,7 +275,7 @@ def play_player (player, window,admin,board):
             letters_ant = player.get_fichas()
             player.set_fichas(admin.tomar_fichas(len(letters_ant)))
             admin.devolver_a_bolsa(letters_ant)
-            board.update_fichas_player(window,player.get_fichas())'''
+            board.update_fichas_player(window,player.get_fichas())
             break
 #==========================================================================================================================#  
         if event == '-change-' and cant_letras == 0:
@@ -441,6 +441,9 @@ def play_player (player, window,admin,board):
     return event
 
 def game_procces (window,admin,board,player,IA):
+    """
+    modulo que se encarga de manejar el transcurso del juego y dice que jugador comienza la partida
+    """
     if len(player.get_fichas()) == 0: #no hay juego guardado
         player.set_fichas(admin.tomar_fichas(7))
         IA.set_letters(admin.tomar_fichas(7))
@@ -475,6 +478,9 @@ def game_procces (window,admin,board,player,IA):
     return event
 
 def main(configs):
+    """
+    modulo que se encarga de todo el manejo del tablero del juego
+    """
     admin = AdministradorDeJuego(configs['dificultad'],configs['modsBolsa'])
     board = Tablero(admin.devolver_tuplas())           
     window = sg.Window('ScrabbleAR', board.set_layout(configs),background_color=('#1CB7C3'))
@@ -497,8 +503,6 @@ def main(configs):
             board.set_time_game(tiempo_juego)
             board.set_time_left(tiempo_restante)
             board.set_turn(configs['turn'])
-            #player = jugador()
-            #IA = Computer()
             game_on(window,board,player.get_fichas()) #preguntar para que pasa el get_fichas, si es posible sacarlo
             if 'tablero' in configs: #prueba, queda horrible hacer el if de nuevo
                 palabra, tuplas = saved_board(configs['tablero'])

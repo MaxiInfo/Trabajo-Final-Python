@@ -34,8 +34,13 @@ class Computer:
         self._changes += 1
         pass
     def play (self,window,admin,board,player_score): 
+        """
+        este modulo es el que se encarga de todo lo necesario para que la IA juegue un turno
+        """
         matriz = board.get_board()
         pos,word = self._select_word_and_position(matriz,admin,player_score)
+        #print(pos)
+        #print(admin.get_bad_positions())
         if pos == None:
             #La IA pasa
             fichas_ant = self.get_letters()
@@ -46,11 +51,14 @@ class Computer:
             #La IA juega
             self._insert_word(window,pos,word,board)
             self.set_score(admin.calcular_puntaje(word,pos))
-            print(self._score)
             self._refill_letters(admin,word)
+            window.FindElement('-iaSize-').Update(str(self._score))
         return
 
     def _refill_letters(self,admin,word):
+        """
+        toma las letras de la bolsa y las remplaza donde estaban las letras las cuales formaron la palabra
+        """
         letters = self.get_letters() #Porque las vincula por valor??
         pos = 0
         while pos <= len(word)-1:
@@ -68,19 +76,19 @@ class Computer:
             board.mod_board(pos,word)
         pass
 
-    def __serch_pos(self,list_positions,word_list,admin,player_score):
+    def __search_pos(self,list_positions,word_list,admin,player_score):
         """
         Esta funcion se encarga de ejecutar uno u otra funcion de busqueda segun la dificultad del juego
         """
         if admin.get_dificultad() == 'facil':
-            pos, word = self.serch_easy(list_positions,player_score,admin,word_list)
+            pos, word = self.search_easy(list_positions,player_score,admin,word_list)
         elif admin.get_dificultad() == 'medio':
-            pos, word = self.serch_medium(list_positions,admin,word_list)
+            pos, word = self.search_medium(list_positions,admin,word_list)
         else:
-            pos, word = self.serch_dificult(list_positions,word_list,admin)
+            pos, word = self.search_dificult(list_positions,word_list,admin)
         return pos,word
 
-    def serch_easy(self,list_positions,player_score,admin,word_list):
+    def search_easy(self,list_positions,player_score,admin,word_list):
         """
         Funcion recursiva, busca si la ultima palabra que se encuentra en la lista 'word_list'
         entra en las posiciones de 'list_positions', se agrea todos los posibles lugares en 'l_aux'
@@ -90,7 +98,6 @@ class Computer:
         list_positions type = lista de tuplas
         word_list = lista de listas de caracteres o lista de palabras
         """
-        #el algoritmo tiene la deficiencia que en caso de tener palabras con la misma longituud las compruena todas i entran en los espacioss
         if word_list == []:
             return None,None
         word_act = word_list[0]
@@ -118,9 +125,9 @@ class Computer:
             st_pos = r(0,(len(ls_def)-1)-(len(word_act)-1))
             return ls_def[st_pos:st_pos+len(word_act)],word_act
         else:
-            serch_easy(list_positions,player_score,admin,word_list[1:])
+            search_easy(list_positions,player_score,admin,word_list[1:])
 
-    def serch_medium(self,list_positions,admin,word_list):
+    def search_medium(self,list_positions,admin,word_list):
         """
         Funcion similar a serch_easy el unico cambio es que la IA primero busca si existen posiciones 
         posibles sin descuentos de puntaje y de no haber ingresa la palabra en una posicion con descuentos de puntaje
@@ -147,9 +154,15 @@ class Computer:
             st_pos = r(0,(len(ls_def)-1)-(len(word_act)-1))
             return ls_def[st_pos:st_pos+len(word_act)],word_act
         else:
-            serch_medium(list_positions,admin,word_list[0:-1])
+            serach_medium(list_positions,admin,word_list[0:-1])
 
-    def serch_dificult(self,list_positions,word_list,admin):
+    def search_dificult(self,list_positions,word_list,admin):
+        """
+        esta funcion realiza un calculo de cada lugar donde se puede ingresar la ultima lpalabra recibida por 
+        el parametro word_list, se queda con el mayor puntaje y las posiciones donde seria ese mayor puntaje,
+        en caso de que la palabra no entre se llama de forma recursiva a la funcion con el parametro acotado
+        desde la primera posicion hasta la ultima
+        """
         if word_list == []:
             return None,None
         word_act = word_list[-1]
@@ -165,7 +178,7 @@ class Computer:
         if ls_tuplas != []:
             return ls_tuplas,word_act
         else:
-            serch_dificult(list_positions,admin,word_list[0:-1])
+            search_dificult(list_positions,admin,word_list[0:-1])
 
     def _select_word_and_position(self,matriz,admin,player_score):
         """
@@ -175,8 +188,8 @@ class Computer:
         list_positions = serch_positions(matriz,len(matriz),len(matriz[0]))
         if list_positions == []:
             return (None,None)
-        word_list = gen_wordlist(self.get_letters())
+        word_list = gen_wordlist(self.get_letters(),admin)
         if word_list == []:
             return (None,None)
-        pos,word = self.__serch_pos(list_positions,word_list,admin,player_score)
+        pos,word = self.__search_pos(list_positions,word_list,admin,player_score)
         return (pos,word)

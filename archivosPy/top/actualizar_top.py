@@ -1,6 +1,7 @@
 import json
+import time
 
-def actualizar(nombre_jugador,puntaje,fecha,dificultad_jugada):
+def actualizar(nombre_jugador,puntaje,dificultad_jugada):
     '''El siguiente modulo lo que hace es actualizar el top10 de una dificultad previamente jugada.
         Abarca todos los casos posibles:
             Sí repito el NOMBRE como jugador y supero el puntaje existente -> lo actualizo.
@@ -10,6 +11,7 @@ def actualizar(nombre_jugador,puntaje,fecha,dificultad_jugada):
     '''
 
     NOMBRE = 'archivosJSON/archivoTop.json'
+    fecha = time.strftime("%H:%M, %d/%m/%Y", time.localtime()) #14:59 03/08/20
     sigo = True
     try:
         with open(NOMBRE,'r') as archivo_top:

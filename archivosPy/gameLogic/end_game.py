@@ -11,21 +11,21 @@ def End(player,IA,admin):
         winner = 'IA'
     if winner == 'Player':
         if puntaje > top.get_ult_top10(admin.get_dificultad()):
-            sg.popup('Felicidades haz ganado la partida conseguiste un puntaje los suficientemente alto para entrar en el TOP10!',no_titlebar=True,keep_on_top=True)
+            sg.popup('Felicidades haz ganado la partida conseguiste un puntaje los suficientemente alto para entrar en el TOP10!',keep_on_top=True)
             top.actualizar(player.get_name,puntaje,admin.get_dificultad)
         else:
-            sg.popup('Felicidades haz ganado la partida tu puntaje no alcanzo para entrar en el TOP!)',no_titlebar=True,keep_on_top=True)
+            sg.popup('Felicidades haz ganado la partida tu puntaje no alcanzo para entrar en el TOP!)',keep_on_top=True)
     elif winner == 'IA':
         if puntaje > top.get_ult_top10(admin.get_dificultad()):
-            sg.popup('Haz Perdido la Partida! tu puntaje fue lo suficientemente alto para entrar en el TOP10!',no_titlebar=True,keep_on_top=True)
+            sg.popup('Haz Perdido la Partida! pero tu puntaje fue lo suficientemente alto para entrar en el TOP10!',keep_on_top=True)
             top.actualizar(player.get_name,puntaje,admin.get_dificultad)
         else:
-            sg.popup('Haz Perdido la Partida! tu puntaje no alcanzo para entrar en el TOP!)',no_titlebar=True,keep_on_top=True)
+            sg.popup('Haz Perdido la Partida! y tu puntaje no alcanzo para entrar en el TOP!)',keep_on_top=True)
 
     else:
         if puntaje > top.get_ult_top10(admin.get_dificultad()):
-            sg.popup('Haz empatado con la IA! tu puntaje fue lo suficientemente alto para entrar en el TOP10!',no_titlebar=True,keep_on_top=True)
-            top.actualizar(player.get_name,puntaje,admin.get_dificultad)
+            sg.popup('Haz empatado con la IA! y tu puntaje fue lo suficientemente alto para entrar en el TOP10!',keep_on_top=True)
+            top.actualizar(player.get_name,puntaje,admin.get_dificultad())
         else:
-            sg.popup('Haz empatado con la IA! tu puntaje no alcanzo para entrar en el TOP10!',no_titlebar=True,keep_on_top=True)
+            sg.popup('Haz empatado con la IA! y tu puntaje no alcanzo para entrar en el TOP10!',keep_on_top=True)
     pass

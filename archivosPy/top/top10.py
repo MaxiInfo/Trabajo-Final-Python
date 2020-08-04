@@ -1,7 +1,6 @@
 import PySimpleGUI as sg
 import json
 from sys import platform 
-
 from archivosPy.top import top_string
 
 NOMBRE_ARCHIVO = "archivosJSON/archivoTop.json"
@@ -9,12 +8,10 @@ archivo_top = open(NOMBRE_ARCHIVO,'r')
 
 diccionario = json.load(archivo_top)
 
-#print(diccionario)
-
 def set_layout():
-    lista_facil = TopString.generar_string(diccionario['facil'])
-    lista_medio = TopString.generar_string(diccionario['medio'])
-    lista_dificil = TopString.generar_string(diccionario['dificil'])
+    lista_facil = top_string.generar_string(diccionario['facil'])
+    lista_medio = top_string.generar_string(diccionario['medio'])
+    lista_dificil = top_string.generar_string(diccionario['dificil'])
     # lista[0] -> nombre.   lista[1] -> puntaje.    lista[2] -> fecha
 
     col_nombre_facil = [
