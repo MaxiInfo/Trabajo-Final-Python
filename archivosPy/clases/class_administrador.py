@@ -104,11 +104,11 @@ class AdministradorDeJuego():
 
             MOD: la catedra cambió, en medio sólo acepta adjetivos o verbos.
         '''
-        palabra_split = (parse(palabra).split())
+        palabra_split = (parse(palabra).split('/'))
         booleano = False
-        if palabra_split[0][0][1] in self.tupla_adj and self.existe_en(palabra):
+        if palabra_split[1] in self.tupla_adj and self.existe_en(palabra):
             booleano = True
-        elif palabra_split[0][0][1] in self.tupla_verb and self.existe_en(palabra):
+        elif palabra_split[1] in self.tupla_verb and self.existe_en(palabra):
             booleano = True 
         return booleano
         
@@ -118,14 +118,14 @@ class AdministradorDeJuego():
         '''
         lista = ['verb','adj']
         azar = lista[r.randint(0,1)]
-        palabra_split = (parse(palabra).split())
+        palabra_split = (parse(palabra).split('/'))
         booleano = False
 
         if azar == 'verb':
-            if palabra_split[0][0][1] in self.tupla_verb and self.existe_en(palabra):
+            if palabra_split[1] in self.tupla_verb and self.existe_en(palabra):
                 booleano = True
         else:
-            if palabra_split[0][0][1] in self.tupla_adj and self.existe_en(palabra):
+            if palabra_split[1] in self.tupla_adj and self.existe_en(palabra):
                 booleano = True
 
         return booleano

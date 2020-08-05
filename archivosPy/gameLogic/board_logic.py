@@ -236,8 +236,19 @@ def play_player (player, window,admin,board):
             window['-CLKTURN-'].update('{:02d}:{:02d}'.format((turno_restante) // 60, (turno_restante) % 60))
         else:
             window['-MESSAGE-'].update('Te quedaste sin tiempo papá')
-            #acá iria un break, pero no puedo lograr que imprima el mensaje
+            break
         if tiempo_restante == 0:
+            '''if player.get_cambios() == 3:
+                return '-GameOver-'
+            else:
+                player.add_cambio()
+                if cant_letras != 0:
+                    for i in range(cant_letras):
+                        vuelta_atras(window,player,board,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
+                        tuple_list.pop()
+                        palabra = palabra[0:-1]
+                        cant_letras -= 1
+                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)'''
             break
         #dar un cierre al juego, calcular puntaje, declarar ganador, etc.
 #==========================================================================================================================#
