@@ -104,31 +104,19 @@ class AdministradorDeJuego():
 
             MOD: la catedra cambió, en medio sólo acepta adjetivos o verbos.
         '''
-        palabra_split = (parse(palabra).split('/'))
-        booleano = False
-        if palabra_split[1] in self.tupla_adj and self.existe_en(palabra):
-            booleano = True
-        elif palabra_split[1] in self.tupla_verb and self.existe_en(palabra):
-            booleano = True 
-        return booleano
-        
+        palabra_split = parse(palabra).split('/')
+        ok = self.existe_en(palabra)
+        return ok and (palabra_split[1] in self.tupla_adj or palabra_split[1] in self.tupla_verb)
+       
     def __es_correcta_dificil(self,palabra):
         '''
             MOD: la catedra sólo acepta adjetivos o verbos, en difícil se toma aleatoriamente cualquiera de los dos.
         '''
         lista = ['verb','adj']
         azar = lista[r.randint(0,1)]
-        palabra_split = (parse(palabra).split('/'))
-        booleano = False
-
-        if azar == 'verb':
-            if palabra_split[1] in self.tupla_verb and self.existe_en(palabra):
-                booleano = True
-        else:
-            if palabra_split[1] in self.tupla_adj and self.existe_en(palabra):
-                booleano = True
-
-        return booleano
+        palabra_split = parse(palabra).split('/')
+        ok = self.existe_en(palabra)
+        return ok and palabra_split[1] in self.tupla_verb if azar == 'verb' else ok and palabra_split[1] in self.tupla_adj
         
     def es_correcta(self,palabra):
         dificultad = self._dificultad_actual 
@@ -140,7 +128,7 @@ class AdministradorDeJuego():
             booleano = self.__es_correcta_medio(palabra)
         else:
             #llamo a modulo es_correcta_dificil
-            booleano = self.__es_correcta_dificil
+            booleano = self.__es_correcta_dificil(palabra)
         return booleano
 
     #=======================================================================================================================#
@@ -312,16 +300,3 @@ class AdministradorDeJuego():
     def devolver_a_bolsa(self, lista_fichas):
         for ficha in lista_fichas:
             self._diccionario_cantidad[ficha.upper()] += 1
-
-'''ad = AdministradorDeJuego('facil')
-while True:
-    x = ad.tomar_fichas(7)
-    vocales = []
-    for i in x:
-        if i in ('a','e','i','o','u'):
-            vocales+= i
-    print(x)
-    print(vocales)
-    msj = input('====')
-    if msj == '0':
-        break'''

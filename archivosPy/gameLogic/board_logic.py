@@ -207,7 +207,7 @@ def fill_letters(player,window,admin):
     player.set_fichas(list_fichas)
     pass
 
-def play_player (player, window,admin,board):
+def play_player (player, window,admin,board,not_saved):
     '''
     el modulo play_player es el encargado del manejo de la colocacion de palabras en el tablero y el manejo de la interfaz 
     que el usuario va a tener dentro del juego
@@ -270,7 +270,7 @@ def play_player (player, window,admin,board):
                 break
 #==========================================================================================================================#
         if event == '-changeAll-':
-            if player.get_cambios() == 3:
+            '''if player.get_cambios() == 3:
                 return '-GameOver-'
             player.add_cambio()
             if player.get_cambios() == 3:
@@ -286,7 +286,7 @@ def play_player (player, window,admin,board):
             letters_ant = player.get_fichas()
             player.set_fichas(admin.tomar_fichas(len(letters_ant)))
             admin.devolver_a_bolsa(letters_ant)
-            board.update_fichas_player(window,player.get_fichas())
+            board.update_fichas_player(window,player.get_fichas())'''
             break
 #==========================================================================================================================#  
         if event == '-change-' and cant_letras == 0:
@@ -313,7 +313,7 @@ def play_player (player, window,admin,board):
                 # update de ficha actual seleccionada
                 pos_en_atril = event
                 letter = get_ficha(int(event))
-                window.FindElement(event).Update('')
+                window.FindElement(event).Update(image_filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
                 window.FindElement('-LetterSelected-').Update(filename = PATH_LETRAS + letter.upper() + EXTENSION)
                 letter_selected = True
             else:
@@ -321,7 +321,7 @@ def play_player (player, window,admin,board):
                 if event == pos_en_atril:
                     # si se quiere devolver a la misma posicion donde se tomo
                     pos_en_atril = None
-                    window.FindElement(event).Update(letter)
+                    window.FindElement(event).Update(image_filename = PATH_LETRAS + letter.upper() + EXTENSION)
                     set_ficha(letter,int(event))
                     window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
                     letter_selected = False
@@ -342,7 +342,7 @@ def play_player (player, window,admin,board):
         if type(event) == tuple and letter_selected:
             #si no hay letras ingresadas en la jugada actual
             if cant_letras == 0 and event != (14,14):
-                palabra = letter
+                palabra = letter ##########################CAMBIAAAR############
                 letra_ant = letter
                 letter_selected = False
                 cant_letras += 1
@@ -417,6 +417,8 @@ def play_player (player, window,admin,board):
         if event == 'Comprobar':
             if (palabra == ''):
                 window.FindElement('-MESSAGE-').Update('Debe ingresar una palabra')
+            elif not_saved and (7,7) not in tuple_list:
+                window.FindElement('-MESSAGE-').Update('La palabra debe pasar por el centro en la primera jugada')
             elif cant_letras >= 2:
                 if admin.es_correcta(palabra):
                     player.mod_puntaje(admin.calcular_puntaje(palabra,tuple_list))
@@ -456,31 +458,35 @@ def game_procces (window,admin,board,player,IA):
     modulo que se encarga de manejar el transcurso del juego y dice que jugador comienza la partida
     """
     if len(player.get_fichas()) == 0: #no hay juego guardado
+        not_saved = True
         player.set_fichas(admin.tomar_fichas(7))
         IA.set_letters(admin.tomar_fichas(7))
         rand_start = rand(1,2)
     else:
+        not_saved = False
         rand_start = 1 #hay juego guardado y empieza el jugador
     board.update_fichas_player(window,player.get_fichas())
-    if (rand_start == 1):
+    if rand_start == 1:
         while True:
-            event = play_player(player,window,admin,board)
+            event = play_player(player,window,admin,board,not_saved)
+            if event not in ('-changeAll-','-change-'):
+                not_saved = False
             if event in (None, '-mainMenu-', '-SAVE-'):
                 break
-            IA.play (window,admin,board,player.get_puntaje())
-            if event =='-GameOver-':
-                End(player,IA,admin)
-                break
+            event = IA.play (window,admin,board,player.get_puntaje(),not_saved)
+            if event != 'no_ingreso':
+                not_saved = False
             if IA.get_changes() == 3:
                 End(player,IA,admin)
                 return '-ChangesDone-'
-            
     else:
         while True:
-            IA.play (window,admin,board,player.get_puntaje())
+            event = IA.play (window,admin,board,player.get_puntaje(),not_saved)
+            if event != 'no_ingreso':
+                not_saved = False
             if IA.get_changes() == 3:
                 return '-ChangesDone-'
-            event = play_player (player,window,admin,board)
+            event = play_player (player,window,admin,board,not_saved)
             if event in (None, '-mainMenu-', '-SAVE-'):
                 break
             if event == '-GameOver-':
@@ -523,7 +529,6 @@ def main(configs):
             guardar(board, player, admin, IA, configs["name"])
             break
         if event in (None, '-mainMenu-','-GameOver-'):
-
             break
         else:
             window.FindElement('-MESSAGE-').Update('Comienza el juego para poder utilizar la interfaz')
