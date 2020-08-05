@@ -91,8 +91,9 @@ class Tablero ():
 
         specialSize = (663,663) if platform.startswith('win32') else (692,692)
         layout_tablero = [
-            [sg.Text('COMPUTADORA',background_color='#00FDFD'), sg.Text('', size=(30, 1),background_color='Brown', relief=sg.RELIEF_RIDGE)
-            ,sg.Text('Puntaje',background_color='#00FDFD'),sg.Text('0',size=(4, 1),background_color='#00FDFD',key='-iaSize-')],
+            [sg.Text('COMPUTADORA',background_color='#00FDFD'), sg.Text('', size=(30, 1),background_color='Brown', relief=sg.RELIEF_RIDGE),
+            sg.Text('Puntaje',background_color='#00FDFD'),sg.Text('0',size=(4, 1),background_color='#00FDFD',key='-iaSize-'),
+            sg.Text('Notas de la IA',background_color='#00FDFD' ,size=(30, 1), key=('-IA-MESSAGE-'))],
             [sg.Column(col2,size=specialSize),sg.Text(' '*9,background_color='#1CB7C3') ,sg.Column(col,background_color=('#33C3C3'))],
             [sg.Text(configs['name'],background_color='#00FDFD', key=("-NOMBRE-")), sg.Column(col3), sg.Button(' ',image_filename='Imagenes/board/Comprobar.png',image_size=(85,25),key='Comprobar'), 
             sg.Button(' ',image_filename='Imagenes/board/Pasar.png',image_size=(85,25),key='-pasar-'),sg.Button(' ',image_filename='Imagenes/board/Revertir.png',image_size=(85,25),key='Revertir'), 

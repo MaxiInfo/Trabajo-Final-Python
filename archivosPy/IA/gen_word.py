@@ -41,6 +41,7 @@ def permuta(c):
 def palabras_correctas(list_combinaciones,admin):
     #me ordena la lista por longitud de palbra de menor a mayor
     test_list = []
+    del list_combinaciones[0]
     for i in list_combinaciones:
         palabra = ''
         for j in i:
