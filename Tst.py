@@ -63,5 +63,5 @@ def es_correcta(palabra):
         booleano = __es_correcta_dificil(palabra)
     return booleano
 
-palabra = 'correr'
-print(es_correcta(palabra))
+palabra = 'pie'
+print(existe_en(palabra))

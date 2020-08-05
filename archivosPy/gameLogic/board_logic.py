@@ -207,6 +207,17 @@ def fill_letters(player,window,admin):
     player.set_fichas(list_fichas)
     pass
 
+def quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura):
+    """
+    modulo que elimina una palabra a medio ingresar del tablero dejandolo en el estado anterior al que el jugador juegue
+    """
+    for i in range(cant_letras):
+        vuelta_atras(window,player,board,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
+        tuple_list.pop()
+        palabra = palabra[0:-1]
+        cant_letras -= 1
+    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
+    return 
 def play_player (player, window,admin,board,not_saved):
     '''
     el modulo play_player es el encargado del manejo de la colocacion de palabras en el tablero y el manejo de la interfaz 
@@ -229,27 +240,20 @@ def play_player (player, window,admin,board,not_saved):
 #==========================================================================================================================#
         tiempo_restante = board.calc_timeleft()
         window['-CLKTOTAL-'].update(tiempo_restante)
-        #tiempo_restante = board.get_time_game() - int(round(time.time()))
-        #window['-CLKTOTAL-'].update('{:02d}:{:02d}:{:02d}'.format(((tiempo_restante) // 60) // 60, (((tiempo_restante) // 60) - 60), (tiempo_restante) % 60))
         if turno_restante > 0:
             turno_restante = tiempo_turno - int(round(time.time()))
             window['-CLKTURN-'].update('{:02d}:{:02d}'.format((turno_restante) // 60, (turno_restante) % 60))
         else:
             window['-MESSAGE-'].update('Te quedaste sin tiempo papá')
-            break
-        if tiempo_restante == 0:
-            '''if player.get_cambios() == 3:
+            if player.get_cambios() == 3:
                 return '-GameOver-'
             else:
                 player.add_cambio()
-                if cant_letras != 0:
-                    for i in range(cant_letras):
-                        vuelta_atras(window,player,board,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
-                        tuple_list.pop()
-                        palabra = palabra[0:-1]
-                        cant_letras -= 1
-                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)'''
+            if cant_letras != 0:
+                quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura)
             break
+        if tiempo_restante == 0:
+            return '-GameOver-'
         #dar un cierre al juego, calcular puntaje, declarar ganador, etc.
 #==========================================================================================================================#
         if event in (None, '-mainMenu-', '-SAVE-'):
@@ -261,49 +265,34 @@ def play_player (player, window,admin,board,not_saved):
             else:
                 player.add_cambio()
                 if cant_letras != 0:
-                    for i in range(cant_letras):
-                        vuelta_atras(window,player,board,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
-                        tuple_list.pop()
-                        palabra = palabra[0:-1]
-                        cant_letras -= 1
-                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
+                    quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura)  
                 break
 #==========================================================================================================================#
         if event == '-changeAll-':
-            '''if player.get_cambios() == 3:
+            if player.get_cambios() == 3:
                 return '-GameOver-'
             player.add_cambio()
             if player.get_cambios() == 3:
                 window.FindElement('-change-').Update(disabled=True)
                 window.FindElement('-changeAll-').Update(disabled=True)
             if cant_letras != 0:
-                    for i in range(cant_letras):
-                        vuelta_atras(window,player,board,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
-                        tuple_list.pop()
-                        palabra = palabra[0:-1]
-                        cant_letras -= 1
-                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
+                quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura)
             letters_ant = player.get_fichas()
             player.set_fichas(admin.tomar_fichas(len(letters_ant)))
             admin.devolver_a_bolsa(letters_ant)
-            board.update_fichas_player(window,player.get_fichas())'''
+            board.update_fichas_player(window,player.get_fichas())
             break
 #==========================================================================================================================#  
         if event == '-change-' and cant_letras == 0:
             if player.get_cambios() == 3:
                 return '-GameOver-'
+            if cant_letras != 0:
+                quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura)  
+            event = cambiar_fichas(window,player,admin)
             player.add_cambio()
             if player.get_cambios() == 3:
                 window.FindElement('-change-').Update(disabled=True)
                 window.FindElement('-changeAll-').Update(disabled=True)
-            if cant_letras != 0:
-                    for i in range(cant_letras):
-                        vuelta_atras(window,player,board,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
-                        tuple_list.pop()
-                        palabra = palabra[0:-1]
-                        cant_letras -= 1
-                    window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
-            event = cambiar_fichas(window,player,admin)
             break
 #==========================================================================================================================#       
         if event in TECLAS:
