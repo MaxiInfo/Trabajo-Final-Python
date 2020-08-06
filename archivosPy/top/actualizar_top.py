@@ -11,11 +11,13 @@ def actualizar(nombre_jugador,puntaje,dificultad_jugada):
     '''
 
     NOMBRE = 'archivosJSON/archivoTop.json'
-    fecha = time.strftime("%H:%M, %d/%m/%Y", time.localtime()) #14:59 03/08/20
+    aux = time.strftime("%H:%M, %d/%m/%Y", time.localtime()) #14:59 03/08/20
+    fecha = aux[7:12]
     sigo = True
     try:
         with open(NOMBRE,'r') as archivo_top:
             diccionario_completo = json.load(archivo_top) #Tomo todo el diccionario
+            archivo_top.close()
             diccionario_ordenar = diccionario_completo[dificultad_jugada] #facil, medio, o dificil.
 
             if nombre_jugador in diccionario_ordenar: #Sí existe mi jugador. 
@@ -34,8 +36,9 @@ def actualizar(nombre_jugador,puntaje,dificultad_jugada):
                     
                 diccionario_actualizado = {elemento[0]:[elemento[1][0],elemento[1][1]] for elemento in lista}
                 diccionario_completo[dificultad_jugada] = diccionario_actualizado
+                archivo_top = open(NOMBRE,'w')
                 json.dump(diccionario_completo,archivo_top) #Guardo el diccionario actualizado.
-            archivo_top.close()
+                archivo_top.close()
 
     except FileNotFoundError:
         #Si se dá el caso que el usuario borra el archivoTop.json por que es un cliente desastroso, no estaría mal generarlo de nuevo.
