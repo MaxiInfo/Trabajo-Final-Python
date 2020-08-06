@@ -8,10 +8,13 @@ ScrabbleAR es un proyecto de programación en Python que simula el famoso juego 
 
 # Requisitos
 - Python 3.6.8
-- PySimpleGUI 4.18
+- PySimpleGUI 4.18.2
 - Pattern 3.6
 
-# Screenshots
+# Ejecución
+Para utilizar el programa, solo es necesario ejecutar el archivo "ejecutable.py".
+
+# Capturas
 - Menú principal:
 
 ![Alt text](/Imagenes/screenshots/menu_principal.png?raw=true "Optional Title")
