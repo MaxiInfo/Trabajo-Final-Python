@@ -23,10 +23,14 @@ layout_main_menu = [
     sg.Button(' ',image_filename='Imagenes/menu/Salir.png',image_size=(122,37),size=(12,2),key='Salir')]
     ]
 
-configs = {'name':'Player','timing':120, 'turn':60, 'dificultad':'facil','modsBolsa':[None, None]}
+configs = {
+    'name':'Player',
+    'timing':120, 
+    'turn':60, 
+    'dificultad':'facil',
+    'modsBolsa':[None, None]}
 #'modsBolsa' guarda en la posición 0 la cantidad de fichas y en la posición 1 el puntaje
 
-#[sg.Text(' '*18),sg.Button('',image_filename = 'Configuraciones5.png',image_size=(100,35),)], -->Ejemplo de uso de imagen como botón.
 winSize = (400,350) if platform.startswith('win32') else (451,390)
 window_menu = sg.Window('ScrabbleAR', layout_main_menu,size= winSize)
 event, values= window_menu.read()

@@ -26,7 +26,7 @@ class Tablero ():
         self.time_left = 0
         self.time_game = 0
         self.turn = 0
-        pass
+        
 
     def get_triple_letter(self):
         return self.triple_letter
@@ -66,7 +66,7 @@ class Tablero ():
         for i,j in tuplas:
             self.board[i][j] = palabra[k]
             k += 1
-        pass
+        
 
     def set_layout(self, configs):
         col = [[sg.Button(' ',image_filename='Imagenes/board/Empezar.png',image_size=(75,25),key='Empezar')],
@@ -122,12 +122,12 @@ class Tablero ():
         for i in range(self._MAX_ROWS):
             for j in range(self._MAX_COL):
                 self.set_default_button(window,(i,j))
-        pass
+        
 
     def update_fichas_player(self, window, fichas_player):
         for i in range(len(fichas_player)):
             window.FindElement(str(i)).Update(image_filename = PATH_LETRAS + fichas_player[i].upper() + EXTENSION)
-        pass
+        
 
 
     def calc_timeleft(self):

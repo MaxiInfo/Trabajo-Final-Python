@@ -57,8 +57,6 @@ def main(list_letters,admin):
     list_combinaciones = []
     for i in list_conj_potencia:
         list_combinaciones += permuta(i)
-
     list_final = palabras_correctas(list_combinaciones,admin)
-    #list_final = list(set(list_final))
     list_final = sorted(list_final, key=lambda s:(len(s),s))
     return list_final

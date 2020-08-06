@@ -40,7 +40,8 @@ class Computer:
         """
         este modulo es el que se encarga de todo lo necesario para que la IA juegue un turno
         """
-        window.FindElement('-IA-MESSAGE-').Update('La compu esta jugando')
+        window.FindElement('-IA-MESSAGE-').Update('La compu esta jugando . . .')
+        window.Refresh()
         if st:
             pos,word = self._st_select_word_and_position(admin)
         else:

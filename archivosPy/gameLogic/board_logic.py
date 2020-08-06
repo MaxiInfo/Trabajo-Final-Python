@@ -11,7 +11,6 @@ from archivosPy.IA.gen_list_positions import main as serch_positions
 from archivosPy.gameLogic.end_game import End
 
 TECLAS = ('0','1','2','3','4','5','6')
-
 PATH_LETRAS = 'Imagenes/tablero/letras/'
 PATH_ESPECIALES = 'Imagenes/tablero/especiales/'
 EXTENSION = '.png'
@@ -60,12 +59,7 @@ def saved_board(lista_guardadas):
         pos = (i[1], i[2])
         tuplas.append(pos)
     return palabra, tuplas
-
-def game_on (window,board,fichas_jugador):
-    window.FindElement('-MESSAGE-').Update('Comenzo la partida')
-    board.table_on(window)
-    pass
-
+    
 def block_word(window,tuple_list,palabra,board):
     """
     dada una lista de tuplas y una palabra este modulo cambiarle el color de findo y deshabilitar el boton
@@ -331,7 +325,7 @@ def play_player (player, window,admin,board,not_saved):
         if type(event) == tuple and letter_selected:
             #si no hay letras ingresadas en la jugada actual
             if cant_letras == 0 and event != (14,14):
-                palabra = letter ##########################CAMBIAAAR############
+                palabra = letter
                 letra_ant = letter
                 letter_selected = False
                 cant_letras += 1
@@ -404,7 +398,7 @@ def play_player (player, window,admin,board,not_saved):
                 continue
 #==========================================================================================================================#                  
         if event == 'Comprobar':
-            if (palabra == ''):
+            if (palabra == []):
                 window.FindElement('-MESSAGE-').Update('Debe ingresar una palabra')
             elif not_saved and (7,7) not in tuple_list:
                 window.FindElement('-MESSAGE-').Update('La palabra debe pasar por el centro en la primera jugada')
@@ -455,6 +449,7 @@ def game_procces (window,admin,board,player,IA):
         not_saved = False
         rand_start = 1 #hay juego guardado y empieza el jugador
     board.update_fichas_player(window,player.get_fichas())
+    window.Refresh()
     if rand_start == 1:
         while True:
             event = play_player(player,window,admin,board,not_saved)
@@ -493,7 +488,7 @@ def main(configs):
     while True:
         event,_ = window.read()
         if event == 'Empezar':
-            player = jugador(configs['name']) #subi estas variables para que cree las instancias y modificarlas con configs
+            player = jugador(configs['name']) 
             IA = Computer()
             if 'tablero' in configs: #si lo tiene, viene de un juego guardado
                 player.set_fichas(configs['atril_player'])
@@ -509,8 +504,9 @@ def main(configs):
             board.set_time_game(tiempo_juego)
             board.set_time_left(tiempo_restante)
             board.set_turn(configs['turn'])
-            game_on(window,board,player.get_fichas()) #preguntar para que pasa el get_fichas, si es posible sacarlo
-            if 'tablero' in configs: #prueba, queda horrible hacer el if de nuevo
+            window.FindElement('-MESSAGE-').Update('Comenzo la partida')
+            board.table_on(window)
+            if 'tablero' in configs: 
                 palabra, tuplas = saved_board(configs['tablero'])
                 block_word(window, tuplas, palabra, board)
             event = game_procces(window,admin,board,player,IA)
