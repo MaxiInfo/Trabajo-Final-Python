@@ -1,6 +1,11 @@
 # SCRABBLEAR
 ScrabbleAR es un proyecto de programación en Python que simula el famoso juego de mesa.
 
+# Integrantes
+-Yañez Maximiliano 16560/4
+-Borlandi Diego Sebastian 17402/4
+-Sabarrós Nicolás 16935/6
+
 # Características
 - Altamente personalizable: configuración del nivel, tiempo de juego y de turno, y cantidad y puntaje de fichas.
 - Guardado de rankings: Top 10 de los tres niveles.
@@ -12,7 +17,7 @@ ScrabbleAR es un proyecto de programación en Python que simula el famoso juego 
 - Pattern 3.6
 
 # Ejecución
-Para utilizar el programa, solo es necesario ejecutar el archivo "ejecutable.py".
+Para utilizar el programa, solo es necesario ejecutar el archivo "ScrabbleAR.py".
 
 # Capturas
 - Menú principal:

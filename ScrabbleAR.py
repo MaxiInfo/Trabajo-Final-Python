@@ -47,8 +47,8 @@ while True:
             sg.Popup('No hay un archivo de juego guardado')
         else:
             configs = save.load_saved(configs, guardado)
-        window_menu.hide()
-        event = board.main(configs)
+            window_menu.hide()
+            event = board.main(configs)
     elif event in ('Configuracion'):
         window_menu.hide()
         event,configs = config.main(configs)

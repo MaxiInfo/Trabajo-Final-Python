@@ -95,8 +95,7 @@ class AdministradorDeJuego():
         Evalúa la palabra y lo mete en una lista bastante asquerosa de acceder, pero el [0][0][1] es la información de qué es la palabra -> Adjetivo, Verbo, Sustantivo
         El problema con los sustantivos, es que también toman palabras inexistentes, hay que arreglar eso
         '''
-        booleano = self.existe_en(palabra)
-        return booleano
+        return self.existe_en(palabra)
 
     def __es_correcta_medio(self,palabra):
         '''
@@ -188,9 +187,9 @@ class AdministradorDeJuego():
 
             RNG = r.randint(1,100)
             letra_actual = ''
-            if RNG <= 60: #FRECUENCIA ALTA
+            if RNG <= 70: #FRECUENCIA ALTA
                 letra_actual = self._elegir_letra(letras,lista_prohibidas,frecuencia_alta)
-            elif RNG > 60 and RNG <=90: #FRECUENCIA MEDIA
+            elif RNG > 70 and RNG <=90: #FRECUENCIA MEDIA
                 letra_actual = self._elegir_letra(letras,lista_prohibidas,frecuencia_media)
             else: #FRECUENCIA BAJA
                 letra_actual = self._elegir_letra(letras,lista_prohibidas,frecuencia_baja)

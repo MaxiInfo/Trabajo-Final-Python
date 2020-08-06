@@ -4,11 +4,11 @@ class jugador ():
         self._fichas = []
         self._puntaje = 0
         self._cambios = 0
-        pass
+        
     
     def set_fichas (self,fichas):
         self._fichas = fichas
-        pass
+        
 
     def get_fichas(self):
         return(self._fichas)
@@ -26,7 +26,7 @@ class jugador ():
 
     def mod_puntaje (self, add_score):
         self._puntaje += add_score
-        pass
+        
     
     def get_single_ficha (self,pos):
         letter = self._fichas[pos]
@@ -35,7 +35,7 @@ class jugador ():
 
     def set_single_ficha(self, letter, pos):
         self._fichas[pos]= letter
-        pass
+        
 
     def change_single_ficha(self,letter,pos):
         aux = self.get_single_ficha(pos)

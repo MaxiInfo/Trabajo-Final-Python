@@ -4,11 +4,9 @@ from sys import platform
 from archivosPy.top import top_string
 
 NOMBRE_ARCHIVO = "archivosJSON/archivoTop.json"
-archivo_top = open(NOMBRE_ARCHIVO,'r')
 
-diccionario = json.load(archivo_top)
 
-def set_layout():
+def set_layout(diccionario):
     lista_facil = top_string.generar_string(diccionario['facil'])
     lista_medio = top_string.generar_string(diccionario['medio'])
     lista_dificil = top_string.generar_string(diccionario['dificil'])
@@ -73,8 +71,17 @@ def set_layout():
     return layout_top
 
 def main ():
+    try:
+        archivo_top = open(NOMBRE_ARCHIVO,'r')
+    except FileNotFoundError:
+        #Si se dá el caso que el usuario borra el archivoTop.json por que es un cliente desastroso, no estaría mal generarlo de nuevo.
+        diccionario = {"facil": {"AAA": [50, "22/5"], "BBB": [45, "22/5"], "CCC": [40, "22/5"], "DDD": [35, "22/5"], "EEE": [30, "22/5"], "FFF": [25, "22/5"], "GGG": [20, "22/5"], "HHH": [15, "22/5"], "III": [10, "22/5"], "JJJ": [5, "22/5"]}, "medio": {"KKK": [70, "23/5"], "LLL": [65, "23/5"], "MMM": [60, "23/5"], "NNN": [55, "23/5"], "OOO": [50, "23/5"], "PPP": [45, "23/5"], "QQQ": [40, "23/5"], "RRR": [35, "23/5"], "SSS": [30, "23/5"], "TTT": [25, "23/5"]}, "dificil": {"j1": [45, "24/5"], "j2": [40, "24/5"], "j3": [35, "24/5"], "j4": [30, "24/5"], "j5": [25, "24/5"], "j6": [20, "24/5"], "j7": [15, "24/5"], "j8": [10, "24/5"], "j9": [5, "24/5"], "j10": [0, "24/5"]}}
+        archivo_top = open(NOMBRE_ARCHIVO,'w')
+        json.dump(diccionario,archivo_top)
+        archivo_top.close()
+    diccionario = json.load(archivo_top)
     winSize = (1230,400) if platform.startswith('win32') else (1400,400)
-    window = sg.Window('ScrabbleAR', set_layout(),size=winSize)
+    window = sg.Window('ScrabbleAR', set_layout(diccionario),size=winSize)
     event,values= window.read()
     window.close()
     return event

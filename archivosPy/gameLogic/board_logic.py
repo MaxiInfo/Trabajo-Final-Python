@@ -46,7 +46,7 @@ def guardar (board, jugador, admin, compu, name):
     
     with open("archivosJSON/saved_game.json", "w") as saved_file:
         json.dump(diccionario, saved_file, ensure_ascii=False)
-    pass
+    
 
 def saved_board(lista_guardadas):
     '''
@@ -66,8 +66,8 @@ def block_word(window,tuple_list,palabra,board):
     """
     board.mod_board(tuple_list,palabra)
     for i in range(len(tuple_list)):
-        window.FindElement(tuple_list[i]).Update(disabled=True,button_color = ('black','#58F76D'))
-    pass
+        window.FindElement(tuple_list[i]).Update(disabled=True,image_filename = PATH_LETRAS + palabra[i].upper() + EXTENSION,button_color = ('black','#58F76D'))
+    
 
 def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
     """
@@ -84,12 +84,12 @@ def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
         try:
             if board.get_board()[tupla_aux1[0]][tupla_aux1[1]] == 0:
                 window.FindElement(tupla_aux1).Update(button_color = ('white','blue'))
-        except:
+        except IndexError:
             None
         try:
             if board.get_board()[tupla_aux2[0]][tupla_aux2[1]] == 0:
                 window.FindElement(tupla_aux2).Update(button_color = ('white','blue'))
-        except:
+        except IndexError:
             None
     elif cant == 2:
         if escritura == 'Horizontal':
@@ -103,12 +103,12 @@ def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
         try:
             if board.get_board()[tupla_aux2[0]][tupla_aux2[1]] == 0:
                 window.FindElement(tupla_aux2).Update(button_color = ('black','#4E61DC'))
-        except:
+        except IndexError:
             None
         try:
             if board.get_board()[tupla_aux3[0]][tupla_aux3[1]] == 0:
                 window.FindElement(tupla_aux3).Update(button_color = ('white','blue'))
-        except:
+        except IndexError:
             None
     elif cant > 2:
         if escritura == 'Horizontal':
@@ -118,10 +118,10 @@ def vuelta_atras(window,player,board,letter,tupla,cant,escritura):
         try:
             if board.get_board()[tupla_aux[0]][tupla_aux[1]] == 0:
                 window.FindElement(tupla_aux).Update(button_color = ('white','blue'))
-        except:
+        except IndexError:
             None
         window.FindElement(tupla).Update(button_color = ('black','#4E61DC'))
-    pass
+    
 
 def cambiar_fichas(window,player,admin):
     """
@@ -166,12 +166,12 @@ def ingresa_primera(window,event,letter,board):
     try:
         if (board.get_board()[next1[0]][next1[1]] == 0):
             window.FindElement(next1).Update(button_color= ('black','#4E61DC'))
-    except:
+    except IndexError:
         None
     try:
         if (board.get_board()[next2[0]][next2[1]] == 0):
             window.FindElement(next2).Update(button_color = ('black','#4E61DC'))
-    except:
+    except IndexError:
         None    
     return next1,next2
 
@@ -184,7 +184,7 @@ def ingresa_tercera(window,event,escritura,letter,next_button, board):
     try:
         if (board.get_board()[next_button[0]][next_button[1]] == 0):
             window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
-    except:
+    except IndexError:
         None
     return next_button
 
@@ -199,7 +199,7 @@ def fill_letters(player,window,admin):
             list_fichas[i] = ficha
             window.FindElement(str(i)).Update(image_filename = PATH_LETRAS + ficha.upper() + EXTENSION,disabled=False) 
     player.set_fichas(list_fichas)
-    pass
+    
 
 def quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura):
     """
@@ -251,6 +251,8 @@ def play_player (player, window,admin,board,not_saved):
         #dar un cierre al juego, calcular puntaje, declarar ganador, etc.
 #==========================================================================================================================#
         if event in (None, '-mainMenu-', '-SAVE-'):
+            if cant_letras != 0:
+                quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura)
             break
 #==========================================================================================================================#
         if event == '-pasar-':
@@ -258,13 +260,14 @@ def play_player (player, window,admin,board,not_saved):
                 return '-GameOver-'
             else:
                 player.add_cambio()
+                if player.get_cambios() == 3:
+                    window.FindElement('-change-').Update(disabled=True)
+                    window.FindElement('-changeAll-').Update(disabled=True)
                 if cant_letras != 0:
                     quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura)  
                 break
 #==========================================================================================================================#
         if event == '-changeAll-':
-            if player.get_cambios() == 3:
-                return '-GameOver-'
             player.add_cambio()
             if player.get_cambios() == 3:
                 window.FindElement('-change-').Update(disabled=True)
@@ -278,15 +281,13 @@ def play_player (player, window,admin,board,not_saved):
             break
 #==========================================================================================================================#  
         if event == '-change-' and cant_letras == 0:
-            if player.get_cambios() == 3:
-                return '-GameOver-'
-            if cant_letras != 0:
-                quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura)  
-            event = cambiar_fichas(window,player,admin)
             player.add_cambio()
             if player.get_cambios() == 3:
                 window.FindElement('-change-').Update(disabled=True)
                 window.FindElement('-changeAll-').Update(disabled=True)
+            if cant_letras != 0:
+                quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura)  
+            event = cambiar_fichas(window,player,admin)
             break
 #==========================================================================================================================#       
         if event in TECLAS:
@@ -345,14 +346,14 @@ def play_player (player, window,admin,board,not_saved):
                     try:
                         if (board.get_board()[next2[0]][next2[1]] == 0):
                             window.FindElement(next2).Update(button_color = ('white','blue'))
-                    except:
+                    except IndexError:
                         None
                     window.FindElement(event).Update(image_filename = PATH_LETRAS + letter.upper() + EXTENSION,button_color = ('white','blue'))
                     next_button = (event[0]+1,event[1])
                     try:
                         if (board.get_board()[next_button[0]][next_button[1]] == 0):
                             window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
-                    except:
+                    except IndexError:
                         None
                     window.FindElement(pos_en_atril).Update(disabled=True) 
                     window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
@@ -366,14 +367,14 @@ def play_player (player, window,admin,board,not_saved):
                     try:
                         if (board.get_board()[next1[0]][next1[1]] == 0):
                             window.FindElement(next1).Update(button_color = ('white','blue'))
-                    except:
+                    except IndexError:
                         None
                     window.FindElement(event).Update(image_filename = PATH_LETRAS + letter.upper() + EXTENSION,button_color = ('white','blue'))
                     next_button = (event[0],event[1]+1)
                     try:
                         if (board.get_board()[next_button[0]][next_button[1]] == 0):
                             window.FindElement(next_button).Update(button_color = ('black','#4E61DC'))
-                    except:
+                    except IndexError:
                         None
                     escritura = 'Horizontal'
                     window.FindElement(pos_en_atril).Update(disabled=True)
@@ -387,7 +388,7 @@ def play_player (player, window,admin,board,not_saved):
                     palabra += letter
                     letter_selected = False
                     tuple_list.append(event)
-                    next_button = ingresa_tercera(window,event,escritura,letter,next_button, board)
+                    next_button = ingresa_tercera(window,event,escritura,letter,next_button,board)
                     cant_letras += 1
                     window.FindElement(pos_en_atril).Update(disabled=True)
                     window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
@@ -409,7 +410,7 @@ def play_player (player, window,admin,board,not_saved):
                     window.FindElement('-MESSAGE-').Update('palabra correcta')
                     try:
                         window.FindElement(next_button).Update(button_color = ('white','blue'))
-                    except:
+                    except (IndexError,TypeError):
                         None
                     block_word(window,tuple_list,palabra,board)
                     fill_letters(player,window,admin)
@@ -453,8 +454,11 @@ def game_procces (window,admin,board,player,IA):
     if rand_start == 1:
         while True:
             event = play_player(player,window,admin,board,not_saved)
-            if event not in ('-changeAll-','-change-'):
+            if event not in ('-changeAll-','-change-','-pasar-'):
                 not_saved = False
+            if event == '-GameOver-':
+                End(player,IA,admin)
+                break
             if event in (None, '-mainMenu-', '-SAVE-'):
                 break
             event = IA.play (window,admin,board,player.get_puntaje(),not_saved)
@@ -471,10 +475,12 @@ def game_procces (window,admin,board,player,IA):
             if IA.get_changes() == 3:
                 return '-ChangesDone-'
             event = play_player (player,window,admin,board,not_saved)
-            if event in (None, '-mainMenu-', '-SAVE-'):
-                break
+            if event not in ('-changeAll-','-change-','-pasar-'):
+                not_saved = False
             if event == '-GameOver-':
                 End(player,IA,admin)
+                break
+            if event in (None, '-mainMenu-', '-SAVE-'):
                 break
     return event
 

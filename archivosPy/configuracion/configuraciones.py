@@ -9,9 +9,9 @@ def set_layout ():
     layout_configs = [
         [sg.Text('Configuraciones',size=(100,1),font=(None,15),text_color='black',justification='center')],
         [sg.Text('Nombre del jugador',size=(100,1),font=(None,11),justification='center')],
-        [sg.Text(' '*8),sg.InputText('',size=(40,1),key='nom',justification='center')],
+        [sg.Text(' '*30),sg.InputText('',size=(25,1),key='nom',justification='center')],
         [sg.Text(' '*12),sg.Text('Tiempo de juego',font=(None,11)),sg.Text(' '*2),sg.Text('Tiempo de turno',font=(None,11))],
-        [sg.Text(' '*14),sg.InputCombo((30,60,90,120,),size=(4,1),default_value='120',readonly=True,pad=(0,0)),sg.Text('minutos'),
+        [sg.Text(' '*14),sg.InputCombo((2,5,15,30,60,90,120,),size=(4,1),default_value='120',readonly=True,pad=(0,0)),sg.Text('minutos'),
         sg.Text(' '*6),sg.InputCombo((20,30,40,60,),size=(3,1),default_value='60',readonly=True,pad=(0,0)),sg.Text('segundos')],
         [sg.Text('Dificultad',size=(100,1),font=(None,11),justification='center')],
         [sg.Text(' '*35),sg.Radio('Fácil','Dificultad',default=False,size=(10,1))],
@@ -49,24 +49,13 @@ def main (configs):
                     window.FindElement('nom').update(msj[2])
         if event == '-cantfichas-':
             window.hide()
-            configs['modsBolsa'][0] = Fichas.main()
+            configs['modsBolsa'][0] = fichas.main()
             window.un_hide()
         if event == '-puntfichas-':
             window.hide()
-            configs['modsBolsa'][1] = Puntajes.main()
+            configs['modsBolsa'][1] = puntajes.main()
             window.un_hide()
         if event in (None,'Atrás'):
             break
     window.close()
     return (event,configs)
-
-    ''' en 4 filas
-    [sg.Text('Tiempo de juego (minutos)',size=(100,1),justification='center')],
-    [sg.Text(' '*23),sg.InputCombo(('30','60','90','120',),size=(5,1),default_value='120')],
-    [sg.Text('Tiempo de turno (segundos)',size=(100,1),justification='center')],
-    [sg.Text(' '*23),sg.InputCombo(('20','30','40','60',),size=(5,1),default_value='60')],
-
-    tiempo y valor en dos filas
-    [sg.Text(' ' * 5),sg.Text('Tiempo de juego:'),sg.InputCombo(('30','60','90','120',),size=(5,1),default_value='120'),sg.Text('minutos')],
-    [sg.Text(' ' * 5),sg.Text('Tiempo de turno:'),sg.InputCombo(('20','30','40','60',),size=(5,1),default_value='60'),sg.Text('segundos')],
-    '''

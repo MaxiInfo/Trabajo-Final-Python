@@ -11,7 +11,7 @@ class Computer:
         self._letters = []
         self._score = 0
         self._changes = 0
-        pass
+        
 
     def get_letters(self):
         return self._letters
@@ -19,28 +19,28 @@ class Computer:
     def set_letters(self,new_letters):
         #new_letters type = list of chars
         self._letters = new_letters
-        pass
+        
 
     def get_score(self):
         return self._score 
 
     def set_score(self,add_score):
         self._score += add_score
-        pass
+        
 
     def get_changes(self):
         return self._changes 
 
     def add_changes(self):
         self._changes += 1
-        pass
+        
 
     
     def play (self,window,admin,board,player_score,st): 
         """
         este modulo es el que se encarga de todo lo necesario para que la IA juegue un turno
         """
-        window.FindElement('-IA-MESSAGE-').Update('La compu esta jugando . . .')
+        window.FindElement('-IA-MESSAGE-').Update('La compu esta jugando . . .',text_color='#E5FA59',background_color = '#3C3FA4')
         window.Refresh()
         if st:
             pos,word = self._st_select_word_and_position(admin)
@@ -60,7 +60,7 @@ class Computer:
             self.set_score(admin.calcular_puntaje(word,pos))
             self._refill_letters(admin,word)
             window.FindElement('-iaSize-').Update(str(self._score))
-            window.FindElement('-IA-MESSAGE-').Update('La compu ingreso una palabra')
+            window.FindElement('-IA-MESSAGE-').Update('La compu ingreso una palabra',text_color='black',background_color = '#00FDFD')
         return None
 
     def _st_select_word_and_position(self,admin):
@@ -92,7 +92,7 @@ class Computer:
         while pos <= len(word)-1:
             letters[letters.index(word[pos])] = admin.tomar_fichas(1)[0]
             pos +=1
-        pass
+        
 
     def _insert_word(self,window,pos, word,board):
         """
@@ -102,7 +102,7 @@ class Computer:
         for i in range(len(word)):
             window.FindElement(pos[i]).Update(image_filename = PATH_LETRAS + word[i].upper() + EXTENSION,disabled=True,button_color = ('black','#58F76D'))
             board.mod_board(pos,word)
-        pass
+        
 
     def _search_pos(self,list_positions,word_list,admin,player_score):
         """
