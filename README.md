@@ -2,14 +2,16 @@
 ScrabbleAR es un proyecto de programación en Python que simula el famoso juego de mesa.
 
 # Integrantes
--Yañez Maximiliano 16560/4
--Borlandi Diego Sebastian 17402/4
--Sabarrós Nicolás 16935/6
+- Yañez Maximiliano 16560/4
+- Borlandi Diego Sebastian 17402/4
+- Sabarrós Nicolás 16935/6
 
 # Características
-- Altamente personalizable: configuración del nivel, tiempo de juego y de turno, y cantidad y puntaje de fichas.
+- Altamente personalizable: configuración del nivel de dificultad, tiempo de juego, tiempo de turno, cantidad y puntaje de fichas.
 - Guardado de rankings: Top 10 de los tres niveles.
-- IA veloz y eficaz: calcula las palabras posibles en muy poco tiempo.
+- Capacidad de guardar partida y de cargarla.
+- IA veloz y eficaz: calcula las palabras posibles en muy poco tiempo e inserta las palabras de diferente forma en base a la dificultad.
+- Uso del recurso para crear logotipos usando la página https://flamingtext.es/ , de licencias gratuitas para uso pérsonal o académico.
 
 # Requisitos
 - Python 3.6.8
