@@ -15,16 +15,16 @@ def set_layout():
     # lista[0] -> nombre.   lista[1] -> puntaje.    lista[2] -> fecha
 
     col_nombre_facil = [
-        [sg.Text('NOMBRES',font= (None,11),text_color='black',background_color='green')],
+        [sg.Text('NOMBRE',font= (None,11),text_color='black',background_color='green')],
         [sg.Multiline(default_text= lista_facil[0],disabled=True,size=(13,13))]
     ]
     col_puntaje_facil = [
-        [sg.Text('PUNTAJES',font= (None,11),text_color='black',background_color='green')],
+        [sg.Text('PUNTAJE',font= (None,11),text_color='black',background_color='green')],
         [sg.Multiline(default_text= lista_facil[1],disabled=True,size=(13,13))]
     ]
     col_fecha_facil = [
-        [sg.Text('FECHAS',font= (None,11),text_color='black',background_color='green')],
-        [sg.Multiline(default_text= lista_facil[1],disabled=True,size=(13,13))]
+        [sg.Text('FECHA',font= (None,11),text_color='black',background_color='green')],
+        [sg.Multiline(default_text= lista_facil[2],disabled=True,size=(13,13))]
     ]
     columna_facil = [
         [sg.Text('FACIL',size=(35,1),font=(None,15),justification='center',text_color='black',background_color='green')],
@@ -32,16 +32,16 @@ def set_layout():
     ]
 
     col_nombre_medio = [
-        [sg.Text('NOMBRES',font= (None,11),text_color='black',background_color='yellow')],
+        [sg.Text('NOMBRE',font= (None,11),text_color='black',background_color='yellow')],
         [sg.Multiline(default_text= lista_medio[0],disabled=True,size=(13,13))]
     ]
     col_puntaje_medio = [
-        [sg.Text('PUNTAJES',font= (None,11),text_color='black',background_color='yellow')],
+        [sg.Text('PUNTAJE',font= (None,11),text_color='black',background_color='yellow')],
         [sg.Multiline(default_text= lista_medio[1],disabled=True,size=(13,13))]
     ]
     col_fecha_medio = [
-        [sg.Text('FECHAS',font= (None,11),text_color='black',background_color='yellow')],
-        [sg.Multiline(default_text= lista_medio[1],disabled=True,size=(13,13))]
+        [sg.Text('FECHA',font= (None,11),text_color='black',background_color='yellow')],
+        [sg.Multiline(default_text= lista_medio[2],disabled=True,size=(13,13))]
     ]
     columna_medio = [
         [sg.Text('MEDIO',size=(35,1),font=(None,15),justification='center',text_color='black',background_color='yellow')],
@@ -49,16 +49,16 @@ def set_layout():
     ]
 
     col_nombre_dificil = [
-        [sg.Text('NOMBRES',font= (None,11),text_color='black',background_color='red')],
+        [sg.Text('NOMBRE',font= (None,11),text_color='black',background_color='red')],
         [sg.Multiline(default_text= lista_dificil[0],disabled=True,size=(13,13))]
     ]
     col_puntaje_dificil = [
-        [sg.Text('PUNTAJES',font= (None,11),text_color='black',background_color='red')],
+        [sg.Text('PUNTAJE',font= (None,11),text_color='black',background_color='red')],
         [sg.Multiline(default_text= lista_dificil[1],disabled=True,size=(13,13))]
     ]
     col_fecha_dificil = [
-        [sg.Text('FECHAS',font= (None,11),text_color='black',background_color='red')],
-        [sg.Multiline(default_text= lista_dificil[1],disabled=True,size=(13,13))]
+        [sg.Text('FECHA',font= (None,11),text_color='black',background_color='red')],
+        [sg.Multiline(default_text= lista_dificil[2],disabled=True,size=(13,13))]
     ]
     columna_dificil = [
         [sg.Text('DIFICIL',size=(35,1),font=(None,15),justification='center',text_color='black',background_color='red')],
