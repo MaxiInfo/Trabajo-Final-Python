@@ -1,0 +1,2 @@
+PySimpleGUI 4.18.2
+https://github.com/fedeotaran/pattern/archive/python3.zip

@@ -379,7 +379,7 @@ def play_player (player, window,admin,board,not_saved):
                     escritura = 'Horizontal'
                     window.FindElement(pos_en_atril).Update(disabled=True)
                     window.FindElement('-LetterSelected-').Update(filename = PATH_ESPECIALES + 'VACIO' + EXTENSION)
-                else: 
+                else:
                     continue
             elif cant_letras >= 2:
                 #Si ya se ingresaron 2 o mas letras
@@ -518,6 +518,7 @@ def main(configs):
             event = game_procces(window,admin,board,player,IA)
         if event == '-SAVE-':
             guardar(board, player, admin, IA, configs["name"])
+            sg.popup('la partida se guardo correctamente')
             break
         if event in (None, '-mainMenu-','-GameOver-'):
             break

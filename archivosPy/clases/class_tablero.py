@@ -79,10 +79,10 @@ class Tablero ():
                [sg.Text('',background_color='#00FDFD' ,size= (4, 1), key= ('-CLKTURN-'))],
                [sg.Text('Letra actual',background_color='#00FDFD')],
                [sg.Image(PATH_ESPECIALES+'VACIO'+EXTENSION,size=(50,50),key=('-LetterSelected-'))],
-               #[sg.Text('',background_color='#00FDFD',size=(4,1),key=('-LetterSelected-'),justification=('center'))],
-               #[sg.Text(' ',background_color='#00FDFD' ,size=(8, 1), key=("-TURN-"))],
                [sg.Text('Puntaje',background_color='#00FDFD')],
-               [sg.Text('',size=(4,1),background_color='#00FDFD',key='-SCORE-')]
+               [sg.Text('',size=(4,1),background_color='#00FDFD',key='-SCORE-')],
+               [sg.Text('Difcultad',background_color='#00FDFD')], 
+               [sg.Text(configs['dificultad'],background_color='#00FDFD')]
             ]
         
         col2 = [[sg.Button(image_size=(50,50),size=(4, 2), key=(i, j), pad=(1, 1),button_color=('white','blue')) for j in range(self._MAX_COL)] for i in range(self._MAX_ROWS)]

@@ -6,7 +6,7 @@ def set_layout():
             Readonly, sirve para que la casilla del inputcombo NO SEA ESCRITA, por lo tanto, sólo permite que elijas entre 5-15.
             El método devuelve la Layout ya armada
     '''
-    tupla = (0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+    tupla = (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
     col1 = [
         [sg.Text('A',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[12],size=(3,1),key='A',readonly=True)],
         [sg.Text('B',size=(2,1),justification='center'),sg.InputCombo(tupla,default_value=tupla[4],size=(3,1),key='B',readonly=True)],
