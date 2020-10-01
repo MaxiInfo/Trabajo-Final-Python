@@ -36,7 +36,7 @@ class Computer:
         
 
     
-    def play (self,window,admin,board,player_score,st): 
+    def play (self,window,admin,board,player_score,st):
         """
         este modulo es el que se encarga de todo lo necesario para que la IA juegue un turno
         """
@@ -101,7 +101,7 @@ class Computer:
         """
         for i in range(len(word)):
             window.FindElement(pos[i]).Update(image_filename = PATH_LETRAS + word[i].upper() + EXTENSION,disabled=True,button_color = ('black','#58F76D'))
-            board.mod_board(pos,word)
+        board.mod_board(pos,word)
         
 
     def _search_pos(self,list_positions,word_list,admin,player_score):
@@ -182,7 +182,7 @@ class Computer:
             st_pos = r(0,(len(ls_def)-1)-(len(word_act)-1))
             return ls_def[st_pos:st_pos+len(word_act)],word_act
         else:
-            serach_medium(list_positions,admin,word_list[0:-1])
+            serach_medium(list_positions,admin,word_list[1:])
 
     def _search_dificult(self,list_positions,word_list,admin):
         """

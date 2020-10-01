@@ -103,20 +103,22 @@ class AdministradorDeJuego():
 
             MOD: la catedra cambió, en medio sólo acepta adjetivos o verbos.
         '''
-        palabra_split = parse(palabra).split('/')
         ok = self.existe_en(palabra)
-        return ok and (palabra_split[1] in self.tupla_adj or palabra_split[1] in self.tupla_verb)
-       
+        if ok:
+            palabra_split = parse(palabra).split('/')
+            return (palabra_split[1] in self.tupla_adj or palabra_split[1] in self.tupla_verb)
+        return False
     def __es_correcta_dificil(self,palabra):
         '''
             MOD: la catedra sólo acepta adjetivos o verbos, en difícil se toma aleatoriamente cualquiera de los dos.
         '''
-        lista = ['verb','adj']
-        azar = lista[r.randint(0,1)]
-        palabra_split = parse(palabra).split('/')
         ok = self.existe_en(palabra)
-        return ok and palabra_split[1] in self.tupla_verb if azar == 'verb' else ok and palabra_split[1] in self.tupla_adj
-        
+        if ok:
+            lista = ['verb','adj']
+            azar = lista[r.randint(0,1)]
+            palabra_split = parse(palabra).split('/')
+            return palabra_split[1] in self.tupla_verb if azar == 'verb' else ok and palabra_split[1] in self.tupla_adj
+        return False
     def es_correcta(self,palabra):
         dificultad = self._dificultad_actual 
         if dificultad == 'facil':

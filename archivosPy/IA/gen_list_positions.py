@@ -44,3 +44,5 @@ def main(matriz,cant_row,cant_col):
         row = 0
         col += 1
     return list_positions
+
+

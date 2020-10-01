@@ -14,13 +14,13 @@ def End(player,IA,admin):
             sg.popup('Felicidades haz ganado la partida conseguiste un puntaje los suficientemente alto para entrar en el TOP10!',keep_on_top=True)
             top.actualizar(player.get_name(),puntaje,admin.get_dificultad())
         else:
-            sg.popup('Felicidades haz ganado la partida tu puntaje no alcanzo para entrar en el TOP!)',keep_on_top=True)
+            sg.popup('Felicidades haz ganado la partida tu puntaje no alcanzo para entrar en el TOP!',keep_on_top=True)
     elif winner == 'IA':
         if puntaje > top.get_ult_top10(admin.get_dificultad()):
             sg.popup('Haz Perdido la Partida! pero tu puntaje fue lo suficientemente alto para entrar en el TOP10!',keep_on_top=True)
             top.actualizar(player.get_name(),puntaje,admin.get_dificultad())
         else:
-            sg.popup('Haz Perdido la Partida! y tu puntaje no alcanzo para entrar en el TOP!)',keep_on_top=True)
+            sg.popup('Haz Perdido la Partida! y tu puntaje no alcanzo para entrar en el TOP!',keep_on_top=True)
 
     else:
         if puntaje > top.get_ult_top10(admin.get_dificultad()):

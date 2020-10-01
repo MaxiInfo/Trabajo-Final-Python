@@ -2,7 +2,6 @@ import PySimpleGUI as sg
 import json
 import time
 from random import randint as rand
-
 from archivosPy.clases.class_tablero import Tablero
 from archivosPy.clases.class_administrador import AdministradorDeJuego
 from archivosPy.clases.class_Jugador import jugador
@@ -205,7 +204,7 @@ def quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura
     """
     modulo que elimina una palabra a medio ingresar del tablero dejandolo en el estado anterior al que el jugador juegue
     """
-    for i in range(cant_letras):
+    for _ in range(cant_letras):
         vuelta_atras(window,player,board,palabra[len(palabra)-1],tuple_list[len(tuple_list)-1],cant_letras,escritura)
         tuple_list.pop()
         palabra = palabra[0:-1]
@@ -224,7 +223,6 @@ def play_player (player, window,admin,board,not_saved):
     cant_letras = 0
     letter_selected = False
     escritura = None
-    letra_ant = ''
 
     tiempo_turno = int(round(time.time())) + (board.get_turn())
     turno_restante = tiempo_turno - int(round(time.time()))
