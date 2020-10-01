@@ -280,12 +280,12 @@ def play_player (player, window,admin,board,not_saved):
 #==========================================================================================================================#  
         if event == '-change-' and cant_letras == 0:
             player.add_cambio()
-            if player.get_cambios() == 3:
-                window.FindElement('-change-').Update(disabled=True)
-                window.FindElement('-changeAll-').Update(disabled=True)
             if cant_letras != 0:
                 quitar_palabra (window,player,board,palabra,tuple_list,cant_letras,escritura)  
             event = cambiar_fichas(window,player,admin)
+            if player.get_cambios() == 3:
+                window.FindElement('-change-').Update(disabled=True)
+                window.FindElement('-changeAll-').Update(disabled=True)
             break
 #==========================================================================================================================#       
         if event in TECLAS:
